@@ -1,12 +1,13 @@
 import { Text, View, StyleSheet } from 'react-native';
-import { multiply } from 'dds-app';
-
-const result = multiply(3, 7);
+import { useColors } from '@dds-app/core';
 
 export default function App() {
+  const colors = useColors();
+  
   return (
-    <View style={styles.container}>
-      <Text>Result: {result}</Text>
+    <View style={[styles.container, { backgroundColor: colors.background.default }]}>
+      <Text style={{ color: colors.text.primary }}>Hello DDS!</Text>
+      <Text style={{ color: colors.brand.primary }}>Primary Color</Text>
     </View>
   );
 }
