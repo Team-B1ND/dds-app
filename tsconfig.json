@@ -2,7 +2,11 @@
   "compilerOptions": {
     "rootDir": ".",
     "paths": {
-      "dds-app": ["./src/index"]
+      "dds-app": ["./src/index"],
+      "@dds-app/foundation": ["./packages/foundation/src/index"],
+      "@dds-app/foundation/*": ["./packages/foundation/src/*"],
+      "@dds-app/core": ["./packages/core/src/index"],
+      "@dds-app/core/*": ["./packages/core/src/*"]
     },
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
