@@ -1,9 +1,9 @@
 import type { Colors } from './types/colors';
 
 export const lightColors: Colors = {
-  brand: {
+  main: {
     primary: '#0083F0',
-    secondary: 'rgba(0, 131, 240, 0.65)',
+    secondary: '#0083F0A6',
   },
   text: {
     primary: '#0F0F10',
@@ -27,7 +27,7 @@ export const lightColors: Colors = {
     primary: '#F5F5F5',
     secondary: '#DCDDDE',
     hover: '#E0E1E2',
-    disabled: 'rgba(245, 245, 245, 0.5)',
+    disabled: '#F5F5F580',
   },
   status: {
     success: '#00BF40',
@@ -36,7 +36,7 @@ export const lightColors: Colors = {
     info: '#0083F0',
   },
   overlay: {
-    dim: 'rgba(0, 0, 0, 0.2)',
+    dim: '#00000033',
   },
   static: {
     white: '#FFFFFF',

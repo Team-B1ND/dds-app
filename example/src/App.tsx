@@ -15,5 +15,5 @@ export default function App() {
 const StyledView = styled(View)`
   width: 100px;
   height: 100px;
-  background-color: ${({ theme }) => theme.color.brand.primary};
+  background-color: ${({ theme }) => theme.color.main.primary};
 `;

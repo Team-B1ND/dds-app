@@ -1,9 +1,9 @@
 import type { Colors } from './types/colors';
 
 export const darkColors: Colors = {
-  brand: {
+  main: {
     primary: '#0083F0',
-    secondary: 'rgba(0, 131, 240, 0.65)',
+    secondary: '#0083F0A6',
   },
   text: {
     primary: '#F5F5F5',
@@ -27,7 +27,7 @@ export const darkColors: Colors = {
     primary: '#2A2B2C',
     secondary: '#383A3B',
     hover: '#323435',
-    disabled: 'rgba(42, 43, 44, 0.5)',
+    disabled: '#2A2B2C80',
   },
   status: {
     success: '#00BF40',
@@ -36,10 +36,10 @@ export const darkColors: Colors = {
     info: '#0083F0',
   },
   overlay: {
-    dim: 'rgba(0, 0, 0, 0.2)',
+    dim: '#00000033',
   },
   static: {
     white: '#FFFFFF',
     black: '#121212',
   },
-}
+};
