@@ -1,7 +1,7 @@
 {
   "name": "@dds-app/core",
   "version": "0.1.0",
-  "main": "./src/index.ts",
+  "main": "src/colors/index.ts",
   "types": "./src/index.ts",
   "files": ["src"],
   "scripts": {

@@ -1,21 +1,19 @@
-import { Text, View, StyleSheet } from 'react-native';
-import { useColors } from '@dds-app/core';
+import { Text, View } from 'react-native';
+import { DodamThemeProvider } from '@dds-app/foundation';
+import styled from 'styled-components/native';
 
 export default function App() {
-  const colors = useColors();
-  
   return (
-    <View style={[styles.container, { backgroundColor: colors.background.default }]}>
-      <Text style={{ color: colors.text.primary }}>Hello DDS!</Text>
-      <Text style={{ color: colors.brand.primary }}>Primary Color</Text>
-    </View>
+    <DodamThemeProvider>
+      <StyledView>
+        <Text>asd</Text>
+      </StyledView>
+    </DodamThemeProvider>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+const StyledView = styled(View)`
+  width: 100px;
+  height: 100px;
+  background-color: ${({ theme }) => theme.color.brand.primary};
+`;

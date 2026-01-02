@@ -2,6 +2,7 @@
   "name": "dds-app-example",
   "version": "1.0.0",
   "main": "index.js",
+  "private": true,
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
@@ -9,17 +10,15 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@dds-app/core": "workspace:*",
+    "@dds-app/foundation": "workspace:*",
     "@expo/metro-runtime": "~6.1.2",
     "expo": "~54.0.30",
     "expo-status-bar": "~3.0.9",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-native": "0.81.5",
-    "react-native-web": "~0.21.0"
-  },
-  "private": true,
-  "devDependencies": {
-    "react-native-builder-bob": "^0.40.17",
-    "react-native-monorepo-config": "^0.3.1"
+    "react-native-web": "~0.21.0",
+    "styled-components": "^6.1.19"
   }
 }
