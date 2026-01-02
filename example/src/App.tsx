@@ -5,7 +5,7 @@ import { Switch } from '@dds-app/components';
 import { useState } from 'react';
 
 export default function App() {
-  const [checked, setCecked] = useState(true);
+  const [checked, setChecked] = useState(true);
 
   return (
     <DodamThemeProvider>
@@ -13,9 +13,8 @@ export default function App() {
         <SafeAreaView>
           <ExampleView>
             <Switch
-              disabled
               checked={checked}
-              onChange={() => setCecked((prev) => !prev)}
+              onChange={() => setChecked((prev) => !prev)}
             />
           </ExampleView>
         </SafeAreaView>
