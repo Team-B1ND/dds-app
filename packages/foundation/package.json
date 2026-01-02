@@ -9,9 +9,7 @@
   },
   "peerDependencies": {
     "react": "*",
-    "react-native": "*"
-  },
-  "dependencies": {
-    "styled-components": "^6.1.19"
+    "react-native": "*",
+    "styled-components": "*"
   }
 }
