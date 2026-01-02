@@ -11,7 +11,7 @@ export const darkColors: Colors = {
     tertiary: '#C4C5C6',
     placeholder: '#9B9D9F',
     disabled: '#48494A',
-    inverse: '#0F0F01',
+    inverse: '#0F0F10',
   },
   background: {
     default: '#191A1A',
