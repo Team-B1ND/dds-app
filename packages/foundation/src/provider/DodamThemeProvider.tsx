@@ -1,13 +1,11 @@
 import { ThemeProvider } from 'styled-components/native';
-import { useColorScheme, StatusBar } from 'react-native';
+import { StatusBar } from 'react-native';
 import type { PropsWithChildren } from 'react';
-import { darkColors, lightColors } from '../colors';
+import { useTheme } from './hooks/useTheme';
 
 export const DodamThemeProvider = ({ children }: PropsWithChildren) => {
-  const colorScheme = useColorScheme();
-  const theme = {
-    color: colorScheme === 'dark' ? darkColors : lightColors,
-  };
+  const { colorScheme, theme } = useTheme();
+
   return (
     <ThemeProvider theme={theme}>
       <StatusBar
