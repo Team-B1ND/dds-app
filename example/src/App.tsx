@@ -1,19 +1,33 @@
-import { Text, View } from 'react-native';
 import { DodamThemeProvider } from '@dds-app/foundation';
 import styled from 'styled-components/native';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import { Switch } from '@dds-app/components';
+import { useState } from 'react';
 
 export default function App() {
+  const [checked, setCecked] = useState(true);
+
   return (
     <DodamThemeProvider>
-      <StyledView>
-        <Text>asd</Text>
-      </StyledView>
+      <SafeAreaProvider>
+        <SafeAreaView>
+          <ExampleView>
+            <Switch
+              disabled
+              checked={checked}
+              onChange={() => setCecked((prev) => !prev)}
+            />
+          </ExampleView>
+        </SafeAreaView>
+      </SafeAreaProvider>
     </DodamThemeProvider>
   );
 }
 
-const StyledView = styled(View)`
-  width: 100px;
-  height: 100px;
-  background-color: ${({ theme }) => theme.color.main.primary};
+const ExampleView = styled.View`
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  background-color: ${({ theme }) => theme.color.background.default};
 `;
