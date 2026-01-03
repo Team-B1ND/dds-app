@@ -28,7 +28,7 @@ export const Switch: React.FC<SwitchProps> = ({
   return (
     <Pressable disabled={disabled} onPress={handlePress}>
       <Track $checked={checked} $disabled={disabled}>
-        <Thumb $disabled={disabled} style={{ transform: [{ translateX }] }} />
+        <Thumb style={{ transform: [{ translateX }] }} />
       </Track>
     </Pressable>
   );
@@ -40,18 +40,18 @@ const Track = styled.View<{ $checked: boolean; $disabled: boolean }>`
   padding: ${SWITCH_SIZE.padding}px;
   border-radius: ${SWITCH_SIZE.trackHeight / 2}px;
   justify-content: center;
-  background-color: ${({ theme, $checked, $disabled }) =>
-    $disabled
-      ? theme.color.border.disabled
-      : $checked
-      ? theme.color.main.primary
-      : theme.color.fill.secondary};
+
+  opacity: ${({ $disabled }) => ($disabled ? 0.4 : 1)};
+
+  background-color: ${({ theme, $checked }) => {
+    if ($checked) return theme.color.main.primary;
+    return theme.color.fill.secondary;
+  }};
 `;
 
-const Thumb = styled(Animated.View)<{ $disabled: boolean }>`
+const Thumb = styled(Animated.View)`
   width: ${SWITCH_SIZE.thumb}px;
   height: ${SWITCH_SIZE.thumb}px;
   border-radius: ${SWITCH_SIZE.thumb / 2}px;
-  background-color: ${({ theme, $disabled }) =>
-    $disabled ? theme.color.fill.disabled : theme.color.static.white};
+  background-color: ${({ theme }) => theme.color.static.white};
 `;

@@ -16,6 +16,11 @@ export default function App() {
               checked={checked}
               onChange={() => setChecked((prev) => !prev)}
             />
+            <Switch
+              disabled
+              checked={checked}
+              onChange={() => setChecked((prev) => !prev)}
+            />
             <FormButton
               haptic
               color="danger"
