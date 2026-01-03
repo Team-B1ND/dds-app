@@ -1,3 +1,3 @@
 import '@dds-app/foundation';
 
-export { Switch } from './buttons';
+export { Switch, FormButton } from './buttons';

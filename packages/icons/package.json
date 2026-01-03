@@ -1,0 +1,17 @@
+{
+  "name": "@dds-app/icons",
+  "version": "0.1.0",
+  "main": "src/colors/index.ts",
+  "types": "./src/index.ts",
+  "files": ["src"],
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@dds-app/foundation": "workspace:*"
+  },
+  "peerDependencies": {
+    "react": "*",
+    "react-native": "*"
+  }
+}

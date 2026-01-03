@@ -3,7 +3,7 @@ import { Animated, Pressable } from 'react-native';
 import styled from 'styled-components/native';
 import { useSwitchAnimation } from './hooks/useSwitchAnimation';
 import { SWITCH_SIZE } from './constants';
-import { useTriggerHaptic } from './hooks/useTriggerHaptic';
+import { useTriggerHaptic } from '../../hooks/useTriggerHaptic';
 
 export interface SwitchProps {
   checked?: boolean;
