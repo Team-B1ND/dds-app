@@ -1,8 +1,8 @@
 const path = require('path');
-const { getDefaultConfig, mergeConfig } = require('@react-native/metro-config');
-const { withMetroConfig } = require('react-native-monorepo-config');
+const { getDefaultConfig } = require('@react-native/metro-config');
 
-const root = path.resolve(__dirname, '..');
+const projectRoot = __dirname;
+const monorepoRoot = path.resolve(projectRoot, '..');
 
 /**
  * Metro configuration
@@ -10,11 +10,15 @@ const root = path.resolve(__dirname, '..');
  *
  * @type {import('@react-native/metro-config').MetroConfig}
  */
-const config = withMetroConfig(getDefaultConfig(__dirname), {
-  root,
-  dirname: __dirname,
-});
+const config = getDefaultConfig(__dirname);
 
-config.resolver.unstable_enablePackageExports = true;
+// Watch the monorepo root for changes
+config.watchFolders = [monorepoRoot];
+
+// Resolve modules from both example and root node_modules
+config.resolver.nodeModulesPaths = [
+  path.resolve(projectRoot, 'node_modules'),
+  path.resolve(monorepoRoot, 'node_modules'),
+];
 
 module.exports = config;

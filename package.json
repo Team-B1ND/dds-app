@@ -2,6 +2,23 @@
   "name": "dds-app",
   "version": "0.1.0",
   "private": true,
+  "pnpm": {
+    "peerDependencyRules": {
+      "ignoreMissing": ["react-dom"]
+    },
+    "packageExtensions": {
+      "styled-components": {
+        "peerDependencies": {
+          "react-native": "*"
+        },
+        "peerDependenciesMeta": {
+          "react-dom": {
+            "optional": true
+          }
+        }
+      }
+    }
+  },
   "description": "b1nd dodamdodam react native design system monorepo",
   "workspaces": [
     "packages/*",

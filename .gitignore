@@ -69,8 +69,8 @@ android/keystores/debug.keystore
 !.yarn/sdks
 !.yarn/versions
 
-# Expo
-.expo/
+# Claude
+CLAUDE.md
 
 # Turborepo
 .turbo/

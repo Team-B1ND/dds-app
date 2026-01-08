@@ -1,6 +1,16 @@
+const path = require('path');
+
+const projectRoot = __dirname;
+const monorepoRoot = path.resolve(projectRoot, '..');
+
 module.exports = {
   project: {
-    ios: {},
-    android: {},
+    ios: {
+      sourceDir: './ios',
+    },
+    android: {
+      sourceDir: './android',
+    },
   },
+  dependencies: {},
 };
