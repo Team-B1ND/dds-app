@@ -1,8 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { Animated } from 'react-native';
-import { TRANSLATE_X } from '../constants';
 
-export const useSwitchAnimation = (checked: boolean) => {
+export const useSwitchAnimation = (checked: boolean, translateDistance: number) => {
   const progress = useRef(new Animated.Value(checked ? 1 : 0)).current;
 
   useEffect(() => {
@@ -15,7 +14,7 @@ export const useSwitchAnimation = (checked: boolean) => {
 
   const translateX = progress.interpolate({
     inputRange: [0, 1],
-    outputRange: [0, TRANSLATE_X],
+    outputRange: [0, translateDistance],
   });
 
   return { translateX };

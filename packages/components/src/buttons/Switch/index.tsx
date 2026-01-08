@@ -1,8 +1,6 @@
-import React from 'react';
 import { Animated, Pressable } from 'react-native';
-import styled from 'styled-components/native';
+import styled, { useTheme } from 'styled-components/native';
 import { useSwitchAnimation } from './hooks/useSwitchAnimation';
-import { SWITCH_SIZE } from './constants';
 import { useTriggerHaptic } from '../../hooks/useTriggerHaptic';
 
 export interface SwitchProps {
@@ -11,12 +9,15 @@ export interface SwitchProps {
   onChange?: () => void;
 }
 
-export const Switch: React.FC<SwitchProps> = ({
+export const Switch = ({
   checked = false,
   disabled = false,
   onChange,
-}) => {
-  const { translateX } = useSwitchAnimation(checked);
+}: SwitchProps) => {
+  const theme = useTheme();
+  const { trackWidth, thumb } = theme.size.switch;
+  const translateDistance = parseInt(trackWidth, 10) - parseInt(thumb, 10) - 8; // padding * 2
+  const { translateX } = useSwitchAnimation(checked, translateDistance);
   const { triggerHaptic } = useTriggerHaptic();
 
   const handlePress = () => {
@@ -35,13 +36,14 @@ export const Switch: React.FC<SwitchProps> = ({
 };
 
 const Track = styled.View<{ $checked: boolean; $disabled: boolean }>`
-  width: ${SWITCH_SIZE.trackWidth}px;
-  height: ${SWITCH_SIZE.trackHeight}px;
-  padding: ${SWITCH_SIZE.padding}px;
-  border-radius: ${SWITCH_SIZE.trackHeight / 2}px;
+  width: ${({ theme }) => theme.size.switch.trackWidth};
+  height: ${({ theme }) => theme.size.switch.trackHeight};
+  padding: ${({ theme }) => theme.spacing.xs};
+  border-radius: ${({ theme }) => theme.radius.full};
   justify-content: center;
 
-  opacity: ${({ $disabled }) => ($disabled ? 0.4 : 1)};
+  opacity: ${({ theme, $disabled }) =>
+    $disabled ? theme.opacity.low : theme.opacity.full};
 
   background-color: ${({ theme, $checked }) => {
     if ($checked) return theme.color.main.primary;
@@ -50,8 +52,8 @@ const Track = styled.View<{ $checked: boolean; $disabled: boolean }>`
 `;
 
 const Thumb = styled(Animated.View)`
-  width: ${SWITCH_SIZE.thumb}px;
-  height: ${SWITCH_SIZE.thumb}px;
-  border-radius: ${SWITCH_SIZE.thumb / 2}px;
+  width: ${({ theme }) => theme.size.switch.thumb};
+  height: ${({ theme }) => theme.size.switch.thumb};
+  border-radius: ${({ theme }) => theme.radius.full};
   background-color: ${({ theme }) => theme.color.static.white};
 `;

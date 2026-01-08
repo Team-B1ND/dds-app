@@ -49,8 +49,8 @@ const Container = styled.Pressable<{
   $display: ButtonDisplay;
   $color: ButtonColor;
 }>`
-  padding: 16px;
-  border-radius: 12px;
+  padding: ${({ theme }) => theme.spacing.lg};
+  border-radius: ${({ theme }) => theme.radius.lg};
 
   background-color: ${({ theme, $color }) => {
     if ($color === 'primary') return theme.color.main.primary;
