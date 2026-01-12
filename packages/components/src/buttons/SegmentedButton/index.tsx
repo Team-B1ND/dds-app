@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import styled from 'styled-components/native';
+import styled, { useTheme } from 'styled-components/native';
 import { Pressable } from 'react-native';
 import { useTriggerHaptic } from '../../hooks/useTriggerHaptic';
 import type { SegmentedButtonProps, SegmentedButtonOption } from './types';
@@ -12,6 +12,7 @@ export const SegmentedButton = <T,>({
   haptic,
   onChange,
 }: SegmentedButtonProps<T>) => {
+  const theme = useTheme();
   const { triggerHaptic } = useTriggerHaptic();
   const [internalValue, setInternalValue] = useState<T | undefined>(
     value ?? defaultValue ?? options?.[0]?.value,
@@ -29,12 +30,12 @@ export const SegmentedButton = <T,>({
   const getShadowStyle = useMemo(
     () =>
       (selected: boolean) => ({
-        shadowColor: 'rgba(217, 217, 217, 0.25)',
+        shadowColor: theme.color.static.black,
         shadowOffset: { width: selected ? 0 : 2, height: selected ? 0 : 2 },
-        shadowOpacity: selected ? 0 : 0.2,
+        shadowOpacity: selected ? 0 : theme.opacity.subtle,
         shadowRadius: selected ? 0 : 4,
       }),
-    [],
+    [theme],
   );
 
   return (
