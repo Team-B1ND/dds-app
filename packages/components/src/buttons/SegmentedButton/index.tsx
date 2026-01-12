@@ -5,30 +5,29 @@ import { useTriggerHaptic } from '../../hooks/useTriggerHaptic';
 import { useSegmentedAnimation } from './hooks/useSegmentedAnimation';
 import type { SegmentedButtonProps, SegmentedButtonOption } from './types';
 
-export const SegmentedButton = <T,>({
+export const SegmentedButton = ({
   options,
-  value,
-  defaultValue,
+  label,
   disabled = false,
   haptic,
   onChange,
-}: SegmentedButtonProps<T>) => {
+}: SegmentedButtonProps) => {
   const theme = useTheme();
   const { triggerHaptic } = useTriggerHaptic();
-  const [internalValue, setInternalValue] = useState<T | undefined>(
-    value ?? defaultValue ?? options?.[0]?.value,
+  const [internalValue, setInternalValue] = useState<string | undefined>(
+    label ?? options?.[0]?.label,
   );
   const [containerWidth, setContainerWidth] = useState(0);
 
-  const selectedValue = value ?? internalValue;
-  const selectedIndex = options.findIndex((opt) => opt.value === selectedValue);
+  const selectedValue = label ?? internalValue;
+  const selectedIndex = options.findIndex((opt) => opt.label === selectedValue);
   const { translateX } = useSegmentedAnimation(selectedIndex);
 
-  const handlePress = (option: SegmentedButtonOption<T>) => {
+  const handlePress = (option: SegmentedButtonOption) => {
     if (disabled) return;
     if (haptic) triggerHaptic();
-    if (value === undefined) setInternalValue(option.value);
-    onChange?.(option.value);
+    if (label === undefined) setInternalValue(option.label);
+    onChange?.(option.label);
   };
 
   const itemWidth = containerWidth / options.length;
@@ -56,10 +55,10 @@ export const SegmentedButton = <T,>({
     >
       <Indicator style={indicatorStyle} />
       {options.map((option) => {
-        const isSelected = option.value === selectedValue;
+        const isSelected = option.label === selectedValue;
 
         return (
-          <ItemWrapper key={String(option.value)}>
+          <ItemWrapper key={option.label}>
             <ItemButton
               $disabled={disabled}
               onPress={() => handlePress(option)}

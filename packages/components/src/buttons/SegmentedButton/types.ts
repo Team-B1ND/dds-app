@@ -1,13 +1,11 @@
-export interface SegmentedButtonOption<T = string> {
+export interface SegmentedButtonOption {
   label: string;
-  value: T;
 }
 
-export interface SegmentedButtonProps<T = string> {
-  options: SegmentedButtonOption<T>[];
-  value?: T;
-  defaultValue?: T;
+export interface SegmentedButtonProps {
+  options: SegmentedButtonOption[];
+  label?: string;
   disabled?: boolean;
   haptic?: boolean;
-  onChange?: (value: T) => void;
+  onChange?: (label: string) => void;
 }

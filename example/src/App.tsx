@@ -3,7 +3,7 @@ import { StatusBar } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import styled from 'styled-components/native';
 import { DodamThemeProvider } from '@dds-app/foundation';
-import { Switch, FormButton } from '@dds-app/components';
+import { Switch, FormButton, SegmentedButton } from '@dds-app/components';
 
 function App() {
   return (
@@ -18,6 +18,8 @@ function App() {
 
 function AppContent() {
   const [switchChecked, setSwitchChecked] = useState(false);
+  const [segmentLabel, setSegmentLabel] = useState('Label');
+  const [segmentLabelMany, setSegmentLabelMany] = useState('Mon');
 
   return (
     <Container>
@@ -88,6 +90,33 @@ function AppContent() {
               Disabled Secondary
             </FormButton>
           </ButtonGroup>
+        </Section>
+
+        <Section>
+          <SectionTitle>SegmentedButton - 2 options</SectionTitle>
+          <SegmentedButton
+            options={[
+              { label: 'Label' },
+              { label: 'Label2' },
+            ]}
+            label={segmentLabel}
+            onChange={setSegmentLabel}
+          />
+        </Section>
+
+        <Section>
+          <SectionTitle>SegmentedButton - 5 options</SectionTitle>
+          <SegmentedButton
+            options={[
+              { label: 'Mon' },
+              { label: 'Tue' },
+              { label: 'Wed' },
+              { label: 'Thu' },
+              { label: 'Fri' },
+            ]}
+            label={segmentLabelMany}
+            onChange={setSegmentLabelMany}
+          />
         </Section>
       </ScrollContainer>
     </Container>
