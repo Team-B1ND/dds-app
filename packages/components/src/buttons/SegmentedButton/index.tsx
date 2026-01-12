@@ -1,7 +1,8 @@
 import { useMemo, useState } from 'react';
 import styled, { useTheme } from 'styled-components/native';
-import { Pressable } from 'react-native';
+import { Animated, Pressable } from 'react-native';
 import { useTriggerHaptic } from '../../hooks/useTriggerHaptic';
+import { useSegmentedAnimation } from './hooks/useSegmentedAnimation';
 import type { SegmentedButtonProps, SegmentedButtonOption } from './types';
 
 export const SegmentedButton = <T,>({
@@ -17,8 +18,11 @@ export const SegmentedButton = <T,>({
   const [internalValue, setInternalValue] = useState<T | undefined>(
     value ?? defaultValue ?? options?.[0]?.value,
   );
+  const [containerWidth, setContainerWidth] = useState(0);
 
   const selectedValue = value ?? internalValue;
+  const selectedIndex = options.findIndex((opt) => opt.value === selectedValue);
+  const { translateX } = useSegmentedAnimation(selectedIndex, options.length);
 
   const handlePress = (option: SegmentedButtonOption<T>) => {
     if (disabled) return;
@@ -27,34 +31,46 @@ export const SegmentedButton = <T,>({
     onChange?.(option.value);
   };
 
-  const getShadowStyle = useMemo(
-    () =>
-      (selected: boolean) => ({
-        shadowColor: theme.color.static.black,
-        shadowOffset: { width: selected ? 0 : 2, height: selected ? 0 : 2 },
-        shadowOpacity: selected ? 0 : theme.opacity.subtle,
-        shadowRadius: selected ? 0 : 4,
-      }),
-    [theme],
-  );
+  const itemWidth = containerWidth / options.length;
+
+  const indicatorStyle = useMemo(() => {
+    const outputRange = [];
+    for (let i = 0; i < options.length; i++) {
+      outputRange.push(i * itemWidth);
+    }
+    return {
+      width: itemWidth,
+      transform: [
+        {
+          translateX: translateX.interpolate({
+            inputRange: options.map((_, i) => i),
+            outputRange,
+          }),
+        },
+      ],
+    };
+  }, [translateX, options.length, itemWidth]);
 
   return (
-    <Wrapper $disabled={disabled}>
+    <Wrapper
+      $disabled={disabled}
+      onLayout={(e) => setContainerWidth(e.nativeEvent.layout.width - 8)}
+    >
+      <Indicator style={indicatorStyle} />
       {options.map((option) => {
         const isSelected = option.value === selectedValue;
 
         return (
-          <Item
-            key={String(option.value)}
-            $selected={isSelected}
-            $disabled={disabled}
-            onPress={() => handlePress(option)}
-            style={getShadowStyle(isSelected)}
-          >
-            <Label $selected={isSelected}>
-              {option.label}
-            </Label>
-          </Item>
+          <ItemWrapper key={String(option.value)}>
+            <ItemButton
+              $disabled={disabled}
+              onPress={() => handlePress(option)}
+            >
+              <Label $selected={isSelected}>
+                {option.label}
+              </Label>
+            </ItemButton>
+          </ItemWrapper>
         );
       })}
     </Wrapper>
@@ -67,19 +83,34 @@ const Wrapper = styled.View<{ $disabled: boolean }>`
   background-color: ${({ theme }) => theme.color.fill.secondary};
   padding: ${({ theme }) => theme.spacing.xs};
   border-radius: ${({ theme }) => theme.radius.lg};
+  position: relative;
   opacity: ${({ theme, $disabled }) =>
     $disabled ? theme.opacity.medium : theme.opacity.full};
 `;
 
-const Item = styled(Pressable)<{ $selected: boolean; $disabled: boolean}>`
-  flex: 1;
-  padding: ${({ theme }) => `${theme.spacing.xs} ${theme.spacing.none}`};
+const Indicator = styled(Animated.View)`
+  position: absolute;
+  left: ${({ theme }) => theme.spacing.xs};
+  top: ${({ theme }) => theme.spacing.xs};
+  bottom: ${({ theme }) => theme.spacing.xs};
+  background-color: ${({ theme }) => theme.color.fill.primary};
   border-radius: ${({ theme }) => theme.radius.md};
+  shadow-color: ${({ theme }) => theme.color.static.black};
+  shadow-offset: 2px 2px;
+  shadow-opacity: ${({ theme }) => theme.opacity.subtle};
+  shadow-radius: 4px;
+  elevation: 2;
+`;
+
+const ItemWrapper = styled.View`
+  flex: 1;
+  z-index: 1;
+`;
+
+const ItemButton = styled(Pressable)<{ $disabled: boolean }>`
+  padding: ${({ theme }) => `${theme.spacing.xs} ${theme.spacing.none}`};
   align-items: center;
   justify-content: center;
-  background-color: ${({ theme, $selected }) =>
-    $selected ? theme.color.fill.primary : 'transparent'};
-  elevation: ${({ $selected }) => ($selected ? 0 : 2)};
 `;
 
 const Label = styled.Text<{ $selected: boolean }>`
