@@ -22,7 +22,7 @@ export const SegmentedButton = <T,>({
 
   const selectedValue = value ?? internalValue;
   const selectedIndex = options.findIndex((opt) => opt.value === selectedValue);
-  const { translateX } = useSegmentedAnimation(selectedIndex, options.length);
+  const { translateX } = useSegmentedAnimation(selectedIndex);
 
   const handlePress = (option: SegmentedButtonOption<T>) => {
     if (disabled) return;
@@ -32,12 +32,10 @@ export const SegmentedButton = <T,>({
   };
 
   const itemWidth = containerWidth / options.length;
+  const padding = parseInt(theme.spacing.xs, 10) * 2;
 
   const indicatorStyle = useMemo(() => {
-    const outputRange = [];
-    for (let i = 0; i < options.length; i++) {
-      outputRange.push(i * itemWidth);
-    }
+    const outputRange = options.map((_, i) => i * itemWidth);
     return {
       width: itemWidth,
       transform: [
@@ -54,7 +52,7 @@ export const SegmentedButton = <T,>({
   return (
     <Wrapper
       $disabled={disabled}
-      onLayout={(e) => setContainerWidth(e.nativeEvent.layout.width - 8)}
+      onLayout={(e) => setContainerWidth(e.nativeEvent.layout.width - padding)}
     >
       <Indicator style={indicatorStyle} />
       {options.map((option) => {

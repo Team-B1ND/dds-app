@@ -1,7 +1,7 @@
 import { Animated } from 'react-native';
 import { useRef, useEffect } from 'react';
 
-export const useSegmentedAnimation = (selectedIndex: number, itemCount: number) => {
+export const useSegmentedAnimation = (selectedIndex: number) => {
   const translateX = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
@@ -13,5 +13,5 @@ export const useSegmentedAnimation = (selectedIndex: number, itemCount: number) 
     }).start();
   }, [selectedIndex, translateX]);
 
-  return { translateX, itemCount };
+  return { translateX };
 };
