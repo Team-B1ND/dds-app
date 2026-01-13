@@ -8,6 +8,8 @@ import {
   FormButton,
   Progress,
   CircularProgress,
+  ContinuousSlider,
+  StepSlider,
 } from '@dds-app/components';
 
 function App() {
@@ -24,6 +26,8 @@ function App() {
 function AppContent() {
   const [switchChecked, setSwitchChecked] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [continuousValue, setContinuousValue] = useState(0.5);
+  const [stepValue, setStepValue] = useState(2);
 
   return (
     <Container>
@@ -122,6 +126,16 @@ function AppContent() {
               Decrease Progress
             </FormButton>
           </ButtonGroup>
+        </Section>
+        <Section>
+          <SectionTitle>Sliders</SectionTitle>
+          <ContinuousSlider
+            value={continuousValue}
+            max={1}
+            onChange={setContinuousValue}
+          />
+          <Spacer />
+          <StepSlider steps={5} value={stepValue} onChange={setStepValue} />
         </Section>
       </ScrollContainer>
     </Container>
