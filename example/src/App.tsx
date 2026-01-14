@@ -3,7 +3,12 @@ import { StatusBar } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import styled from 'styled-components/native';
 import { DodamThemeProvider } from '@dds-app/foundation';
-import { Switch, FormButton, DatePickerModal } from '@dds-app/components';
+import {
+  Switch,
+  FormButton,
+  DatePickerModal,
+  TimePickerModal,
+} from '@dds-app/components';
 
 function App() {
   return (
@@ -20,6 +25,10 @@ function AppContent() {
   const [switchChecked, setSwitchChecked] = useState(false);
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
+  const [showTimePicker, setShowTimePicker] = useState(false);
+  const [selectedTime, setSelectedTime] = useState<
+    { hour: number; minute: number } | undefined
+  >(undefined);
 
   return (
     <Container>
@@ -85,7 +94,9 @@ function AppContent() {
 
           <FormButton onPress={() => setShowDatePicker(true)}>
             {selectedDate
-              ? `${selectedDate.getFullYear()}년 ${selectedDate.getMonth() + 1}월 ${selectedDate.getDate()}일`
+              ? `${selectedDate.getFullYear()}년 ${
+                  selectedDate.getMonth() + 1
+                }월 ${selectedDate.getDate()}일`
               : '날짜 선택'}
           </FormButton>
 
@@ -94,8 +105,31 @@ function AppContent() {
             onClose={() => setShowDatePicker(false)}
             title="외출 일시"
             selectedDate={selectedDate}
-            onSelect={(date) => setSelectedDate(date)}
-            onConfirm={() => console.log('날짜 선택 완료:', selectedDate)}
+            onSelect={date => setSelectedDate(date)}
+            onPress={() => console.log('날짜 선택 완료:', selectedDate)}
+          />
+        </Section>
+
+        <Section>
+          <SectionTitle>TimePicker</SectionTitle>
+
+          <FormButton onPress={() => setShowTimePicker(true)}>
+            {selectedTime
+              ? `${selectedTime.hour
+                  .toString()
+                  .padStart(2, '0')}:${selectedTime.minute
+                  .toString()
+                  .padStart(2, '0')}`
+              : '시간 선택'}
+          </FormButton>
+
+          <TimePickerModal
+            visible={showTimePicker}
+            onClose={() => setShowTimePicker(false)}
+            title="외출 일시"
+            selectedTime={selectedTime}
+            onSelect={time => setSelectedTime(time)}
+            onPress={() => console.log('시간 선택 완료:', selectedTime)}
           />
         </Section>
 

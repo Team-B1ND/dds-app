@@ -9,7 +9,7 @@ if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental
 interface UseDatePickerProps {
   initialSelectedDate?: Date;
   onSelect: (date: Date) => void;
-  onConfirm: () => void;
+  onPress: () => void;
 }
 
 const getFirstDayOfMonth = (year: number, month: number) => {
@@ -29,7 +29,7 @@ export interface CalendarCell {
 export const useDatePicker = ({
   initialSelectedDate,
   onSelect,
-  onConfirm,
+  onPress,
 }: UseDatePickerProps) => {
   const { triggerHaptic } = useTriggerHaptic();
 
@@ -182,7 +182,7 @@ export const useDatePicker = ({
 
   const handleConfirm = () => {
     triggerHaptic();
-    onConfirm();
+    onPress();
   };
 
   const isSelectedDate = (date: number) => {

@@ -15,7 +15,7 @@ export const DatePicker = ({
   title,
   selectedDate: initialSelectedDate,
   onSelect,
-  onConfirm,
+  onPress,
 }: DatePickerProps) => {
   const { width: screenWidth } = useWindowDimensions();
 
@@ -39,7 +39,7 @@ export const DatePicker = ({
   } = useDatePicker({
     initialSelectedDate,
     onSelect,
-    onConfirm,
+    onPress,
   });
 
   return (
@@ -155,7 +155,7 @@ const DateText = styled.Text<{ $disabled?: boolean }>`
 `;
 
 const SelectedText = styled.Text`
-  color: #ffffff;
+  color: ${({ theme }) => theme.color.static.white};
   font-size: ${({ theme }) => theme.typography.body.md.fontSize}px;
   font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
 `;
@@ -250,10 +250,10 @@ export const DatePickerModal = ({
   title,
   selectedDate,
   onSelect,
-  onConfirm,
+  onPress,
 }: DatePickerModalProps) => {
   const handleConfirm = () => {
-    onConfirm();
+    onPress();
     onClose();
   };
 
@@ -263,7 +263,7 @@ export const DatePickerModal = ({
         title={title}
         selectedDate={selectedDate}
         onSelect={onSelect}
-        onConfirm={handleConfirm}
+        onPress={handleConfirm}
       />
     </Modal>
   );
