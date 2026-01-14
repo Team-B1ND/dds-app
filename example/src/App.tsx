@@ -3,7 +3,7 @@ import { StatusBar } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import styled from 'styled-components/native';
 import { DodamThemeProvider } from '@dds-app/foundation';
-import { Switch, FormButton } from '@dds-app/components';
+import { Switch, FormButton, DatePickerModal } from '@dds-app/components';
 
 function App() {
   return (
@@ -18,6 +18,8 @@ function App() {
 
 function AppContent() {
   const [switchChecked, setSwitchChecked] = useState(false);
+  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
 
   return (
     <Container>
@@ -76,6 +78,25 @@ function AppContent() {
           <FormButton haptic onPress={() => console.log('Haptic!')}>
             With Haptic Feedback
           </FormButton>
+        </Section>
+
+        <Section>
+          <SectionTitle>DatePicker</SectionTitle>
+
+          <FormButton onPress={() => setShowDatePicker(true)}>
+            {selectedDate
+              ? `${selectedDate.getFullYear()}년 ${selectedDate.getMonth() + 1}월 ${selectedDate.getDate()}일`
+              : '날짜 선택'}
+          </FormButton>
+
+          <DatePickerModal
+            visible={showDatePicker}
+            onClose={() => setShowDatePicker(false)}
+            title="외출 일시"
+            selectedDate={selectedDate}
+            onSelect={(date) => setSelectedDate(date)}
+            onConfirm={() => console.log('날짜 선택 완료:', selectedDate)}
+          />
         </Section>
 
         <Section>
