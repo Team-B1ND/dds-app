@@ -18,8 +18,6 @@ export const DatePicker = ({
   onPress,
 }: DatePickerProps) => {
   const { width: screenWidth } = useWindowDimensions();
-
-  // 모달 너비 계산
   const modalWidth = Math.min(screenWidth * 0.9, 340);
 
   const {
@@ -57,13 +55,13 @@ export const DatePicker = ({
               style={{ transform: [{ scale: prevArrowScale }] }}
               onPress={handlePrevMonth}
             >
-              <Arrow>{'‹'}</Arrow>
+              <Arrow>{'‹'}</Arrow> // 아이콘이 없어 임시로 text
             </AnimatedArrowButton>
             <AnimatedArrowButton
               style={{ transform: [{ scale: nextArrowScale }] }}
               onPress={handleNextMonth}
             >
-              <Arrow>{'›'}</Arrow>
+              <Arrow>{'›'}</Arrow> // 아이콘이 없어 임시로 text
             </AnimatedArrowButton>
           </ArrowRow>
         </MonthRow>

@@ -194,24 +194,17 @@ export const useDatePicker = ({
   };
 
   return {
-    // 상태
     currentYear,
     currentMonth,
     calendarCells,
-
-    // 애니메이션 값
     prevArrowScale,
     nextArrowScale,
     calendarOpacity,
     calendarTranslateX,
-
-    // 핸들러
     handlePrevMonth,
     handleNextMonth,
     handleDateSelect,
     handleConfirm,
-
-    // 유틸
     isDateDisabled,
     isSelectedDate,
   };
