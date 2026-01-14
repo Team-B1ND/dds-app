@@ -3,7 +3,14 @@ import { StatusBar } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import styled from 'styled-components/native';
 import { DodamThemeProvider } from '@dds-app/foundation';
-import { Switch, FormButton } from '@dds-app/components';
+import {
+  Switch,
+  FormButton,
+  Progress,
+  CircularProgress,
+  ContinuousSlider,
+  StepSlider,
+} from '@dds-app/components';
 
 function App() {
   return (
@@ -18,6 +25,9 @@ function App() {
 
 function AppContent() {
   const [switchChecked, setSwitchChecked] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [continuousValue, setContinuousValue] = useState(0.5);
+  const [stepValue, setStepValue] = useState(2);
 
   return (
     <Container>
@@ -88,6 +98,44 @@ function AppContent() {
               Disabled Secondary
             </FormButton>
           </ButtonGroup>
+        </Section>
+        <Section>
+          <SectionTitle>Progress</SectionTitle>
+          <Progress progress={progress} />
+          <Spacer />
+          <Progress progress={progress} disabled />
+          <Spacer />
+          <CircularProgress progress={progress} size={64} strokeWidth={10} />
+          <Spacer />
+          <CircularProgress
+            progress={progress}
+            size={64}
+            disabled
+            strokeWidth={10}
+          />
+          <Spacer />
+          <ButtonGroup>
+            <FormButton
+              onPress={() => setProgress(prev => Math.min(100, prev + 10))}
+            >
+              Increase Progress
+            </FormButton>
+            <FormButton
+              onPress={() => setProgress(prev => Math.max(0, prev - 10))}
+            >
+              Decrease Progress
+            </FormButton>
+          </ButtonGroup>
+        </Section>
+        <Section>
+          <SectionTitle>Sliders</SectionTitle>
+          <ContinuousSlider
+            value={continuousValue}
+            max={1}
+            onChange={setContinuousValue}
+          />
+          <Spacer />
+          <StepSlider steps={5} value={stepValue} onChange={setStepValue} />
         </Section>
       </ScrollContainer>
     </Container>
