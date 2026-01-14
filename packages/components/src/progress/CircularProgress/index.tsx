@@ -1,4 +1,4 @@
-import styled from 'styled-components/native';
+import styled, { useTheme } from 'styled-components/native';
 import Svg, { Circle } from 'react-native-svg';
 import { Animated } from 'react-native';
 import type { CircularProgressProps } from '../types';
@@ -17,6 +17,7 @@ export const CircularProgress = ({
     size,
     strokeWidth
   );
+  const theme = useTheme();
 
   return (
     <Wrapper style={{ width: size, height: size }}>
@@ -25,7 +26,7 @@ export const CircularProgress = ({
           cx={size / 2}
           cy={size / 2}
           r={radius}
-          stroke="#E5E7EB"
+          stroke={theme.color.border.subtle}
           strokeWidth={strokeWidth}
           fill="none"
         />
@@ -34,7 +35,9 @@ export const CircularProgress = ({
           cx={size / 2}
           cy={size / 2}
           r={radius}
-          stroke={disabled ? '#9CA3AF' : '#2563EB'}
+          stroke={
+            disabled ? theme.color.border.strong : theme.color.main.primary
+          }
           strokeWidth={strokeWidth}
           fill="none"
           strokeLinecap="round"
