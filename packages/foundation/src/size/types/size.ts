@@ -25,4 +25,9 @@ export interface Size {
   touchable: {
     min: string; // 애플 HIG 기준
   };
+  /** 다이얼로그 사이즈 */
+  dialog: {
+    minWidth: string;
+    maxWidth: string;
+  };
 }
