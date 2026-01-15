@@ -16,6 +16,8 @@
     "react": "*",
     "react-native": "*",
     "react-native-haptic-feedback": "*",
-    "styled-components": "*"
+    "styled-components": "*",
+    "react-native-gesture-handler": "*",
+    "react-native-svg": "*"
   }
 }
