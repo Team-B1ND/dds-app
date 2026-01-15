@@ -11,7 +11,7 @@ export interface DatePickerModalProps extends DatePickerProps {
 
 const DAYS = ['일', '월', '화', '수', '목', '금', '토'];
 
-export const DatePicker = ({
+const DatePickerContent = ({
   title,
   selectedDate: initialSelectedDate,
   onSelect,
@@ -242,7 +242,7 @@ const SelectButton = styled(Pressable)`
 `;
 
 // Modal + DatePicker
-export const DatePickerModal = ({
+export const DatePicker = ({
   visible,
   onClose,
   title,
@@ -257,7 +257,7 @@ export const DatePickerModal = ({
 
   return (
     <Modal visible={visible} onClose={onClose}>
-      <DatePicker
+      <DatePickerContent
         title={title}
         selectedDate={selectedDate}
         onSelect={onSelect}

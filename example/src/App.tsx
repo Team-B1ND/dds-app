@@ -6,8 +6,8 @@ import { DodamThemeProvider } from '@dds-app/foundation';
 import {
   Switch,
   FormButton,
-  DatePickerModal,
-  TimePickerModal,
+  DatePicker,
+  TimePicker,
 } from '@dds-app/components';
 
 function App() {
@@ -100,7 +100,7 @@ function AppContent() {
               : '날짜 선택'}
           </FormButton>
 
-          <DatePickerModal
+          <DatePicker
             visible={showDatePicker}
             onClose={() => setShowDatePicker(false)}
             title="외출 일시"
@@ -123,7 +123,7 @@ function AppContent() {
               : '시간 선택'}
           </FormButton>
 
-          <TimePickerModal
+          <TimePicker
             visible={showTimePicker}
             onClose={() => setShowTimePicker(false)}
             title="외출 일시"

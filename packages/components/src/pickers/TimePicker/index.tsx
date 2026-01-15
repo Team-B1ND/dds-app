@@ -15,7 +15,7 @@ export interface TimePickerModalProps extends TimePickerProps {
 const ITEM_HEIGHT = 40;
 const VISIBLE_ITEMS = 5;
 
-export const TimePicker = ({
+const TimePickerContent = ({
   title,
   selectedTime: initialTime,
   onSelect,
@@ -295,7 +295,7 @@ const SelectText = styled.Text`
 `;
 
 // Modal + TimePicker
-export const TimePickerModal = ({
+export const TimePicker = ({
   visible,
   onClose,
   title,
@@ -310,7 +310,7 @@ export const TimePickerModal = ({
 
   return (
     <Modal visible={visible} onClose={onClose}>
-      <TimePicker
+      <TimePickerContent
         title={title}
         selectedTime={selectedTime}
         onSelect={onSelect}
