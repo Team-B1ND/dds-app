@@ -6,6 +6,7 @@ import { DodamThemeProvider } from '@dds-app/foundation';
 import {
   Switch,
   FormButton,
+  SegmentedButton,
   Progress,
   CircularProgress,
   ContinuousSlider,
@@ -31,6 +32,8 @@ function App() {
 
 function AppContent() {
   const [switchChecked, setSwitchChecked] = useState(false);
+  const [segmentLabel, setSegmentLabel] = useState('Label');
+  const [segmentLabelMany, setSegmentLabelMany] = useState('Mon');
   const [progress, setProgress] = useState(0);
   const [continuousValue, setContinuousValue] = useState(0.5);
   const [stepValue, setStepValue] = useState(2);
@@ -150,6 +153,32 @@ function AppContent() {
               Disabled Secondary
             </FormButton>
           </ButtonGroup>
+        </Section>
+        <Section>
+          <SectionTitle>SegmentedButton - 2 options</SectionTitle>
+          <SegmentedButton
+            options={[
+              { label: 'Label' },
+              { label: 'Label2' },
+            ]}
+            label={segmentLabel}
+            onChange={setSegmentLabel}
+          />
+        </Section>
+
+        <Section>
+          <SectionTitle>SegmentedButton - 5 options</SectionTitle>
+          <SegmentedButton
+            options={[
+              { label: 'Mon' },
+              { label: 'Tue' },
+              { label: 'Wed' },
+              { label: 'Thu' },
+              { label: 'Fri' },
+            ]}
+            label={segmentLabelMany}
+            onChange={setSegmentLabelMany}
+          />
         </Section>
         <Section>
           <SectionTitle>Progress</SectionTitle>
