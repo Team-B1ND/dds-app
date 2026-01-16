@@ -10,14 +10,20 @@ import {
   CircularProgress,
   ContinuousSlider,
   StepSlider,
+  AlertDialog,
+  ConfirmDialog,
+  OverlayProvider,
+  useOverlay,
 } from '@dds-app/components';
 
 function App() {
   return (
     <SafeAreaProvider>
       <DodamThemeProvider>
-        <StatusBar barStyle="dark-content" />
-        <AppContent />
+        <OverlayProvider>
+          <StatusBar barStyle="dark-content" />
+          <AppContent />
+        </OverlayProvider>
       </DodamThemeProvider>
     </SafeAreaProvider>
   );
@@ -28,6 +34,52 @@ function AppContent() {
   const [progress, setProgress] = useState(0);
   const [continuousValue, setContinuousValue] = useState(0.5);
   const [stepValue, setStepValue] = useState(2);
+
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const overlay = useOverlay();
+
+  const handleOverlayAlert = () => {
+    overlay.open(({ isOpen, close, exit }) => (
+      <AlertDialog
+        open={isOpen}
+        title="useOverlay 알림"
+        description="useOverlay hook으로 열린 다이얼로그입니다"
+        onClose={close}
+        onExited={exit}
+      />
+    ));
+  };
+
+  const handleOverlayConfirm = () => {
+    overlay.open(({ isOpen, close, exit }) => (
+      <ConfirmDialog
+        open={isOpen}
+        title="삭제 확인"
+        description="정말로 삭제하시겠어요?"
+        onClose={close}
+        onExited={exit}
+      >
+        <ConfirmDialog.Button
+          color="secondary"
+          display="full"
+          onPress={close}
+        >
+          취소
+        </ConfirmDialog.Button>
+        <ConfirmDialog.Button
+          color="danger"
+          display="full"
+          onPress={() => {
+            console.log('삭제됨!');
+            close();
+          }}
+        >
+          삭제
+        </ConfirmDialog.Button>
+      </ConfirmDialog>
+    ));
+  };
 
   return (
     <Container>
@@ -136,6 +188,83 @@ function AppContent() {
           />
           <Spacer />
           <StepSlider steps={5} value={stepValue} onChange={setStepValue} />
+        </Section>
+
+        <Section>
+          <SectionTitle>Dialogs - State 방식</SectionTitle>
+          <ButtonGroup>
+            <FormButton onPress={() => setAlertOpen(true)}>
+              AlertDialog 열기
+            </FormButton>
+            <FormButton onPress={() => setConfirmOpen(true)}>
+              ConfirmDialog 열기
+            </FormButton>
+          </ButtonGroup>
+
+          <AlertDialog
+            open={alertOpen}
+            title="알림"
+            description="이것은 AlertDialog 입니다"
+            buttonText="확인"
+            onClose={() => setAlertOpen(false)}
+          />
+
+          <ConfirmDialog
+            open={confirmOpen}
+            title="확인"
+            description="이 작업을 진행하시겠어요?"
+            onClose={() => setConfirmOpen(false)}
+          >
+            <ConfirmDialog.Button
+              color="secondary"
+              display="full"
+              onPress={() => setConfirmOpen(false)}
+            >
+              취소
+            </ConfirmDialog.Button>
+            <ConfirmDialog.Button
+              color="primary"
+              display="full"
+              onPress={() => {
+                console.log('확인!');
+                setConfirmOpen(false);
+              }}
+            >
+              확인
+            </ConfirmDialog.Button>
+          </ConfirmDialog>
+        </Section>
+
+        <Section>
+          <SectionTitle>Dialogs - useOverlay 방식</SectionTitle>
+          <ButtonGroup>
+            <FormButton onPress={handleOverlayAlert}>
+              useOverlay Alert
+            </FormButton>
+            <FormButton color="danger" onPress={handleOverlayConfirm}>
+              useOverlay Confirm
+            </FormButton>
+          </ButtonGroup>
+        </Section>
+
+        <Section>
+          <SectionTitle>Dialogs - closeOnDimmerClick</SectionTitle>
+          <FormButton
+            onPress={() => {
+              overlay.open(({ isOpen, close, exit }) => (
+                <AlertDialog
+                  open={isOpen}
+                  title="딤 클릭으로 닫기"
+                  description="딤 영역을 클릭하면 닫혀요"
+                  closeOnDimmerClick={true}
+                  onClose={close}
+                  onExited={exit}
+                />
+              ));
+            }}
+          >
+            Dim 클릭으로 닫기
+          </FormButton>
         </Section>
       </ScrollContainer>
     </Container>
