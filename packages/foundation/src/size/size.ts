@@ -23,4 +23,8 @@ export const size: Size = {
   touchable: {
     min: '44px',
   },
+  dialog: {
+    minWidth: '280px',
+    maxWidth: '320px',
+  },
 };
