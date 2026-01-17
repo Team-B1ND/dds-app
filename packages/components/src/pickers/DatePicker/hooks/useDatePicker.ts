@@ -1,6 +1,7 @@
 import { useState, useMemo, useRef } from 'react';
 import { Animated, Easing, LayoutAnimation, Platform, UIManager } from 'react-native';
 import { useTriggerHaptic } from '../../../hooks/useTriggerHaptic';
+import { getFirstDayOfMonth, getDaysInMonth, getTodayMidnight } from '../../utils';
 
 if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -11,14 +12,6 @@ interface UseDatePickerProps {
   onSelect: (date: Date) => void;
   onPress: () => void;
 }
-
-const getFirstDayOfMonth = (year: number, month: number) => {
-  return new Date(year, month, 1).getDay();
-};
-
-const getDaysInMonth = (year: number, month: number) => {
-  return new Date(year, month + 1, 0).getDate();
-};
 
 export interface CalendarCell {
   type: 'empty' | 'date';
@@ -33,11 +26,7 @@ export const useDatePicker = ({
 }: UseDatePickerProps) => {
   const { triggerHaptic } = useTriggerHaptic();
 
-  const today = useMemo(() => {
-    const date = new Date();
-    date.setHours(0, 0, 0, 0);
-    return date;
-  }, []);
+  const today = useMemo(() => getTodayMidnight(), []);
 
   // 초기 선택 날짜가 없으면 오늘 날짜로 설정함
   const defaultDate = initialSelectedDate ?? today;

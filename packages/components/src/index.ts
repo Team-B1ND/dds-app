@@ -2,8 +2,7 @@ import '@dds-app/foundation';
 
 export { Switch, FormButton, SegmentedButton } from './buttons';
 
-export { DatePicker } from './pickers/DatePicker';
-export { TimePicker } from './pickers/TimePicker';
+export { DatePicker, TimePicker } from './pickers';
 
 export { Progress, CircularProgress } from './progress';
 

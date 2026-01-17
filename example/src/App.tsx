@@ -36,10 +36,7 @@ function AppContent() {
   const [switchChecked, setSwitchChecked] = useState(false);
 
   // Date / Time Picker
-  const [showDatePicker, setShowDatePicker] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
-
-  const [showTimePicker, setShowTimePicker] = useState(false);
   const [selectedTime, setSelectedTime] = useState<
     { hour: number; minute: number } | undefined
   >(undefined);
@@ -55,6 +52,34 @@ function AppContent() {
   const [alertOpen, setAlertOpen] = useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
   const overlay = useOverlay();
+
+  const handleDatePicker = () => {
+    overlay.open(({ isOpen, close, exit }) => (
+      <DatePicker
+        open={isOpen}
+        onClose={close}
+        onExited={exit}
+        title="외출 일시"
+        selectedDate={selectedDate}
+        onSelect={date => setSelectedDate(date)}
+        onPress={() => console.log('날짜 선택 완료:', selectedDate)}
+      />
+    ));
+  };
+
+  const handleTimePicker = () => {
+    overlay.open(({ isOpen, close, exit }) => (
+      <TimePicker
+        open={isOpen}
+        onClose={close}
+        onExited={exit}
+        title="외출 일시"
+        selectedTime={selectedTime}
+        onSelect={time => setSelectedTime(time)}
+        onPress={() => console.log('시간 선택 완료:', selectedTime)}
+      />
+    ));
+  };
 
 
   const handleOverlayAlert = () => {
@@ -161,28 +186,19 @@ function AppContent() {
         <Section>
           <SectionTitle>DatePicker</SectionTitle>
 
-          <FormButton onPress={() => setShowDatePicker(true)}>
+          <FormButton onPress={handleDatePicker}>
             {selectedDate
               ? `${selectedDate.getFullYear()}년 ${
                   selectedDate.getMonth() + 1
                 }월 ${selectedDate.getDate()}일`
               : '날짜 선택'}
           </FormButton>
-
-          <DatePicker
-            visible={showDatePicker}
-            onClose={() => setShowDatePicker(false)}
-            title="외출 일시"
-            selectedDate={selectedDate}
-            onSelect={date => setSelectedDate(date)}
-            onPress={() => console.log('날짜 선택 완료:', selectedDate)}
-          />
         </Section>
 
         <Section>
           <SectionTitle>TimePicker</SectionTitle>
 
-          <FormButton onPress={() => setShowTimePicker(true)}>
+          <FormButton onPress={handleTimePicker}>
             {selectedTime
               ? `${selectedTime.hour
                   .toString()
@@ -191,15 +207,6 @@ function AppContent() {
                   .padStart(2, '0')}`
               : '시간 선택'}
           </FormButton>
-
-          <TimePicker
-            visible={showTimePicker}
-            onClose={() => setShowTimePicker(false)}
-            title="외출 일시"
-            selectedTime={selectedTime}
-            onSelect={time => setSelectedTime(time)}
-            onPress={() => console.log('시간 선택 완료:', selectedTime)}
-          />
         </Section>
 
         <Section>

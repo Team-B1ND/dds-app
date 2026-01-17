@@ -1,5 +1,15 @@
 import { useState, useCallback } from 'react';
 import { useTriggerHaptic } from '../../../hooks/useTriggerHaptic';
+import {
+  type Period,
+  to12Hour,
+  to24Hour,
+  createPeriods,
+  createHours,
+  createMinutes,
+  ITEM_HEIGHT,
+  VISIBLE_ITEMS,
+} from '../../utils';
 
 interface UseTimePickerProps {
   initialTime?: { hour: number; minute: number };
@@ -7,26 +17,7 @@ interface UseTimePickerProps {
   onPress: () => void;
 }
 
-export type Period = '오전' | '오후';
-
-const ITEM_HEIGHT = 40;
-const VISIBLE_ITEMS = 5;
-
-// 24시간 -> 12시간 + 오전/오후 변환
-const to12Hour = (hour24: number): { hour12: number; period: Period } => {
-  if (hour24 === 0) return { hour12: 12, period: '오전' };
-  if (hour24 === 12) return { hour12: 12, period: '오후' };
-  if (hour24 < 12) return { hour12: hour24, period: '오전' };
-  return { hour12: hour24 - 12, period: '오후' };
-};
-
-// 12시간 + 오전/오후 -> 24시간 변환
-const to24Hour = (hour12: number, period: Period): number => {
-  if (period === '오전') {
-    return hour12 === 12 ? 0 : hour12;
-  }
-  return hour12 === 12 ? 12 : hour12 + 12;
-};
+export type { Period };
 
 export const useTimePicker = ({
   initialTime,
@@ -47,12 +38,9 @@ export const useTimePicker = ({
   const [selectedHour, setSelectedHour] = useState(defaultHour12);
   const [selectedMinute, setSelectedMinute] = useState(defaultTime.minute);
 
-  // period
-  const periods: Period[] = ['오전', '오후'];
-  // hour
-  const hours = Array.from({ length: 12 }, (_, i) => i + 1);
-  // minute
-  const minutes = Array.from({ length: 60 }, (_, i) => i);
+  const periods = createPeriods();
+  const hours = createHours();
+  const minutes = createMinutes();
 
   const handlePeriodChange = useCallback(
     (period: Period) => {
