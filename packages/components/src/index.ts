@@ -9,3 +9,4 @@ export {
   OverlayProvider,
   useOverlay,
 } from './dialogs';
+export { Dropdown, type DropdownProps, type DropdownOption } from './dropdown';

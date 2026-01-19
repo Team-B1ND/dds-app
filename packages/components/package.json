@@ -10,7 +10,8 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@dds-app/foundation": "workspace:*"
+    "@dds-app/foundation": "workspace:*",
+    "@dds-app/icons": "workspace:*"
   },
   "peerDependencies": {
     "react": "*",
