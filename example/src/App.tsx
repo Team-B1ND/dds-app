@@ -15,6 +15,7 @@ import {
   ConfirmDialog,
   OverlayProvider,
   useOverlay,
+  Dropdown,
 } from '@dds-app/components';
 
 function App() {
@@ -40,6 +41,10 @@ function AppContent() {
 
   const [alertOpen, setAlertOpen] = useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
+  const [selectedDropdownOption, setSelectedDropdownOption] = useState({
+    label: '드롭다운 첫번째',
+    value: 'option1',
+  });
   const overlay = useOverlay();
 
   const handleOverlayAlert = () => {
@@ -63,11 +68,7 @@ function AppContent() {
         onClose={close}
         onExited={exit}
       >
-        <ConfirmDialog.Button
-          color="secondary"
-          display="full"
-          onPress={close}
-        >
+        <ConfirmDialog.Button color="secondary" display="full" onPress={close}>
           취소
         </ConfirmDialog.Button>
         <ConfirmDialog.Button
@@ -157,10 +158,7 @@ function AppContent() {
         <Section>
           <SectionTitle>SegmentedButton - 2 options</SectionTitle>
           <SegmentedButton
-            options={[
-              { label: 'Label' },
-              { label: 'Label2' },
-            ]}
+            options={[{ label: 'Label' }, { label: 'Label2' }]}
             label={segmentLabel}
             onChange={setSegmentLabel}
           />
@@ -295,6 +293,20 @@ function AppContent() {
             Dim 클릭으로 닫기
           </FormButton>
         </Section>
+
+        <Section>
+          <SectionTitle>Dropdown</SectionTitle>
+          <Dropdown
+            options={[
+              { label: '드롭다운 첫번째ㅐㅐㅐㅐㅐ', value: 'option1' },
+              { label: '드롭다운 두번째', value: 'option2' },
+              { label: '드롭다운 세번째', value: 'option3' },
+            ]}
+            selectedOption={selectedDropdownOption}
+            onSelect={setSelectedDropdownOption}
+            width={240}
+          />
+        </Section>
       </ScrollContainer>
     </Container>
   );
@@ -302,7 +314,7 @@ function AppContent() {
 
 const Container = styled(SafeAreaView)`
   flex: 1;
-  background-color: ${({ theme }) => theme.color.background.default};
+  background-color: ${({ theme }) => theme.color.background.surface};
 `;
 
 const ScrollContainer = styled.ScrollView`
@@ -318,6 +330,7 @@ const Title = styled.Text`
 
 const Section = styled.View`
   margin-bottom: 32px;
+  align-items: flex-start;
 `;
 
 const SectionTitle = styled.Text`
