@@ -6,6 +6,8 @@ import { DodamThemeProvider } from '@dds-app/foundation';
 import {
   Switch,
   FormButton,
+  DatePicker,
+  TimePicker,
   SegmentedButton,
   Progress,
   CircularProgress,
@@ -33,12 +35,21 @@ function App() {
 
 function AppContent() {
   const [switchChecked, setSwitchChecked] = useState(false);
+
+  // Date / Time Picker
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
+  const [selectedTime, setSelectedTime] = useState<
+    { hour: number; minute: number } | undefined
+  >(undefined);
+
+  // Segmented / Progress / Slider
   const [segmentLabel, setSegmentLabel] = useState('Label');
   const [segmentLabelMany, setSegmentLabelMany] = useState('Mon');
   const [progress, setProgress] = useState(0);
   const [continuousValue, setContinuousValue] = useState(0.5);
   const [stepValue, setStepValue] = useState(2);
 
+  // Dialogs
   const [alertOpen, setAlertOpen] = useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [selectedDropdownOption, setSelectedDropdownOption] = useState({
@@ -46,6 +57,35 @@ function AppContent() {
     value: 'option1',
   });
   const overlay = useOverlay();
+
+  const handleDatePicker = () => {
+    overlay.open(({ isOpen, close, exit }) => (
+      <DatePicker
+        open={isOpen}
+        onClose={close}
+        onExited={exit}
+        title="외출 일시"
+        selectedDate={selectedDate}
+        onSelect={date => setSelectedDate(date)}
+        onPress={() => console.log('날짜 선택 완료:', selectedDate)}
+      />
+    ));
+  };
+
+  const handleTimePicker = () => {
+    overlay.open(({ isOpen, close, exit }) => (
+      <TimePicker
+        open={isOpen}
+        onClose={close}
+        onExited={exit}
+        title="외출 일시"
+        selectedTime={selectedTime}
+        onSelect={time => setSelectedTime(time)}
+        onPress={() => console.log('시간 선택 완료:', selectedTime)}
+      />
+    ));
+  };
+
 
   const handleOverlayAlert = () => {
     overlay.open(({ isOpen, close, exit }) => (
@@ -141,6 +181,32 @@ function AppContent() {
           <SectionTitle>FormButton - Haptic</SectionTitle>
           <FormButton haptic onPress={() => console.log('Haptic!')}>
             With Haptic Feedback
+          </FormButton>
+        </Section>
+
+        <Section>
+          <SectionTitle>DatePicker</SectionTitle>
+
+          <FormButton onPress={handleDatePicker}>
+            {selectedDate
+              ? `${selectedDate.getFullYear()}년 ${
+                  selectedDate.getMonth() + 1
+                }월 ${selectedDate.getDate()}일`
+              : '날짜 선택'}
+          </FormButton>
+        </Section>
+
+        <Section>
+          <SectionTitle>TimePicker</SectionTitle>
+
+          <FormButton onPress={handleTimePicker}>
+            {selectedTime
+              ? `${selectedTime.hour
+                  .toString()
+                  .padStart(2, '0')}:${selectedTime.minute
+                  .toString()
+                  .padStart(2, '0')}`
+              : '시간 선택'}
           </FormButton>
         </Section>
 
