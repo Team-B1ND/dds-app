@@ -29,7 +29,7 @@ export const Dropdown = ({
     <S.Wrapper ref={wrapperRef} collapsable={false} $isOpen={isOpen}>
       <S.Container $width={width} onPress={handleToggle} activeOpacity={0.8}>
         <S.SelectedText>{selectedOption.label}</S.SelectedText>
-        <ChevronDown width={16} height={16} color={theme.color.text.primary} />
+        <ChevronDown size={16} color={theme.color.text.primary} />
       </S.Container>
       {shouldRender && (
         <Modal

@@ -19,21 +19,34 @@ import {
   useOverlay,
   Dropdown,
 } from '@dds-app/components';
+import { IconPage } from './IconPage';
+
+type Screen = 'main' | 'icons';
 
 function App() {
+  const [screen, setScreen] = useState<Screen>('main');
+
   return (
     <SafeAreaProvider>
       <DodamThemeProvider>
         <OverlayProvider>
           <StatusBar barStyle="dark-content" />
-          <AppContent />
+          {screen === 'main' ? (
+            <AppContent onNavigateToIcons={() => setScreen('icons')} />
+          ) : (
+            <IconPage onBack={() => setScreen('main')} />
+          )}
         </OverlayProvider>
       </DodamThemeProvider>
     </SafeAreaProvider>
   );
 }
 
-function AppContent() {
+interface AppContentProps {
+  onNavigateToIcons: () => void;
+}
+
+function AppContent({ onNavigateToIcons }: AppContentProps) {
   const [switchChecked, setSwitchChecked] = useState(false);
 
   // Date / Time Picker
@@ -129,6 +142,10 @@ function AppContent() {
     <Container>
       <ScrollContainer>
         <Title>DDS App Components</Title>
+
+        <Section>
+          <FormButton onPress={onNavigateToIcons}>Icon 보기</FormButton>
+        </Section>
 
         <Section>
           <SectionTitle>Switch</SectionTitle>
