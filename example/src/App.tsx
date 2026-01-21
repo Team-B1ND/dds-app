@@ -184,10 +184,18 @@ function AppContent({ onNavigateToIcons }: AppContentProps) {
         </Section>
 
         <Section>
-          <SectionTitle>FormButton - Display</SectionTitle>
-          <FormButton display="inline" onPress={() => console.log('Inline')}>
-            Inline
-          </FormButton>
+          <SectionTitle>FormButton - Display & Size</SectionTitle>
+          <ButtonGroup>
+            <FormButton display="inline" size="large" onPress={() => console.log('Large')}>
+              Large
+            </FormButton>
+            <FormButton display="inline" size="medium" onPress={() => console.log('Medium')}>
+              Medium
+            </FormButton>
+            <FormButton display="inline" size="small" onPress={() => console.log('Small')}>
+              Small
+            </FormButton>
+          </ButtonGroup>
           <Spacer />
           <FormButton display="block" onPress={() => console.log('Block')}>
             Block (100% width)
