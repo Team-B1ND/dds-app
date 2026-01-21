@@ -44,7 +44,7 @@ const ConfirmDialogComponent = ({
         <Pressable style={{ flex: 1 }} onPress={handleDimmerPress}>
           <CenterContainer>
             <Pressable>
-              <AnimatedDialogContainer style={dialogStyle}>
+              <AnimatedDialogContainer style={dialogStyle} $hasDescription={!!description}>
                 <ContentContainer>
                   <Title>{title}</Title>
                   {description && <Description>{description}</Description>}
@@ -77,11 +77,12 @@ const CenterContainer = styled.View`
   padding: ${({ theme }) => theme.spacing.xl};
 `;
 
-const DialogContainer = styled.View`
+const DialogContainer = styled.View<{ $hasDescription: boolean }>`
   background-color: ${({ theme }) => theme.color.background.surface};
-  border-radius: ${({ theme }) => theme.radius.xl};
+  border-radius: ${({ theme }) => theme.radius.xxxl};
   width: ${({ theme }) => theme.size.dialog.width};
-  min-height: ${({ theme }) => theme.size.dialog.minHeight};
+  ${({ theme, $hasDescription }) =>
+    $hasDescription && `min-height: ${theme.size.dialog.minHeight};`}
   justify-content: space-between;
 `;
 
