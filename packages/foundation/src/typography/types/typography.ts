@@ -3,13 +3,13 @@ export interface FontWeight {
   medium: '500';
   semibold: '600';
   bold: '700';
+  extrabold: '800';
 }
 
 export interface TextStyle {
   fontSize: number;
   lineHeight: number;
-  fontWeight: FontWeight[keyof FontWeight];
-  letterSpacing?: number;
+  letterSpacing: number;
 }
 
 export interface Typography {
@@ -20,23 +20,21 @@ export interface Typography {
   };
   /** 폰트 웨이트 */
   fontWeight: FontWeight;
-  /** 타이틀 스타일 */
-  title: {
-    xl: TextStyle; // 메인 타이틀
-    lg: TextStyle; // 섹션 타이틀
-    md: TextStyle; // 페이지 타이틀
-    sm: TextStyle; // 카드 타이틀
-  };
-  /** 본문 스타일 */
-  body: {
-    lg: TextStyle; // 큰 본문
-    md: TextStyle; // 기본 본문
-    sm: TextStyle; // 작은 본문
-  };
-  /** 레이블/캡션 스타일 */
-  label: {
-    lg: TextStyle; // 큰 레이블
-    md: TextStyle; // 기본 레이블
-    sm: TextStyle; // 작은 레이블
-  };
+  /** Title 스타일 */
+  title1: TextStyle;
+  title2: TextStyle;
+  title3: TextStyle;
+  /** Heading 스타일 */
+  heading1: TextStyle;
+  heading2: TextStyle;
+  /** Headline 스타일 */
+  headline: TextStyle;
+  /** Body 스타일 */
+  body1: TextStyle;
+  body2: TextStyle;
+  /** Label 스타일 */
+  label: TextStyle;
+  /** Caption 스타일 */
+  caption1: TextStyle;
+  caption2: TextStyle;
 }

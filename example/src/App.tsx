@@ -184,10 +184,18 @@ function AppContent({ onNavigateToIcons }: AppContentProps) {
         </Section>
 
         <Section>
-          <SectionTitle>FormButton - Display</SectionTitle>
-          <FormButton display="inline" onPress={() => console.log('Inline')}>
-            Inline
-          </FormButton>
+          <SectionTitle>FormButton - Display & Size</SectionTitle>
+          <ButtonGroup>
+            <FormButton display="inline" size="large" onPress={() => console.log('Large')}>
+              Large
+            </FormButton>
+            <FormButton display="inline" size="medium" onPress={() => console.log('Medium')}>
+              Medium
+            </FormButton>
+            <FormButton display="inline" size="small" onPress={() => console.log('Small')}>
+              Small
+            </FormButton>
+          </ButtonGroup>
           <Spacer />
           <FormButton display="block" onPress={() => console.log('Block')}>
             Block (100% width)
@@ -353,6 +361,55 @@ function AppContent({ onNavigateToIcons }: AppContentProps) {
             </FormButton>
             <FormButton color="danger" onPress={handleOverlayConfirm}>
               useOverlay Confirm
+            </FormButton>
+          </ButtonGroup>
+        </Section>
+
+        <Section>
+          <SectionTitle>Dialogs - Description 없음</SectionTitle>
+          <ButtonGroup>
+            <FormButton
+              onPress={() => {
+                overlay.open(({ isOpen, close, exit }) => (
+                  <AlertDialog
+                    open={isOpen}
+                    title="알림"
+                    onClose={close}
+                    onExited={exit}
+                  />
+                ));
+              }}
+            >
+              Alert (No Desc)
+            </FormButton>
+            <FormButton
+              onPress={() => {
+                overlay.open(({ isOpen, close, exit }) => (
+                  <ConfirmDialog
+                    open={isOpen}
+                    title="확인하시겠어요?"
+                    onClose={close}
+                    onExited={exit}
+                  >
+                    <ConfirmDialog.Button
+                      color="secondary"
+                      display="full"
+                      onPress={close}
+                    >
+                      취소
+                    </ConfirmDialog.Button>
+                    <ConfirmDialog.Button
+                      color="primary"
+                      display="full"
+                      onPress={close}
+                    >
+                      확인
+                    </ConfirmDialog.Button>
+                  </ConfirmDialog>
+                ));
+              }}
+            >
+              Confirm (No Desc)
             </FormButton>
           </ButtonGroup>
         </Section>

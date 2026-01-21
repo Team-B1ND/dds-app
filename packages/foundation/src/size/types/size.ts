@@ -27,7 +27,7 @@ export interface Size {
   };
   /** 다이얼로그 사이즈 */
   dialog: {
-    minWidth: string;
-    maxWidth: string;
+    width: string;
+    minHeight: string;
   };
 }

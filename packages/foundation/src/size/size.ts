@@ -24,7 +24,7 @@ export const size: Size = {
     min: '44px',
   },
   dialog: {
-    minWidth: '280px',
-    maxWidth: '320px',
+    width: '321px',
+    minHeight: '171px',
   },
 };

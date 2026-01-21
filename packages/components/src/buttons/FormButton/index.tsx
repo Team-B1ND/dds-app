@@ -2,13 +2,14 @@ import styled from 'styled-components/native';
 import { Animated } from 'react-native';
 import { useFormAnimation } from './hooks/useFormAnimation';
 import { useTriggerHaptic } from '../../hooks/useTriggerHaptic';
-import type { ButtonColor, ButtonDisplay } from './types';
+import type { ButtonColor, ButtonDisplay, ButtonSize } from './types';
 
 interface FormButtonProps {
   haptic?: boolean;
   disabled?: boolean;
   display?: ButtonDisplay;
   color?: ButtonColor;
+  size?: ButtonSize;
   onPress?: () => void;
   children: string;
 }
@@ -18,6 +19,7 @@ export const FormButton = ({
   disabled = false,
   display = 'inline',
   color = 'primary',
+  size = 'medium',
   onPress,
   children,
 }: FormButtonProps) => {
@@ -34,13 +36,14 @@ export const FormButton = ({
     <AnimatedContainer
       $color={color}
       $display={display}
+      $size={size}
       disabled={disabled}
       style={animatedStyle}
       onPressIn={handlePressIn}
       onPress={handlePress}
       onPressOut={handlePressOut}
     >
-      <TextContainer $color={color}>{children}</TextContainer>
+      <TextContainer $color={color} $size={size}>{children}</TextContainer>
     </AnimatedContainer>
   );
 };
@@ -48,9 +51,18 @@ export const FormButton = ({
 const Container = styled.Pressable<{
   $display: ButtonDisplay;
   $color: ButtonColor;
+  $size: ButtonSize;
 }>`
-  padding: ${({ theme }) => theme.spacing.lg};
-  border-radius: ${({ theme }) => theme.radius.lg};
+  padding: ${({ $size }) => {
+    if ($size === 'large') return '14px 32px';
+    if ($size === 'small') return '10px 16px';
+    return '13px 20px';
+  }};
+  border-radius: ${({ $size }) => {
+    if ($size === 'large') return '12px';
+    if ($size === 'small') return '8px';
+    return '10px';
+  }};
 
   background-color: ${({ theme, $color }) => {
     if ($color === 'primary') return theme.color.main.primary;
@@ -73,8 +85,24 @@ const Container = styled.Pressable<{
 
 const AnimatedContainer = Animated.createAnimatedComponent(Container);
 
-const TextContainer = styled.Text<{ $color: ButtonColor }>`
+const TextContainer = styled.Text<{ $color: ButtonColor; $size: ButtonSize }>`
   text-align: center;
+  font-size: ${({ theme, $size }) => {
+    if ($size === 'large') return theme.typography.headline.fontSize;
+    if ($size === 'small') return theme.typography.label.fontSize;
+    return theme.typography.body2.fontSize;
+  }}px;
+  font-weight: ${({ theme }) => theme.typography.fontWeight.bold};
+  line-height: ${({ theme, $size }) => {
+    if ($size === 'large') return theme.typography.headline.lineHeight;
+    if ($size === 'small') return theme.typography.label.lineHeight;
+    return theme.typography.body2.lineHeight;
+  }}px;
+  letter-spacing: ${({ theme, $size }) => {
+    if ($size === 'large') return theme.typography.headline.letterSpacing;
+    if ($size === 'small') return theme.typography.label.letterSpacing;
+    return theme.typography.body2.letterSpacing;
+  }}px;
 
   color: ${({ theme, $color }) => {
     if ($color === 'secondary') return theme.color.text.tertiary;
