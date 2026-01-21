@@ -54,8 +54,8 @@ const Container = styled.Pressable<{
   $size: ButtonSize;
 }>`
   padding: ${({ $size }) => {
-    if ($size === 'large') return '13px 28px';
-    if ($size === 'small') return '7px 12px';
+    if ($size === 'large') return '14px 32px';
+    if ($size === 'small') return '10px 16px';
     return '13px 20px';
   }};
   border-radius: ${({ $size }) => {
@@ -88,19 +88,19 @@ const AnimatedContainer = Animated.createAnimatedComponent(Container);
 const TextContainer = styled.Text<{ $color: ButtonColor; $size: ButtonSize }>`
   text-align: center;
   font-size: ${({ theme, $size }) => {
-    if ($size === 'large') return theme.typography.body1.fontSize;
-    if ($size === 'small') return theme.typography.caption1.fontSize;
+    if ($size === 'large') return theme.typography.headline.fontSize;
+    if ($size === 'small') return theme.typography.label.fontSize;
     return theme.typography.body2.fontSize;
   }}px;
   font-weight: ${({ theme }) => theme.typography.fontWeight.bold};
   line-height: ${({ theme, $size }) => {
-    if ($size === 'large') return theme.typography.body1.lineHeight;
-    if ($size === 'small') return theme.typography.caption1.lineHeight;
+    if ($size === 'large') return theme.typography.headline.lineHeight;
+    if ($size === 'small') return theme.typography.label.lineHeight;
     return theme.typography.body2.lineHeight;
   }}px;
   letter-spacing: ${({ theme, $size }) => {
-    if ($size === 'large') return theme.typography.body1.letterSpacing;
-    if ($size === 'small') return theme.typography.caption1.letterSpacing;
+    if ($size === 'large') return theme.typography.headline.letterSpacing;
+    if ($size === 'small') return theme.typography.label.letterSpacing;
     return theme.typography.body2.letterSpacing;
   }}px;
 
