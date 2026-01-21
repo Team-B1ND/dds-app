@@ -2,6 +2,7 @@ import styled from 'styled-components/native';
 import { Animated, Modal, Pressable } from 'react-native';
 import { useDialogAnimation } from '../hooks/useDialogAnimation';
 import { useTriggerHaptic } from '../../hooks/useTriggerHaptic';
+import { TextButton } from '../../buttons';
 import type { AlertDialogProps } from '../types';
 
 export const AlertDialog = ({
@@ -44,9 +45,7 @@ export const AlertDialog = ({
                   {description && <Description>{description}</Description>}
                 </ContentContainer>
                 <ButtonContainer>
-                  <TextButton onPress={onClose}>
-                    <ButtonText>{buttonText}</ButtonText>
-                  </TextButton>
+                  <TextButton onPress={onClose}>{buttonText}</TextButton>
                 </ButtonContainer>
               </AnimatedDialogContainer>
             </Pressable>
@@ -73,9 +72,10 @@ const CenterContainer = styled.View`
 
 const DialogContainer = styled.View`
   background-color: ${({ theme }) => theme.color.background.surface};
-  border-radius: ${({ theme }) => theme.radius.xl};
-  min-width: ${({ theme }) => theme.size.dialog.minWidth};
-  max-width: ${({ theme }) => theme.size.dialog.maxWidth};
+  border-radius: ${({ theme }) => theme.radius.xxxl};
+  width: ${({ theme }) => theme.size.dialog.width};
+  min-height: ${({ theme }) => theme.size.dialog.minHeight};
+  justify-content: space-between;
 `;
 
 const AnimatedDialogContainer = Animated.createAnimatedComponent(DialogContainer);
@@ -83,21 +83,25 @@ const AnimatedDialogContainer = Animated.createAnimatedComponent(DialogContainer
 const ContentContainer = styled.View`
   padding: ${({ theme }) => theme.spacing.xl};
   padding-bottom: ${({ theme }) => theme.spacing.md};
+  margin: 6px;
+  margin-bottom: 0;
 `;
 
 const Title = styled.Text`
-  font-size: ${({ theme }) => theme.typography.title.sm.fontSize}px;
+  font-size: ${({ theme }) => theme.typography.heading1.fontSize}px;
   font-weight: ${({ theme }) => theme.typography.fontWeight.bold};
-  line-height: ${({ theme }) => theme.typography.title.sm.lineHeight}px;
+  line-height: ${({ theme }) => theme.typography.heading1.lineHeight}px;
+  letter-spacing: ${({ theme }) => theme.typography.heading1.letterSpacing}px;
   color: ${({ theme }) => theme.color.text.primary};
 `;
 
 const Description = styled.Text`
-  font-size: ${({ theme }) => theme.typography.body.sm.fontSize}px;
-  font-weight: ${({ theme }) => theme.typography.body.sm.fontWeight};
-  line-height: ${({ theme }) => theme.typography.body.sm.lineHeight}px;
+  font-size: ${({ theme }) => theme.typography.body1.fontSize}px;
+  font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
+  line-height: ${({ theme }) => theme.typography.body1.lineHeight}px;
+  letter-spacing: ${({ theme }) => theme.typography.body1.letterSpacing}px;
   color: ${({ theme }) => theme.color.text.tertiary};
-  margin-top: ${({ theme }) => theme.spacing.xs};
+  margin-top: ${({ theme }) => theme.spacing.md};
 `;
 
 const ButtonContainer = styled.View`
@@ -105,15 +109,4 @@ const ButtonContainer = styled.View`
   justify-content: flex-end;
   padding: ${({ theme }) => theme.spacing.md};
   padding-top: 0;
-`;
-
-const TextButton = styled.Pressable`
-  padding: ${({ theme }) => theme.spacing.sm};
-`;
-
-const ButtonText = styled.Text`
-  font-size: ${({ theme }) => theme.typography.label.lg.fontSize}px;
-  font-weight: ${({ theme }) => theme.typography.label.lg.fontWeight};
-  line-height: ${({ theme }) => theme.typography.label.lg.lineHeight}px;
-  color: ${({ theme }) => theme.color.text.primary};
 `;

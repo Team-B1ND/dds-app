@@ -1,6 +1,6 @@
 import '@dds-app/foundation';
 
-export { Switch, FormButton, SegmentedButton } from './buttons';
+export { Switch, FormButton, TextButton, SegmentedButton } from './buttons';
 
 export { DatePicker, TimePicker } from './pickers';
 
