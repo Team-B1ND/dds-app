@@ -18,6 +18,7 @@ import {
   OverlayProvider,
   useOverlay,
   Dropdown,
+  Avatar,
 } from '@dds-app/components';
 import { IconPage } from './IconPage';
 
@@ -145,6 +146,16 @@ function AppContent({ onNavigateToIcons }: AppContentProps) {
 
         <Section>
           <FormButton onPress={onNavigateToIcons}>Icon 보기</FormButton>
+        </Section>
+
+        <Section>
+          <SectionTitle>Avatar</SectionTitle>
+          <ButtonGroup>
+            <Avatar size={24} />
+            <Avatar size={32} />
+            <Avatar size={40} />
+            <Avatar size={56} />
+          </ButtonGroup>
         </Section>
 
         <Section>

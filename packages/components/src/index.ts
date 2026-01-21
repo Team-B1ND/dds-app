@@ -15,3 +15,5 @@ export {
   useOverlay,
 } from './dialogs';
 export { Dropdown, type DropdownProps, type DropdownOption } from './dropdown';
+
+export { Avatar } from './avatar';
