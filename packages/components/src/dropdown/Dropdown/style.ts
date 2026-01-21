@@ -47,9 +47,10 @@ export const Container = styled.TouchableOpacity<{ $width?: number | string }>`
 `;
 
 export const SelectedText = styled.Text`
-  font-size: ${({ theme }) => theme.typography.body.lg.fontSize};
-  line-height: ${({ theme }) => theme.typography.body.lg.lineHeight};
-  font-weight: ${({ theme }) => theme.typography.body.lg.fontWeight};
+  font-size: ${({ theme }) => theme.typography.headline.fontSize}px;
+  line-height: ${({ theme }) => theme.typography.headline.lineHeight}px;
+  font-weight: ${({ theme }) => theme.typography.fontWeight.regular};
+  letter-spacing: ${({ theme }) => theme.typography.headline.letterSpacing}px;
   color: ${({ theme }) => theme.color.text.primary};
 `;
 
@@ -71,8 +72,9 @@ export const Option = styled.TouchableOpacity<{ $selected: boolean }>`
 `;
 
 export const OptionText = styled.Text`
-  font-size: ${({ theme }) => theme.typography.body.lg.fontSize};
-  line-height: ${({ theme }) => theme.typography.body.lg.lineHeight};
-  font-weight: ${({ theme }) => theme.typography.body.lg.fontWeight};
+  font-size: ${({ theme }) => theme.typography.headline.fontSize}px;
+  line-height: ${({ theme }) => theme.typography.headline.lineHeight}px;
+  font-weight: ${({ theme }) => theme.typography.fontWeight.regular};
+  letter-spacing: ${({ theme }) => theme.typography.headline.letterSpacing}px;
   color: ${({ theme }) => theme.color.text.secondary};
 `;

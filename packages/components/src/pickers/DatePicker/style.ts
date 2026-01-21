@@ -59,41 +59,53 @@ export const Arrow = styled.Text`
 
 export const Title = styled.Text`
   color: ${({ theme }) => theme.color.text.primary};
-  font-size: ${({ theme }) => theme.typography.title.sm.fontSize}px;
+  font-size: ${({ theme }) => theme.typography.heading2.fontSize}px;
   font-weight: ${({ theme }) => theme.typography.fontWeight.bold};
+  line-height: ${({ theme }) => theme.typography.heading2.lineHeight}px;
+  letter-spacing: ${({ theme }) => theme.typography.heading2.letterSpacing}px;
 `;
 
 export const MonthText = styled.Text`
   color: ${({ theme }) => theme.color.text.secondary};
-  font-size: ${({ theme }) => theme.typography.body.sm.fontSize}px;
+  font-size: ${({ theme }) => theme.typography.label.fontSize}px;
   font-weight: ${({ theme }) => theme.typography.fontWeight.bold};
+  line-height: ${({ theme }) => theme.typography.label.lineHeight}px;
+  letter-spacing: ${({ theme }) => theme.typography.label.letterSpacing}px;
 `;
 
 export const DayText = styled.Text`
   color: ${({ theme }) => theme.color.text.placeholder};
-  font-size: ${({ theme }) => theme.typography.label.lg.fontSize}px;
+  font-size: ${({ theme }) => theme.typography.label.fontSize}px;
   font-weight: ${({ theme }) => theme.typography.fontWeight.regular};
+  line-height: ${({ theme }) => theme.typography.label.lineHeight}px;
+  letter-spacing: ${({ theme }) => theme.typography.label.letterSpacing}px;
   text-align: center;
 `;
 
 export const DateText = styled.Text<{ $disabled?: boolean }>`
   color: ${({ theme, $disabled }) =>
     $disabled ? theme.color.text.disabled : theme.color.text.secondary};
-  font-size: ${({ theme }) => theme.typography.body.md.fontSize}px;
+  font-size: ${({ theme }) => theme.typography.body1.fontSize}px;
   font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
+  line-height: ${({ theme }) => theme.typography.body1.lineHeight}px;
+  letter-spacing: ${({ theme }) => theme.typography.body1.letterSpacing}px;
   text-align: center;
 `;
 
 export const SelectedText = styled.Text`
   color: ${({ theme }) => theme.color.static.white};
-  font-size: ${({ theme }) => theme.typography.body.md.fontSize}px;
+  font-size: ${({ theme }) => theme.typography.body1.fontSize}px;
   font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
+  line-height: ${({ theme }) => theme.typography.body1.lineHeight}px;
+  letter-spacing: ${({ theme }) => theme.typography.body1.letterSpacing}px;
 `;
 
 export const SelectText = styled.Text`
   color: ${({ theme }) => theme.color.main.primary};
-  font-size: ${({ theme }) => theme.typography.body.md.fontSize}px;
+  font-size: ${({ theme }) => theme.typography.body1.fontSize}px;
   font-weight: ${({ theme }) => theme.typography.fontWeight.bold};
+  line-height: ${({ theme }) => theme.typography.body1.lineHeight}px;
+  letter-spacing: ${({ theme }) => theme.typography.body1.letterSpacing}px;
 `;
 
 export const DayRow = styled.View`

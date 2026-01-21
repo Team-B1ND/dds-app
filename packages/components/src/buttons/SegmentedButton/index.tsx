@@ -113,7 +113,8 @@ const ItemButton = styled(Pressable)<{ $disabled: boolean }>`
 const Label = styled.Text<{ $selected: boolean }>`
   color: ${({ theme, $selected }) =>
     $selected ? theme.color.text.primary : theme.color.text.secondary};
-  font-size: ${({ theme }) => theme.typography.body.lg.fontSize}px;
-  line-height: ${({ theme }) => theme.typography.body.lg.lineHeight}px;
+  font-size: ${({ theme }) => theme.typography.headline.fontSize}px;
+  line-height: ${({ theme }) => theme.typography.headline.lineHeight}px;
   font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
+  letter-spacing: ${({ theme }) => theme.typography.headline.letterSpacing}px;
 `;

@@ -38,8 +38,10 @@ export const Header = styled.View`
 
 export const Title = styled.Text`
   color: ${({ theme }) => theme.color.text.primary};
-  font-size: ${({ theme }) => theme.typography.title.sm.fontSize}px;
+  font-size: ${({ theme }) => theme.typography.heading2.fontSize}px;
   font-weight: ${({ theme }) => theme.typography.fontWeight.bold};
+  line-height: ${({ theme }) => theme.typography.heading2.lineHeight}px;
+  letter-spacing: ${({ theme }) => theme.typography.heading2.letterSpacing}px;
 `;
 
 
@@ -103,6 +105,8 @@ export const SelectButton = styled(Pressable)`
 
 export const SelectText = styled.Text`
   color: ${({ theme }) => theme.color.main.primary};
-  font-size: ${({ theme }) => theme.typography.body.md.fontSize}px;
+  font-size: ${({ theme }) => theme.typography.body1.fontSize}px;
   font-weight: ${({ theme }) => theme.typography.fontWeight.bold};
+  line-height: ${({ theme }) => theme.typography.body1.lineHeight}px;
+  letter-spacing: ${({ theme }) => theme.typography.body1.letterSpacing}px;
 `;
