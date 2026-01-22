@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import { StatusBar } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import styled from 'styled-components/native';
 import { DodamThemeProvider } from '@dds-app/foundation';
 import {
@@ -18,28 +21,56 @@ import {
   OverlayProvider,
   useOverlay,
   Dropdown,
+  TopNavBar,
+  createTopNavBarOptions,
+  IconButton,
   Avatar,
 } from '@dds-app/components';
-import { IconPage } from './IconPage';
+import { Plus, Bell, Gear, Trash } from '@dds-app/icons';
+import { IconScreen } from './IconScreen';
 
-type Screen = 'main' | 'icons';
+type RootStackParamList = {
+  Main: undefined;
+  Icons: undefined;
+};
+
+type MainScreenProps = NativeStackScreenProps<RootStackParamList, 'Main'>;
+
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function App() {
-  const [screen, setScreen] = useState<Screen>('main');
-
   return (
     <SafeAreaProvider>
       <DodamThemeProvider>
         <OverlayProvider>
-          <StatusBar barStyle="dark-content" />
-          {screen === 'main' ? (
-            <AppContent onNavigateToIcons={() => setScreen('icons')} />
-          ) : (
-            <IconPage onBack={() => setScreen('main')} />
-          )}
+          <NavigationContainer>
+            <StatusBar barStyle="dark-content" />
+            <Stack.Navigator screenOptions={{ headerShown: false }}>
+              <Stack.Screen name="Main" component={MainScreen} />
+              <Stack.Screen
+                name="Icons"
+                component={IconScreen}
+                options={{
+                  ...createTopNavBarOptions(),
+                  headerLeft: () => <TopNavBar.BackButton />,
+                  headerTitle: () => (
+                    <TopNavBar.Title hasBackButton>Icons</TopNavBar.Title>
+                  ),
+                }}
+              />
+            </Stack.Navigator>
+          </NavigationContainer>
         </OverlayProvider>
       </DodamThemeProvider>
     </SafeAreaProvider>
+  );
+}
+
+function MainScreen({ navigation }: MainScreenProps) {
+  return (
+    <StyledSafeAreaView>
+      <AppContent onNavigateToIcons={() => navigation.navigate('Icons')} />
+    </StyledSafeAreaView>
   );
 }
 
@@ -100,7 +131,6 @@ function AppContent({ onNavigateToIcons }: AppContentProps) {
     ));
   };
 
-
   const handleOverlayAlert = () => {
     overlay.open(({ isOpen, close, exit }) => (
       <AlertDialog
@@ -149,6 +179,59 @@ function AppContent({ onNavigateToIcons }: AppContentProps) {
         </Section>
 
         <Section>
+          <SectionTitle>TopNavBar - Logo</SectionTitle>
+          <NavBarWrapper>
+            <TopNavBar
+              right={
+                <>
+                  <TopNavBar.IconButton icon={<Plus size={24} />} />
+                  <TopNavBar.IconButton icon={<Bell size={24} />} />
+                </>
+              }
+            >
+              <TopNavBar.Logo />
+            </TopNavBar>
+          </NavBarWrapper>
+        </Section>
+
+        <Section>
+          <SectionTitle>TopNavBar - Title (No Back)</SectionTitle>
+          <NavBarWrapper>
+            <TopNavBar
+              right={
+                <>
+                  <TopNavBar.IconButton icon={<Plus size={24} />} />
+                  <TopNavBar.IconButton icon={<Bell size={24} />} />
+                </>
+              }
+            >
+              <TopNavBar.Title>제목을 입력해주세요</TopNavBar.Title>
+            </TopNavBar>
+          </NavBarWrapper>
+        </Section>
+
+        <Section>
+          <SectionTitle>TopNavBar - With Back Button</SectionTitle>
+          <NavBarWrapper>
+            <TopNavBar
+              left={
+                <TopNavBar.BackButton onPress={() => console.log('Back')} />
+              }
+              right={
+                <>
+                  <TopNavBar.IconButton icon={<Plus size={24} />} />
+                  <TopNavBar.IconButton icon={<Bell size={24} />} />
+                </>
+              }
+            >
+              <TopNavBar.Title hasBackButton>
+                제목을 입력해주세요
+              </TopNavBar.Title>
+            </TopNavBar>
+          </NavBarWrapper>
+        </Section>
+        
+        <Section>
           <SectionTitle>Avatar</SectionTitle>
           <ButtonGroup>
             <Avatar size={24} />
@@ -177,6 +260,17 @@ function AppContent({ onNavigateToIcons }: AppContentProps) {
         </Section>
 
         <Section>
+          <SectionTitle>IconButton</SectionTitle>
+          <ButtonGroup>
+            <IconButton icon={<Plus size={24} />} onPress={() => console.log('Plus')} />
+            <IconButton icon={<Bell size={24} />} onPress={() => console.log('Bell')} />
+            <IconButton icon={<Gear size={24} />} onPress={() => console.log('Gear')} />
+            <IconButton icon={<Trash size={24} />} color="#FF4242" onPress={() => console.log('Trash')} />
+            <IconButton icon={<Plus size={24} />} disabled />
+          </ButtonGroup>
+        </Section>
+
+        <Section>
           <SectionTitle>FormButton - Colors</SectionTitle>
           <ButtonGroup>
             <FormButton color="primary" onPress={() => console.log('Primary')}>
@@ -197,13 +291,25 @@ function AppContent({ onNavigateToIcons }: AppContentProps) {
         <Section>
           <SectionTitle>FormButton - Display & Size</SectionTitle>
           <ButtonGroup>
-            <FormButton display="inline" size="large" onPress={() => console.log('Large')}>
+            <FormButton
+              display="inline"
+              size="large"
+              onPress={() => console.log('Large')}
+            >
               Large
             </FormButton>
-            <FormButton display="inline" size="medium" onPress={() => console.log('Medium')}>
+            <FormButton
+              display="inline"
+              size="medium"
+              onPress={() => console.log('Medium')}
+            >
               Medium
             </FormButton>
-            <FormButton display="inline" size="small" onPress={() => console.log('Small')}>
+            <FormButton
+              display="inline"
+              size="small"
+              onPress={() => console.log('Small')}
+            >
               Small
             </FormButton>
           </ButtonGroup>
@@ -463,7 +569,12 @@ function AppContent({ onNavigateToIcons }: AppContentProps) {
   );
 }
 
-const Container = styled(SafeAreaView)`
+const StyledSafeAreaView = styled(SafeAreaView)`
+  flex: 1;
+  background-color: ${({ theme }) => theme.color.background.surface};
+`;
+
+const Container = styled.View`
   flex: 1;
   background-color: ${({ theme }) => theme.color.background.surface};
 `;
@@ -511,6 +622,14 @@ const ButtonGroup = styled.View`
 
 const Spacer = styled.View`
   height: 8px;
+`;
+
+const NavBarWrapper = styled.View`
+  width: 100%;
+  border-width: 1px;
+  border-color: ${({ theme }) => theme.color.border.normal};
+  border-radius: ${({ theme }) => theme.radius.md};
+  overflow: hidden;
 `;
 
 export default App;

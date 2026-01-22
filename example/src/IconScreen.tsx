@@ -1,5 +1,5 @@
-import styled from 'styled-components/native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import styled, { useTheme } from 'styled-components/native';
+import { View } from 'react-native';
 import {
   AppLogo,
   ArrowDown,
@@ -47,11 +47,6 @@ import {
   XmarkCircle,
   ColorIcon,
 } from '@dds-app/icons';
-import { useTheme } from 'styled-components/native';
-
-interface IconPageProps {
-  onBack: () => void;
-}
 
 const icons = [
   { name: 'ArrowDown', component: ArrowDown },
@@ -72,9 +67,17 @@ const icons = [
   { name: 'ChevronUp', component: ChevronUp },
   { name: 'Clock', component: Clock },
   { name: 'Close', component: Close },
-  { name: 'ColoredCheckmarkCircle', component: ColoredCheckmarkCircle, colored: true },
+  {
+    name: 'ColoredCheckmarkCircle',
+    component: ColoredCheckmarkCircle,
+    colored: true,
+  },
   { name: 'ColoredClock', component: ColoredClock, colored: true },
-  { name: 'ColoredExclamationmarkCircle', component: ColoredExclamationmarkCircle, colored: true },
+  {
+    name: 'ColoredExclamationmarkCircle',
+    component: ColoredExclamationmarkCircle,
+    colored: true,
+  },
   { name: 'ColoredXmarkCircle', component: ColoredXmarkCircle, colored: true },
   { name: 'Crown', component: Crown },
   { name: 'DoorOpen', component: DoorOpen },
@@ -116,18 +119,11 @@ const colorIcons = [
   { name: 'Trophy', component: ColorIcon.Trophy },
 ];
 
-export const IconPage = ({ onBack }: IconPageProps) => {
+export const IconScreen = () => {
   const theme = useTheme();
 
   return (
     <Container>
-      <Header>
-        <BackButton onPress={onBack}>
-          <ChevronLeft size={24} color={theme.color.text.primary} />
-        </BackButton>
-        <HeaderTitle>Icons</HeaderTitle>
-        <Placeholder />
-      </Header>
       <ScrollContainer contentContainerStyle={{ padding: 16 }}>
         <SectionTitle>App Logo</SectionTitle>
         <LogoBox>
@@ -166,35 +162,9 @@ export const IconPage = ({ onBack }: IconPageProps) => {
   );
 };
 
-const Container = styled(SafeAreaView)`
+const Container = styled(View)`
   flex: 1;
   background-color: ${({ theme }) => theme.color.background.surface};
-`;
-
-const Header = styled.View`
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  padding: 12px 16px;
-  border-bottom-width: 1px;
-  border-bottom-color: ${({ theme }) => theme.color.border.normal};
-`;
-
-const BackButton = styled.TouchableOpacity`
-  width: 40px;
-  height: 40px;
-  align-items: center;
-  justify-content: center;
-`;
-
-const HeaderTitle = styled.Text`
-  font-size: 18px;
-  font-weight: 600;
-  color: ${({ theme }) => theme.color.text.primary};
-`;
-
-const Placeholder = styled.View`
-  width: 40px;
 `;
 
 const ScrollContainer = styled.ScrollView`

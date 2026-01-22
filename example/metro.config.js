@@ -21,4 +21,7 @@ config.resolver.nodeModulesPaths = [
   path.resolve(monorepoRoot, 'node_modules'),
 ];
 
+// Handle pnpm symlinks
+config.resolver.unstable_enableSymlinks = true;
+
 module.exports = config;

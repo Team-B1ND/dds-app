@@ -1,6 +1,12 @@
 import '@dds-app/foundation';
 
-export { Switch, FormButton, TextButton, SegmentedButton } from './buttons';
+export {
+  Switch,
+  FormButton,
+  TextButton,
+  SegmentedButton,
+  IconButton,
+} from './buttons';
 
 export { DatePicker, TimePicker } from './pickers';
 
@@ -15,5 +21,5 @@ export {
   useOverlay,
 } from './dialogs';
 export { Dropdown, type DropdownProps, type DropdownOption } from './dropdown';
-
+export { TopNavBar, createTopNavBarOptions } from './navigation';
 export { Avatar } from './avatar';
