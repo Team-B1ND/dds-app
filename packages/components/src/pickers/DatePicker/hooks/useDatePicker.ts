@@ -1,10 +1,12 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import { useTriggerHaptic } from '../../../hooks/useTriggerHaptic';
 import { getFirstDayOfMonth, getDaysInMonth, getTodayMidnight } from '../../utils';
 import { useCalendarAnimation } from './useCalendarAnimation';
 
 interface UseDatePickerProps {
   initialSelectedDate?: Date;
+  disablePastDates?: boolean;
+  showTodayIndicator?: boolean;
   onSelect: (date: Date) => void;
   onPress: () => void;
 }
@@ -17,6 +19,8 @@ export interface CalendarCell {
 
 export const useDatePicker = ({
   initialSelectedDate,
+  disablePastDates = false,
+  showTodayIndicator = true,
   onSelect,
   onPress,
 }: UseDatePickerProps) => {
@@ -32,9 +36,10 @@ export const useDatePicker = ({
   } = useCalendarAnimation();
 
   const today = useMemo(() => getTodayMidnight(), []);
-
-  // 초기 선택 날짜가 없으면 오늘 날짜로 설정함
-  const defaultDate = initialSelectedDate ?? today;
+  const defaultDate = useMemo(
+    () => initialSelectedDate ?? today,
+    [initialSelectedDate, today]
+  );
 
   const [currentYear, setCurrentYear] = useState(defaultDate.getFullYear());
   const [currentMonth, setCurrentMonth] = useState(defaultDate.getMonth());
@@ -57,61 +62,69 @@ export const useDatePicker = ({
     return cells;
   }, [firstDay, daysInMonth]);
 
-  const isDateDisabled = (date: number) => {
-    const targetDate = new Date(currentYear, currentMonth, date);
-    targetDate.setHours(0, 0, 0, 0);
-    return targetDate < today;
-  };
+  const isDateDisabled = useCallback(
+    (date: number) => {
+      if (!disablePastDates) return false;
+      const targetDate = new Date(currentYear, currentMonth, date);
+      targetDate.setHours(0, 0, 0, 0);
+      return targetDate < today;
+    },
+    [disablePastDates, currentYear, currentMonth, today]
+  );
 
-  const handlePrevMonth = () => {
+  const handlePrevMonth = useCallback(() => {
     animatePress(prevArrowScale);
     triggerHaptic();
     animateMonthTransition('prev', () => {
-      if (currentMonth === 0) {
-        setCurrentYear(currentYear - 1);
-        setCurrentMonth(11);
-      } else {
-        setCurrentMonth(currentMonth - 1);
-      }
+      setCurrentYear((y) => (currentMonth === 0 ? y - 1 : y));
+      setCurrentMonth((m) => (m === 0 ? 11 : m - 1));
     });
-  };
+  }, [animatePress, prevArrowScale, triggerHaptic, animateMonthTransition, currentMonth]);
 
-  const handleNextMonth = () => {
+  const handleNextMonth = useCallback(() => {
     animatePress(nextArrowScale);
     triggerHaptic();
     animateMonthTransition('next', () => {
-      if (currentMonth === 11) {
-        setCurrentYear(currentYear + 1);
-        setCurrentMonth(0);
-      } else {
-        setCurrentMonth(currentMonth + 1);
-      }
+      setCurrentYear((y) => (currentMonth === 11 ? y + 1 : y));
+      setCurrentMonth((m) => (m === 11 ? 0 : m + 1));
     });
-  };
+  }, [animatePress, nextArrowScale, triggerHaptic, animateMonthTransition, currentMonth]);
 
-  const handleDateSelect = (date: number) => {
-    if (isDateDisabled(date)) return;
-    triggerHaptic();
-    
-    animateDateSelect();
-    
-    const newDate = new Date(currentYear, currentMonth, date);
-    setSelectedDate(newDate);
-    onSelect(newDate);
-  };
+  const handleDateSelect = useCallback(
+    (date: number) => {
+      if (isDateDisabled(date)) return;
+      triggerHaptic();
+      animateDateSelect();
+      setSelectedDate(new Date(currentYear, currentMonth, date));
+    },
+    [isDateDisabled, triggerHaptic, animateDateSelect, currentYear, currentMonth]
+  );
 
-  const handleConfirm = () => {
+  const handleConfirm = useCallback(() => {
     triggerHaptic();
+    onSelect(selectedDate);
     onPress();
-  };
+  }, [triggerHaptic, onSelect, selectedDate, onPress]);
 
-  const isSelectedDate = (date: number) => {
-    return (
+  const isSelectedDate = useCallback(
+    (date: number) =>
       selectedDate.getFullYear() === currentYear &&
       selectedDate.getMonth() === currentMonth &&
-      selectedDate.getDate() === date
-    );
-  };
+      selectedDate.getDate() === date,
+    [selectedDate, currentYear, currentMonth]
+  );
+
+  const isToday = useCallback(
+    (date: number) => {
+      if (!showTodayIndicator) return false;
+      return (
+        today.getFullYear() === currentYear &&
+        today.getMonth() === currentMonth &&
+        today.getDate() === date
+      );
+    },
+    [showTodayIndicator, today, currentYear, currentMonth]
+  );
 
   return {
     currentYear,
@@ -127,5 +140,6 @@ export const useDatePicker = ({
     handleConfirm,
     isDateDisabled,
     isSelectedDate,
+    isToday,
   };
 };

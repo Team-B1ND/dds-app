@@ -55,7 +55,7 @@ const Container = styled.Pressable<{ $pressed: boolean }>`
   justify-content: center;
   border-radius: ${({ theme }) => theme.radius.lg};
   background-color: ${({ theme, $pressed }) =>
-    $pressed ? theme.color.fill.secondary : 'transparent'};
+    $pressed ? theme.color.fill.primary : 'transparent'};
 `;
 
 const AnimatedContainer = Animated.createAnimatedComponent(Container);

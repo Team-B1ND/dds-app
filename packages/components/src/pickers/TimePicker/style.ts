@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import { Animated, Pressable } from 'react-native';
+import { Animated } from 'react-native';
 import { ITEM_HEIGHT, VISIBLE_ITEMS } from '../utils';
 
 export const ModalContainer = styled.View`
@@ -95,18 +95,5 @@ export const SelectionIndicator = styled.View`
 
 
 export const Footer = styled.View`
-  margin-top: 12px;
-  align-items: flex-end;
-`;
-
-export const SelectButton = styled(Pressable)`
-  padding: 8px 0;
-`;
-
-export const SelectText = styled.Text`
-  color: ${({ theme }) => theme.color.main.primary};
-  font-size: ${({ theme }) => theme.typography.body1.fontSize}px;
-  font-weight: ${({ theme }) => theme.typography.fontWeight.bold};
-  line-height: ${({ theme }) => theme.typography.body1.lineHeight}px;
-  letter-spacing: ${({ theme }) => theme.typography.body1.letterSpacing}px;
+  margin-top: 16px;
 `;

@@ -1,5 +1,6 @@
 import styled from 'styled-components/native';
-import { Animated, Modal, Pressable } from 'react-native';
+import { Animated, Pressable } from 'react-native';
+import { Modal } from '../../common';
 import { useDialogAnimation } from '../hooks/useDialogAnimation';
 import { useTriggerHaptic } from '../../hooks/useTriggerHaptic';
 import { TextButton } from '../../buttons';
@@ -34,7 +35,7 @@ export const AlertDialog = ({
   }
 
   return (
-    <Modal transparent visible={open} animationType="none">
+    <Modal visible={open} animationType="none">
       <AnimatedDimmer style={dimmerStyle}>
         <Pressable style={{ flex: 1 }} onPress={handleDimmerPress}>
           <CenterContainer>

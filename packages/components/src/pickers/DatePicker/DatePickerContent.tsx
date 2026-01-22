@@ -1,37 +1,22 @@
 import { useWindowDimensions } from 'react-native';
+import { useTheme } from 'styled-components/native';
+import { ChevronLeft, ChevronRight } from '@dds-app/icons';
+import { FormButton } from '../../buttons';
 import { useDatePicker } from './hooks/useDatePicker';
 import type { DatePickerContentProps } from './type';
-import {
-  ModalContainer,
-  Header,
-  Title,
-  MonthRow,
-  MonthText,
-  ArrowRow,
-  AnimatedArrowButton,
-  Arrow,
-  DayRow,
-  DayCell,
-  DayText,
-  AnimatedCalendar,
-  DateCell,
-  DateButton,
-  SelectedDate,
-  SelectedText,
-  DateText,
-  Footer,
-  SelectButton,
-  SelectText,
-} from './style';
+import * as S from './style';
 
 const DAYS = ['일', '월', '화', '수', '목', '금', '토'];
 
 export const DatePickerContent = ({
   title,
   selectedDate: initialSelectedDate,
+  disablePastDates = false,
+  showTodayIndicator = true,
   onSelect,
   onPress,
 }: DatePickerContentProps) => {
+  const theme = useTheme();
   const { width: screenWidth } = useWindowDimensions();
   const modalWidth = Math.min(screenWidth * 0.9, 340);
 
@@ -49,86 +34,84 @@ export const DatePickerContent = ({
     handleConfirm,
     isDateDisabled,
     isSelectedDate,
-  } = useDatePicker({
-    initialSelectedDate,
-    onSelect,
-    onPress,
-  });
+    isToday,
+  } = useDatePicker({ initialSelectedDate, disablePastDates, showTodayIndicator, onSelect, onPress });
 
   return (
-    <ModalContainer style={{ width: modalWidth }}>
-      <Header>
-        <Title>{title}</Title>
-
-        <MonthRow>
-          <MonthText>
+    <S.ModalContainer style={{ width: modalWidth }}>
+      <S.Header>
+        <S.Title>{title}</S.Title>
+        <S.MonthRow>
+          <S.MonthText>
             {currentYear}년 {currentMonth + 1}월
-          </MonthText>
-
-          <ArrowRow>
-            <AnimatedArrowButton
+          </S.MonthText>
+          <S.ArrowRow>
+            <S.AnimatedArrowButton
               style={{ transform: [{ scale: prevArrowScale }] }}
               onPress={handlePrevMonth}
             >
-              <Arrow>{'‹'}</Arrow>
-            </AnimatedArrowButton>
-            <AnimatedArrowButton
+              <ChevronLeft size={20} color={theme.color.main.primary} />
+            </S.AnimatedArrowButton>
+            <S.AnimatedArrowButton
               style={{ transform: [{ scale: nextArrowScale }] }}
               onPress={handleNextMonth}
             >
-              <Arrow>{'›'}</Arrow>
-            </AnimatedArrowButton>
-          </ArrowRow>
-        </MonthRow>
-      </Header>
+              <ChevronRight size={20} color={theme.color.main.primary} />
+            </S.AnimatedArrowButton>
+          </S.ArrowRow>
+        </S.MonthRow>
+      </S.Header>
 
-      <DayRow>
+      <S.DayRow>
         {DAYS.map((day) => (
-          <DayCell key={day}>
-            <DayText>{day}</DayText>
-          </DayCell>
+          <S.DayCell key={day}>
+            <S.DayText>{day}</S.DayText>
+          </S.DayCell>
         ))}
-      </DayRow>
+      </S.DayRow>
 
-      <AnimatedCalendar
+      <S.AnimatedCalendar
         style={{
           opacity: calendarOpacity,
           transform: [{ translateX: calendarTranslateX }],
         }}
       >
         {calendarCells.map((cell) => {
-          if (cell.type === 'empty') {
-            return <DateCell key={cell.key} />;
-          }
+          if (cell.type === 'empty') return <S.DateCell key={cell.key} />;
 
           const date = cell.date!;
           const isSelected = isSelectedDate(date);
           const isDisabled = isDateDisabled(date);
+          const isTodayDate = isToday(date);
 
           return (
-            <DateCell key={cell.key}>
-              <DateButton
+            <S.DateCell key={cell.key}>
+              <S.DateButton
                 onPress={() => handleDateSelect(date)}
                 disabled={isDisabled}
               >
                 {isSelected ? (
-                  <SelectedDate>
-                    <SelectedText>{date}</SelectedText>
-                  </SelectedDate>
+                  <S.SelectedDate>
+                    <S.SelectedText>{date}</S.SelectedText>
+                  </S.SelectedDate>
+                ) : isTodayDate ? (
+                  <S.TodayDate>
+                    <S.TodayText>{date}</S.TodayText>
+                  </S.TodayDate>
                 ) : (
-                  <DateText $disabled={isDisabled}>{date}</DateText>
+                  <S.DateText $disabled={isDisabled}>{date}</S.DateText>
                 )}
-              </DateButton>
-            </DateCell>
+              </S.DateButton>
+            </S.DateCell>
           );
         })}
-      </AnimatedCalendar>
+      </S.AnimatedCalendar>
 
-      <Footer>
-        <SelectButton onPress={handleConfirm}>
-          <SelectText>선택</SelectText>
-        </SelectButton>
-      </Footer>
-    </ModalContainer>
+      <S.Footer>
+        <FormButton display="block" onPress={handleConfirm}>
+          선택
+        </FormButton>
+      </S.Footer>
+    </S.ModalContainer>
   );
 };

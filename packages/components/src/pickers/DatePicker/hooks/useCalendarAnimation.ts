@@ -69,7 +69,7 @@ export const useCalendarAnimation = () => {
 
   const animateDateSelect = () => {
     LayoutAnimation.configureNext({
-      duration: 250,
+      duration: 150,
       create: {
         type: LayoutAnimation.Types.easeInEaseOut,
         property: LayoutAnimation.Properties.opacity,

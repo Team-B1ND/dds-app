@@ -52,11 +52,6 @@ const ArrowButton = styled(Pressable)`
 
 export const AnimatedArrowButton = Animated.createAnimatedComponent(ArrowButton);
 
-export const Arrow = styled.Text`
-  font-size: 30px;
-  color: ${({ theme }) => theme.color.main.primary};
-`;
-
 export const Title = styled.Text`
   color: ${({ theme }) => theme.color.text.primary};
   font-size: ${({ theme }) => theme.typography.heading2.fontSize}px;
@@ -96,14 +91,6 @@ export const SelectedText = styled.Text`
   color: ${({ theme }) => theme.color.static.white};
   font-size: ${({ theme }) => theme.typography.body1.fontSize}px;
   font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
-  line-height: ${({ theme }) => theme.typography.body1.lineHeight}px;
-  letter-spacing: ${({ theme }) => theme.typography.body1.letterSpacing}px;
-`;
-
-export const SelectText = styled.Text`
-  color: ${({ theme }) => theme.color.main.primary};
-  font-size: ${({ theme }) => theme.typography.body1.fontSize}px;
-  font-weight: ${({ theme }) => theme.typography.fontWeight.bold};
   line-height: ${({ theme }) => theme.typography.body1.lineHeight}px;
   letter-spacing: ${({ theme }) => theme.typography.body1.letterSpacing}px;
 `;
@@ -148,11 +135,23 @@ export const SelectedDate = styled.View`
   align-items: center;
 `;
 
-export const Footer = styled.View`
-  margin-top: 12px;
-  align-items: flex-end;
+export const TodayDate = styled.View`
+  background-color: ${({ theme }) => theme.color.fill.secondary};
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  justify-content: center;
+  align-items: center;
 `;
 
-export const SelectButton = styled(Pressable)`
-  padding: 8px 0;
+export const TodayText = styled.Text`
+  color: ${({ theme }) => theme.color.text.secondary};
+  font-size: ${({ theme }) => theme.typography.body1.fontSize}px;
+  font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
+  line-height: ${({ theme }) => theme.typography.body1.lineHeight}px;
+  letter-spacing: ${({ theme }) => theme.typography.body1.letterSpacing}px;
+`;
+
+export const Footer = styled.View`
+  margin-top: 16px;
 `;

@@ -18,7 +18,7 @@ import styled from 'styled-components/native';
 
 export const Wrapper = styled.View<{ $isOpen: boolean }>`
   position: relative;
-  z-index: ${({ $isOpen }) => ($isOpen ? 1000 : 'auto')};
+  z-index: ${({ $isOpen }) => ($isOpen ? 1000 : 0)};
 `;
 
 export const Overlay = styled.Pressable`
