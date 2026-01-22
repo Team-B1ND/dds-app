@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import { useTriggerHaptic } from '../../../hooks/useTriggerHaptic';
 import {
   type Period,
@@ -7,8 +7,6 @@ import {
   createPeriods,
   createHours,
   createMinutes,
-  ITEM_HEIGHT,
-  VISIBLE_ITEMS,
 } from '../../utils';
 
 interface UseTimePickerProps {
@@ -26,32 +24,33 @@ export const useTimePicker = ({
 }: UseTimePickerProps) => {
   const { triggerHaptic } = useTriggerHaptic();
 
-  const now = new Date();
-  const defaultTime = initialTime ?? {
-    hour: now.getHours(),
-    minute: now.getMinutes(),
-  };
+  const defaultTime = useMemo(() => {
+    if (initialTime) return initialTime;
+    const now = new Date();
+    return { hour: now.getHours(), minute: now.getMinutes() };
+  }, [initialTime]);
 
-  const { hour12: defaultHour12, period: defaultPeriod } = to12Hour(defaultTime.hour);
+  const { hour12: defaultHour12, period: defaultPeriod } = useMemo(
+    () => to12Hour(defaultTime.hour),
+    [defaultTime.hour]
+  );
 
   const [selectedPeriod, setSelectedPeriod] = useState<Period>(defaultPeriod);
   const [selectedHour, setSelectedHour] = useState(defaultHour12);
   const [selectedMinute, setSelectedMinute] = useState(defaultTime.minute);
 
-  const periods = createPeriods();
-  const hours = createHours();
-  const minutes = createMinutes();
+  const periods = useMemo(() => createPeriods(), []);
+  const hours = useMemo(() => createHours(), []);
+  const minutes = useMemo(() => createMinutes(), []);
 
   const handlePeriodChange = useCallback(
     (period: Period) => {
       if (period !== selectedPeriod) {
         triggerHaptic();
         setSelectedPeriod(period);
-        const hour24 = to24Hour(selectedHour, period);
-        onSelect({ hour: hour24, minute: selectedMinute });
       }
     },
-    [selectedPeriod, selectedHour, selectedMinute, onSelect, triggerHaptic]
+    [selectedPeriod, triggerHaptic]
   );
 
   const handleHourChange = useCallback(
@@ -59,11 +58,9 @@ export const useTimePicker = ({
       if (hour !== selectedHour) {
         triggerHaptic();
         setSelectedHour(hour);
-        const hour24 = to24Hour(hour, selectedPeriod);
-        onSelect({ hour: hour24, minute: selectedMinute });
       }
     },
-    [selectedHour, selectedPeriod, selectedMinute, onSelect, triggerHaptic]
+    [selectedHour, triggerHaptic]
   );
 
   const handleMinuteChange = useCallback(
@@ -71,20 +68,27 @@ export const useTimePicker = ({
       if (minute !== selectedMinute) {
         triggerHaptic();
         setSelectedMinute(minute);
-        const hour24 = to24Hour(selectedHour, selectedPeriod);
-        onSelect({ hour: hour24, minute });
       }
     },
-    [selectedHour, selectedPeriod, selectedMinute, onSelect, triggerHaptic]
+    [selectedMinute, triggerHaptic]
   );
 
-  const handleConfirm = () => {
+  const handleConfirm = useCallback(() => {
     triggerHaptic();
+    const hour24 = to24Hour(selectedHour, selectedPeriod);
+    onSelect({ hour: hour24, minute: selectedMinute });
     onPress();
-  };
+  }, [selectedHour, selectedPeriod, selectedMinute, onSelect, onPress, triggerHaptic]);
 
-  const getInitialPeriodIndex = () => periods.indexOf(selectedPeriod);
-  const getInitialHourIndex = () => hours.indexOf(selectedHour);
+  const getInitialPeriodIndex = useCallback(
+    () => periods.indexOf(defaultPeriod),
+    [periods, defaultPeriod]
+  );
+
+  const getInitialHourIndex = useCallback(
+    () => hours.indexOf(defaultHour12),
+    [hours, defaultHour12]
+  );
 
   return {
     selectedPeriod,
@@ -99,7 +103,5 @@ export const useTimePicker = ({
     handleConfirm,
     getInitialPeriodIndex,
     getInitialHourIndex,
-    ITEM_HEIGHT,
-    VISIBLE_ITEMS,
   };
 };
