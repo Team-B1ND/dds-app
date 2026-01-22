@@ -25,6 +25,7 @@ import {
   createTopNavBarOptions,
   IconButton,
   Avatar,
+  Checkbox,
 } from '@dds-app/components';
 import { Plus, Bell, Gear, Trash } from '@dds-app/icons';
 import { IconScreen } from './IconScreen';
@@ -80,6 +81,8 @@ interface AppContentProps {
 
 function AppContent({ onNavigateToIcons }: AppContentProps) {
   const [switchChecked, setSwitchChecked] = useState(false);
+  const [checkboxChecked, setCheckboxChecked] = useState(false);
+  const [checkboxFilledChecked, setCheckboxFilledChecked] = useState(true);
 
   // Date / Time Picker
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
@@ -564,6 +567,77 @@ function AppContent({ onNavigateToIcons }: AppContentProps) {
             width={240}
           />
         </Section>
+
+        <Section>
+          <SectionTitle>Checkbox - Filled (Sizes)</SectionTitle>
+          <SwitchRow>
+            <Checkbox
+              variant="filled"
+              size="large"
+              checked={checkboxFilledChecked}
+              onChange={() => setCheckboxFilledChecked(!checkboxFilledChecked)}
+            />
+            <Checkbox
+              variant="filled"
+              size="medium"
+              checked={checkboxFilledChecked}
+              onChange={() => setCheckboxFilledChecked(!checkboxFilledChecked)}
+            />
+            <Checkbox
+              variant="filled"
+              size="small"
+              checked={checkboxFilledChecked}
+              onChange={() => setCheckboxFilledChecked(!checkboxFilledChecked)}
+            />
+            <SwitchLabel>Large / Medium / Small</SwitchLabel>
+          </SwitchRow>
+          <SwitchRow>
+            <Checkbox variant="filled" size="large" checked={true} disabled />
+            <Checkbox variant="filled" size="medium" checked={true} disabled />
+            <Checkbox variant="filled" size="small" checked={true} disabled />
+            <SwitchLabel>Disabled (Checked)</SwitchLabel>
+          </SwitchRow>
+          <SwitchRow>
+            <Checkbox variant="filled" size="large" checked={false} disabled />
+            <Checkbox variant="filled" size="medium" checked={false} disabled />
+            <Checkbox variant="filled" size="small" checked={false} disabled />
+            <SwitchLabel>Disabled (Unchecked)</SwitchLabel>
+          </SwitchRow>
+        </Section>
+
+        <Section>
+          <SectionTitle>Checkbox - Outlined (Sizes)</SectionTitle>
+          <SwitchRow>
+            <Checkbox
+              size="large"
+              checked={checkboxChecked}
+              onChange={() => setCheckboxChecked(!checkboxChecked)}
+            />
+            <Checkbox
+              size="medium"
+              checked={checkboxChecked}
+              onChange={() => setCheckboxChecked(!checkboxChecked)}
+            />
+            <Checkbox
+              size="small"
+              checked={checkboxChecked}
+              onChange={() => setCheckboxChecked(!checkboxChecked)}
+            />
+            <SwitchLabel>Large / Medium / Small</SwitchLabel>
+          </SwitchRow>
+          <SwitchRow>
+            <Checkbox size="large" checked={true} disabled />
+            <Checkbox size="medium" checked={true} disabled />
+            <Checkbox size="small" checked={true} disabled />
+            <SwitchLabel>Disabled (Checked)</SwitchLabel>
+          </SwitchRow>
+          <SwitchRow>
+            <Checkbox size="large" checked={false} disabled />
+            <Checkbox size="medium" checked={false} disabled />
+            <Checkbox size="small" checked={false} disabled />
+            <SwitchLabel>Disabled (Unchecked)</SwitchLabel>
+          </SwitchRow>
+        </Section>
       </ScrollContainer>
     </Container>
   );
@@ -605,6 +679,7 @@ const SectionTitle = styled.Text`
 const SwitchRow = styled.View`
   flex-direction: row;
   align-items: center;
+  gap: 8px;
   margin-bottom: 12px;
 `;
 
