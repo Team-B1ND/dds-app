@@ -21,5 +21,5 @@ export {
   useOverlay,
 } from './dialogs';
 export { Dropdown, type DropdownProps, type DropdownOption } from './dropdown';
-
 export { TopNavBar, createTopNavBarOptions } from './navigation';
+export { Avatar } from './avatar';

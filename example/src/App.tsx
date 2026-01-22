@@ -24,6 +24,7 @@ import {
   TopNavBar,
   createTopNavBarOptions,
   IconButton,
+  Avatar,
 } from '@dds-app/components';
 import { Plus, Bell, Gear, Trash } from '@dds-app/icons';
 import { IconScreen } from './IconScreen';
@@ -228,6 +229,16 @@ function AppContent({ onNavigateToIcons }: AppContentProps) {
               </TopNavBar.Title>
             </TopNavBar>
           </NavBarWrapper>
+        </Section>
+        
+        <Section>
+          <SectionTitle>Avatar</SectionTitle>
+          <ButtonGroup>
+            <Avatar size={24} />
+            <Avatar size={32} />
+            <Avatar size={40} />
+            <Avatar size={56} />
+          </ButtonGroup>
         </Section>
 
         <Section>
