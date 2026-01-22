@@ -1,7 +1,7 @@
 import { cloneElement, isValidElement, type ReactNode } from 'react';
 import { Animated } from 'react-native';
 import styled, { useTheme } from 'styled-components/native';
-import { usePressAnimation } from './usePressAnimation';
+import { usePressAnimation } from '../../hooks/animations';
 import { useTriggerHaptic } from '../../hooks/useTriggerHaptic';
 
 interface IconButtonProps {
@@ -21,7 +21,7 @@ export const IconButton = ({
 }: IconButtonProps) => {
   const theme = useTheme();
   const { triggerHaptic } = useTriggerHaptic();
-  const { pressed, animatedStyle, onPressIn, onPressOut } = usePressAnimation();
+  const { pressed, animatedStyle, onPressIn, onPressOut } = usePressAnimation({ scale: 0.9 });
 
   const iconColor = disabled ? theme.color.text.disabled : color;
   const coloredIcon =

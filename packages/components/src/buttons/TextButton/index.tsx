@@ -1,6 +1,6 @@
-import { useRef, useState } from 'react';
 import styled from 'styled-components/native';
 import { Animated } from 'react-native';
+import { usePressAnimation } from '../../hooks/animations';
 
 interface TextButtonProps {
   onPress?: () => void;
@@ -8,31 +8,14 @@ interface TextButtonProps {
 }
 
 export const TextButton = ({ onPress, children }: TextButtonProps) => {
-  const scaleAnim = useRef(new Animated.Value(1)).current;
-  const [pressed, setPressed] = useState(false);
-
-  const handlePressIn = () => {
-    setPressed(true);
-    Animated.spring(scaleAnim, {
-      toValue: 0.95,
-      useNativeDriver: true,
-    }).start();
-  };
-
-  const handlePressOut = () => {
-    setPressed(false);
-    Animated.spring(scaleAnim, {
-      toValue: 1,
-      useNativeDriver: true,
-    }).start();
-  };
+  const { pressed, animatedStyle, onPressIn, onPressOut } = usePressAnimation();
 
   return (
     <AnimatedContainer
       $pressed={pressed}
-      style={{ transform: [{ scale: scaleAnim }] }}
-      onPressIn={handlePressIn}
-      onPressOut={handlePressOut}
+      style={animatedStyle}
+      onPressIn={onPressIn}
+      onPressOut={onPressOut}
       onPress={onPress}
     >
       <ButtonText>{children}</ButtonText>
