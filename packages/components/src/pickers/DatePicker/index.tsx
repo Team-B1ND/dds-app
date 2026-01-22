@@ -1,4 +1,5 @@
-import { Modal, View, TouchableWithoutFeedback } from 'react-native';
+import { View, TouchableWithoutFeedback } from 'react-native';
+import { Modal } from '../../common';
 import { useDialogAnimation } from '../../dialogs/hooks/useDialogAnimation';
 import { useTriggerHaptic } from '../../hooks/useTriggerHaptic';
 import { DatePickerContent } from './DatePickerContent';
@@ -16,6 +17,8 @@ export const DatePicker = ({
   closeOnBackdrop = true,
   title,
   selectedDate,
+  disablePastDates = false,
+  showTodayIndicator = true,
   onSelect,
   onPress,
 }: DatePickerProps) => {
@@ -44,7 +47,7 @@ export const DatePicker = ({
   }
 
   return (
-    <Modal transparent visible={open} animationType="none">
+    <Modal visible={open} animationType="none">
       <AnimatedDimmer style={dimmerStyle}>
         <TouchableWithoutFeedback onPress={handleBackdropPress}>
           <View style={{ flex: 1 }} />
@@ -54,6 +57,8 @@ export const DatePicker = ({
             <DatePickerContent
               title={title}
               selectedDate={selectedDate}
+              disablePastDates={disablePastDates}
+              showTodayIndicator={showTodayIndicator}
               onSelect={onSelect}
               onPress={handleConfirm}
             />

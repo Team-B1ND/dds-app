@@ -1,4 +1,5 @@
-import { Modal, View, TouchableWithoutFeedback } from 'react-native';
+import { View, TouchableWithoutFeedback } from 'react-native';
+import { Modal } from '../../common';
 import { useDialogAnimation } from '../../dialogs/hooks/useDialogAnimation';
 import { useTriggerHaptic } from '../../hooks/useTriggerHaptic';
 import { TimePickerContent } from './TimePickerContent';
@@ -44,7 +45,7 @@ export const TimePicker = ({
   }
 
   return (
-    <Modal transparent visible={open} animationType="none">
+    <Modal visible={open} animationType="none">
       <AnimatedDimmer style={dimmerStyle}>
         <TouchableWithoutFeedback onPress={handleBackdropPress}>
           <View style={{ flex: 1 }} />
