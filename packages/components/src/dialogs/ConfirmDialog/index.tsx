@@ -1,13 +1,14 @@
 import type { ComponentProps } from 'react';
 import styled from 'styled-components/native';
-import { Animated, Modal, Pressable } from 'react-native';
+import { Animated, Pressable } from 'react-native';
+import { Modal } from '../../common';
 import { useDialogAnimation } from '../hooks/useDialogAnimation';
 import { useTriggerHaptic } from '../../hooks/useTriggerHaptic';
 import { FormButton } from '../../buttons';
 import type { ConfirmDialogProps } from '../types';
 
 const DialogButton = (props: ComponentProps<typeof FormButton>) => (
-  <FormButton size="large" {...props} />
+  <FormButton {...props} />
 );
 
 const ConfirmDialogComponent = ({
@@ -39,7 +40,7 @@ const ConfirmDialogComponent = ({
   }
 
   return (
-    <Modal transparent visible={open} animationType="none">
+    <Modal visible={open} animationType="none">
       <AnimatedDimmer style={dimmerStyle}>
         <Pressable style={{ flex: 1 }} onPress={handleDimmerPress}>
           <CenterContainer>

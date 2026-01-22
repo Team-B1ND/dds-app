@@ -8,7 +8,7 @@ export const usePressAnimation = () => {
   const onPressIn = useCallback(() => {
     setPressed(true);
     Animated.spring(scale, {
-      toValue: 0.95,
+      toValue: 0.9,
       useNativeDriver: true,
     }).start();
   }, [scale]);

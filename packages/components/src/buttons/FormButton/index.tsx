@@ -54,7 +54,7 @@ const Container = styled.Pressable<{
   $size: ButtonSize;
 }>`
   padding: ${({ $size }) => {
-    if ($size === 'large') return '14px 32px';
+    if ($size === 'large') return '13.5px 24px';
     if ($size === 'small') return '10px 16px';
     return '13px 20px';
   }};
