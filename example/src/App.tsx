@@ -28,6 +28,7 @@ import {
   Avatar,
   Checkbox,
   Tab,
+  Tag,
 } from '@dds-app/components';
 import { Plus, Bell, Gear, Trash } from '@dds-app/icons';
 import { IconScreen } from './IconScreen';
@@ -244,6 +245,15 @@ function AppContent({ onNavigateToIcons }: AppContentProps) {
             <Avatar size={32} />
             <Avatar size={40} />
             <Avatar size={56} />
+          </ButtonGroup>
+        </Section>
+
+        <Section>
+          <SectionTitle>Tag</SectionTitle>
+          <ButtonGroup>
+            <Tag title="primary" type="primary" />
+            <Tag title="secondary" type="secondary" />
+            <Tag title="danger" type="danger" />
           </ButtonGroup>
         </Section>
 
