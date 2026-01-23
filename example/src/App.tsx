@@ -26,6 +26,7 @@ import {
   IconButton,
   Avatar,
   Checkbox,
+  Tab,
 } from '@dds-app/components';
 import { Plus, Bell, Gear, Trash } from '@dds-app/icons';
 import { IconScreen } from './IconScreen';
@@ -83,6 +84,7 @@ function AppContent({ onNavigateToIcons }: AppContentProps) {
   const [switchChecked, setSwitchChecked] = useState(false);
   const [checkboxChecked, setCheckboxChecked] = useState(false);
   const [checkboxFilledChecked, setCheckboxFilledChecked] = useState(true);
+  const [tabValue, setTabValue] = useState('tab1');
 
   // Date / Time Picker
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
@@ -566,6 +568,38 @@ function AppContent({ onNavigateToIcons }: AppContentProps) {
             onSelect={setSelectedDropdownOption}
             width={240}
           />
+        </Section>
+
+        <Section>
+          <SectionTitle>Tab - Controlled</SectionTitle>
+          <Tab value={tabValue} onChange={setTabValue}>
+            <Tab.Item value="tab1">전체</Tab.Item>
+            <Tab.Item value="tab2">기숙사</Tab.Item>
+            <Tab.Item value="tab3">학교</Tab.Item>
+          </Tab>
+        </Section>
+
+        <Section>
+          <SectionTitle>Tab - Uncontrolled (defaultValue)</SectionTitle>
+          <Tab defaultValue="tab2">
+            <Tab.Item value="tab1">급식</Tab.Item>
+            <Tab.Item value="tab2">일정</Tab.Item>
+            <Tab.Item value="tab3">공지사항</Tab.Item>
+            <Tab.Item value="tab4">설정</Tab.Item>
+          </Tab>
+        </Section>
+
+        <Section>
+          <SectionTitle>Tab - Fluid (Scrollable)</SectionTitle>
+          <Tab defaultValue="mon" fluid>
+            <Tab.Item value="mon">월요일</Tab.Item>
+            <Tab.Item value="tue">화요일</Tab.Item>
+            <Tab.Item value="wed">수요일</Tab.Item>
+            <Tab.Item value="thu">목요일</Tab.Item>
+            <Tab.Item value="fri">금요일</Tab.Item>
+            <Tab.Item value="sat">토요일</Tab.Item>
+            <Tab.Item value="sun">일요일</Tab.Item>
+          </Tab>
         </Section>
 
         <Section>
