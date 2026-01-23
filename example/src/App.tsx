@@ -12,6 +12,7 @@ import {
   DatePicker,
   TimePicker,
   SegmentedButton,
+  Badge,
   Progress,
   CircularProgress,
   ContinuousSlider,
@@ -413,6 +414,15 @@ function AppContent({ onNavigateToIcons }: AppContentProps) {
             label={segmentLabelMany}
             onChange={setSegmentLabelMany}
           />
+        </Section>
+
+        <Section>
+          <SectionTitle>Badges</SectionTitle>
+          <ButtonGroup>
+            <Badge type="dot" />
+            <Badge type="number" count={1} />
+            <Badge type="number" count={1200} />
+          </ButtonGroup>
         </Section>
         <Section>
           <SectionTitle>Progress</SectionTitle>
