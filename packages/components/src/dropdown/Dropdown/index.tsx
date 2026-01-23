@@ -3,6 +3,7 @@ import type { DropdownProps } from '../types';
 import * as S from './style';
 import { useDropdown } from '../hooks/useDropdown';
 import { ChevronDown } from '@dds-app/icons';
+import { Animated } from 'react-native';
 import { useTheme } from 'styled-components/native';
 
 export const Dropdown = ({
@@ -23,14 +24,23 @@ export const Dropdown = ({
     dropUp,
     MAX_HEIGHT,
   } = useDropdown(options);
+
   const theme = useTheme();
+
+  const rotate = animatedValue.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['0deg', '180deg'],
+  });
 
   return (
     <S.Wrapper ref={wrapperRef} collapsable={false} $isOpen={isOpen}>
       <S.Container $width={width} onPress={handleToggle} activeOpacity={0.8}>
         <S.SelectedText>{selectedOption.label}</S.SelectedText>
-        <ChevronDown size={16} color={theme.color.text.primary} />
+        <Animated.View style={{ transform: [{ rotate }] }}>
+          <ChevronDown size={16} color={theme.color.text.primary} />
+        </Animated.View>
       </S.Container>
+
       {shouldRender && (
         <Modal
           transparent
@@ -67,8 +77,8 @@ export const Dropdown = ({
               <S.OptionsContainer>
                 {options.map((option) => (
                   <S.Option
-                    $selected={option.value === selectedOption.value}
                     key={option.value}
+                    $selected={option.value === selectedOption.value}
                     onPress={() => {
                       onSelect(option);
                       setIsOpen(false);

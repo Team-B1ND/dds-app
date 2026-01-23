@@ -1,4 +1,5 @@
 import { Animated } from 'react-native';
+import styled from 'styled-components/native';
 
 export const AnimatedDropdown = styled(Animated.View)<{
   $left: number;
@@ -14,7 +15,6 @@ export const AnimatedDropdown = styled(Animated.View)<{
   max-height: ${({ $maxHeight }) => $maxHeight}px;
   z-index: 1001;
 `;
-import styled from 'styled-components/native';
 
 export const Wrapper = styled.View<{ $isOpen: boolean }>`
   position: relative;

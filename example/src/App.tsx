@@ -235,7 +235,7 @@ function AppContent({ onNavigateToIcons }: AppContentProps) {
             </TopNavBar>
           </NavBarWrapper>
         </Section>
-        
+
         <Section>
           <SectionTitle>Avatar</SectionTitle>
           <ButtonGroup>
@@ -267,10 +267,23 @@ function AppContent({ onNavigateToIcons }: AppContentProps) {
         <Section>
           <SectionTitle>IconButton</SectionTitle>
           <ButtonGroup>
-            <IconButton icon={<Plus size={24} />} onPress={() => console.log('Plus')} />
-            <IconButton icon={<Bell size={24} />} onPress={() => console.log('Bell')} />
-            <IconButton icon={<Gear size={24} />} onPress={() => console.log('Gear')} />
-            <IconButton icon={<Trash size={24} />} color="#FF4242" onPress={() => console.log('Trash')} />
+            <IconButton
+              icon={<Plus size={24} />}
+              onPress={() => console.log('Plus')}
+            />
+            <IconButton
+              icon={<Bell size={24} />}
+              onPress={() => console.log('Bell')}
+            />
+            <IconButton
+              icon={<Gear size={24} />}
+              onPress={() => console.log('Gear')}
+            />
+            <IconButton
+              icon={<Trash size={24} />}
+              color="#FF4242"
+              onPress={() => console.log('Trash')}
+            />
             <IconButton icon={<Plus size={24} />} disabled />
           </ButtonGroup>
         </Section>
