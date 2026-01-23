@@ -1,5 +1,5 @@
 import styled, { useTheme } from 'styled-components/native';
-import type { BadgeProps, BadgeColor, BadgeType } from './types';
+import type { BadgeProps } from './types';
 
 export const Badge = ({
   type = 'dot',
@@ -9,14 +9,14 @@ export const Badge = ({
   const theme = useTheme();
   const backgroundColor = color === 'red'
     ? theme.color.status.error
-    : theme.color.status.error;
+    : color;
 
   if (type === 'dot') {
     return <Dot $backgroundColor={backgroundColor} />;
   }
 
   const showOverflow = count > 999;
-  const displayText = showOverflow ? '999+' : String(count);
+  const displayText = showOverflow ? '999+' : count;
   const isWide = showOverflow || count >= 10;
 
   if (isWide) {

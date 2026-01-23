@@ -1,5 +1,5 @@
 export type BadgeType = 'dot' | 'number';
-export type BadgeColor = 'red';
+export type BadgeColor = 'red' | string;
 
 export interface BadgeProps {
 	type?: BadgeType;
