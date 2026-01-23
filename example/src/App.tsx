@@ -252,7 +252,7 @@ function AppContent({ onNavigateToIcons }: AppContentProps) {
           <ButtonGroup>
             <Tag title="primary" type="primary" />
             <Tag title="secondary" type="secondary" />
-            <Tag title="negative" type="negative" />
+            <Tag title="danger" type="danger" />
           </ButtonGroup>
         </Section>
 

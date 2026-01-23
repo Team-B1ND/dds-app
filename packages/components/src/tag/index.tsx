@@ -1,6 +1,6 @@
 import styled from 'styled-components/native';
 import type { TagProps, TagType } from './type';
-import { getTagBackground } from './type';
+import { getTagBackground } from './utils'
 
 export const Tag = ({ title, type = 'primary' }: TagProps) => {
   return (
