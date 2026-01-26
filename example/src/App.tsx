@@ -29,7 +29,8 @@ import {
   Checkbox,
   Tab,
   Tag,
-  Toast,
+  ToastContainer,
+  toast,
 } from '@dds-app/components';
 import { Plus, Bell, Gear, Trash } from '@dds-app/icons';
 import { IconScreen } from './IconScreen';
@@ -64,6 +65,7 @@ function App() {
                 }}
               />
             </Stack.Navigator>
+            <ToastContainer />
           </NavigationContainer>
         </OverlayProvider>
       </DodamThemeProvider>
@@ -72,48 +74,18 @@ function App() {
 }
 
 function MainScreen({ navigation }: MainScreenProps) {
-  // Toast state는 화면 루트 레벨에서 관리
-  const [toastTopOpen, setToastTopOpen] = useState(false);
-  const [toastBottomOpen, setToastBottomOpen] = useState(false);
-
   return (
     <StyledSafeAreaView>
-      <AppContent
-        onNavigateToIcons={() => navigation.navigate('Icons')}
-        onShowTopToast={() => setToastTopOpen(true)}
-        onShowBottomToast={() => setToastBottomOpen(true)}
-      />
-      {/* Toast는 화면 루트 레벨에 배치 - 화면 기준으로 위치됨 */}
-      <Toast
-        position="top"
-        open={toastTopOpen}
-        text="상단 토스트 메시지예요"
-        duration={3000}
-        onClose={() => setToastTopOpen(false)}
-      />
-      <Toast
-        position="bottom"
-        open={toastBottomOpen}
-        left={<Toast.Icon name="success-color" />}
-        text="아이콘이 포함된 토스트예요"
-        duration={3000}
-        onClose={() => setToastBottomOpen(false)}
-      />
+      <AppContent onNavigateToIcons={() => navigation.navigate('Icons')} />
     </StyledSafeAreaView>
   );
 }
 
 interface AppContentProps {
   onNavigateToIcons: () => void;
-  onShowTopToast: () => void;
-  onShowBottomToast: () => void;
 }
 
-function AppContent({
-  onNavigateToIcons,
-  onShowTopToast,
-  onShowBottomToast,
-}: AppContentProps) {
+function AppContent({ onNavigateToIcons }: AppContentProps) {
   const [switchChecked, setSwitchChecked] = useState(false);
   const [checkboxChecked, setCheckboxChecked] = useState(false);
   const [checkboxFilledChecked, setCheckboxFilledChecked] = useState(true);
@@ -624,9 +596,21 @@ function AppContent({
         <Section>
           <SectionTitle>Toast</SectionTitle>
           <ButtonGroup>
-            <FormButton onPress={onShowTopToast}>상단 토스트</FormButton>
-            <FormButton onPress={onShowBottomToast}>
-              하단 토스트 (아이콘)
+            <FormButton
+              onPress={() =>
+                toast('상단 토스트 메시지예요', { position: 'top' })
+              }
+            >
+              상단 토스트
+            </FormButton>
+            <FormButton onPress={() => toast.success('성공 토스트예요')}>
+              성공 토스트
+            </FormButton>
+            <FormButton onPress={() => toast.error('에러 토스트예요')}>
+              에러 토스트
+            </FormButton>
+            <FormButton onPress={() => toast.warning('경고 토스트예요')}>
+              경고 토스트
             </FormButton>
           </ButtonGroup>
         </Section>

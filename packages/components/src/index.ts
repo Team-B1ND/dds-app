@@ -32,4 +32,4 @@ export {
   type BadgeType,
   type BadgeColor,
 } from './badges';
-export { Toast, type ToastProps } from './toast';
+export { ToastContainer, toast, type ToastOptions } from './toast';
