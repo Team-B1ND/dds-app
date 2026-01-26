@@ -13,15 +13,9 @@ export const ToastContainer = () => {
     return toastManager.subscribe(setToasts);
   }, []);
 
-  const topToasts = toasts.filter((t) => t.position === 'top');
-  const bottomToasts = toasts.filter((t) => t.position === 'bottom');
-
   return (
     <>
-      {topToasts.map((toast) => (
-        <ToastItemComponent key={toast.id} toast={toast} />
-      ))}
-      {bottomToasts.map((toast) => (
+      {toasts.map((toast) => (
         <ToastItemComponent key={toast.id} toast={toast} />
       ))}
     </>
