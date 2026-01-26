@@ -29,6 +29,7 @@ import {
   Checkbox,
   Tab,
   Tag,
+  Toast,
 } from '@dds-app/components';
 import { Plus, Bell, Gear, Trash } from '@dds-app/icons';
 import { IconScreen } from './IconScreen';
@@ -71,18 +72,48 @@ function App() {
 }
 
 function MainScreen({ navigation }: MainScreenProps) {
+  // Toast state는 화면 루트 레벨에서 관리
+  const [toastTopOpen, setToastTopOpen] = useState(false);
+  const [toastBottomOpen, setToastBottomOpen] = useState(false);
+
   return (
     <StyledSafeAreaView>
-      <AppContent onNavigateToIcons={() => navigation.navigate('Icons')} />
+      <AppContent
+        onNavigateToIcons={() => navigation.navigate('Icons')}
+        onShowTopToast={() => setToastTopOpen(true)}
+        onShowBottomToast={() => setToastBottomOpen(true)}
+      />
+      {/* Toast는 화면 루트 레벨에 배치 - 화면 기준으로 위치됨 */}
+      <Toast
+        position="top"
+        open={toastTopOpen}
+        text="상단 토스트 메시지예요"
+        duration={3000}
+        onClose={() => setToastTopOpen(false)}
+      />
+      <Toast
+        position="bottom"
+        open={toastBottomOpen}
+        left={<Toast.Icon name="success-color" />}
+        text="아이콘이 포함된 토스트예요"
+        duration={3000}
+        onClose={() => setToastBottomOpen(false)}
+      />
     </StyledSafeAreaView>
   );
 }
 
 interface AppContentProps {
   onNavigateToIcons: () => void;
+  onShowTopToast: () => void;
+  onShowBottomToast: () => void;
 }
 
-function AppContent({ onNavigateToIcons }: AppContentProps) {
+function AppContent({
+  onNavigateToIcons,
+  onShowTopToast,
+  onShowBottomToast,
+}: AppContentProps) {
   const [switchChecked, setSwitchChecked] = useState(false);
   const [checkboxChecked, setCheckboxChecked] = useState(false);
   const [checkboxFilledChecked, setCheckboxFilledChecked] = useState(true);
@@ -104,6 +135,7 @@ function AppContent({ onNavigateToIcons }: AppContentProps) {
   // Dialogs
   const [alertOpen, setAlertOpen] = useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
+
   const [selectedDropdownOption, setSelectedDropdownOption] = useState({
     label: '드롭다운 첫번째',
     value: 'option1',
@@ -587,6 +619,16 @@ function AppContent({ onNavigateToIcons }: AppContentProps) {
           >
             Dim 클릭으로 닫기
           </FormButton>
+        </Section>
+
+        <Section>
+          <SectionTitle>Toast</SectionTitle>
+          <ButtonGroup>
+            <FormButton onPress={onShowTopToast}>상단 토스트</FormButton>
+            <FormButton onPress={onShowBottomToast}>
+              하단 토스트 (아이콘)
+            </FormButton>
+          </ButtonGroup>
         </Section>
 
         <Section>
