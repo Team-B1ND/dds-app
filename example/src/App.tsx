@@ -29,6 +29,8 @@ import {
   Checkbox,
   Tab,
   Tag,
+  ToastContainer,
+  toast,
 } from '@dds-app/components';
 import { Plus, Bell, Gear, Trash } from '@dds-app/icons';
 import { IconScreen } from './IconScreen';
@@ -63,6 +65,7 @@ function App() {
                 }}
               />
             </Stack.Navigator>
+            <ToastContainer />
           </NavigationContainer>
         </OverlayProvider>
       </DodamThemeProvider>
@@ -104,6 +107,7 @@ function AppContent({ onNavigateToIcons }: AppContentProps) {
   // Dialogs
   const [alertOpen, setAlertOpen] = useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
+
   const [selectedDropdownOption, setSelectedDropdownOption] = useState({
     label: '드롭다운 첫번째',
     value: 'option1',
@@ -587,6 +591,28 @@ function AppContent({ onNavigateToIcons }: AppContentProps) {
           >
             Dim 클릭으로 닫기
           </FormButton>
+        </Section>
+
+        <Section>
+          <SectionTitle>Toast</SectionTitle>
+          <ButtonGroup>
+            <FormButton
+              onPress={() =>
+                toast('상단 토스트 메시지예요', { position: 'top' })
+              }
+            >
+              상단 토스트
+            </FormButton>
+            <FormButton onPress={() => toast.success('성공 토스트예요')}>
+              성공 토스트
+            </FormButton>
+            <FormButton onPress={() => toast.error('에러 토스트예요')}>
+              에러 토스트
+            </FormButton>
+            <FormButton onPress={() => toast.warning('경고 토스트예요')}>
+              경고 토스트
+            </FormButton>
+          </ButtonGroup>
         </Section>
 
         <Section>

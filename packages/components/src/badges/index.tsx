@@ -1,6 +1,8 @@
 import styled, { useTheme } from 'styled-components/native';
 import type { BadgeProps } from './types';
 
+export type { BadgeProps, BadgeType, BadgeColor } from './types';
+
 export const Badge = ({
   type = 'dot',
   color = 'red',
