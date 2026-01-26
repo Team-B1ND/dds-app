@@ -3,7 +3,6 @@ import styled from 'styled-components/native';
 import { Animated, Pressable } from 'react-native';
 import { Modal } from '../../common';
 import { useDialogAnimation } from '../hooks/useDialogAnimation';
-import { useTriggerHaptic } from '../../hooks/useTriggerHaptic';
 import { FormButton } from '../../buttons';
 import type { ConfirmDialogProps } from '../types';
 
@@ -24,14 +23,12 @@ const ConfirmDialogComponent = ({
     open,
     onExited
   );
-  const { triggerHaptic } = useTriggerHaptic();
 
   const handleDimmerPress = () => {
     if (closeOnDimmerClick) {
       onClose?.();
     } else {
       wiggle();
-      triggerHaptic();
     }
   };
 

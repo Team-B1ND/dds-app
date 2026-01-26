@@ -1,5 +1,4 @@
 import { useState, useMemo, useCallback } from 'react';
-import { useTriggerHaptic } from '../../../hooks/useTriggerHaptic';
 import { getFirstDayOfMonth, getDaysInMonth, getTodayMidnight } from '../../utils';
 import { useCalendarAnimation } from './useCalendarAnimation';
 
@@ -24,7 +23,6 @@ export const useDatePicker = ({
   onSelect,
   onPress,
 }: UseDatePickerProps) => {
-  const { triggerHaptic } = useTriggerHaptic();
   const {
     prevArrowScale,
     nextArrowScale,
@@ -74,37 +72,33 @@ export const useDatePicker = ({
 
   const handlePrevMonth = useCallback(() => {
     animatePress(prevArrowScale);
-    triggerHaptic();
     animateMonthTransition('prev', () => {
       setCurrentYear((y) => (currentMonth === 0 ? y - 1 : y));
       setCurrentMonth((m) => (m === 0 ? 11 : m - 1));
     });
-  }, [animatePress, prevArrowScale, triggerHaptic, animateMonthTransition, currentMonth]);
+  }, [animatePress, prevArrowScale, animateMonthTransition, currentMonth]);
 
   const handleNextMonth = useCallback(() => {
     animatePress(nextArrowScale);
-    triggerHaptic();
     animateMonthTransition('next', () => {
       setCurrentYear((y) => (currentMonth === 11 ? y + 1 : y));
       setCurrentMonth((m) => (m === 11 ? 0 : m + 1));
     });
-  }, [animatePress, nextArrowScale, triggerHaptic, animateMonthTransition, currentMonth]);
+  }, [animatePress, nextArrowScale, animateMonthTransition, currentMonth]);
 
   const handleDateSelect = useCallback(
     (date: number) => {
       if (isDateDisabled(date)) return;
-      triggerHaptic();
       animateDateSelect();
       setSelectedDate(new Date(currentYear, currentMonth, date));
     },
-    [isDateDisabled, triggerHaptic, animateDateSelect, currentYear, currentMonth]
+    [isDateDisabled, animateDateSelect, currentYear, currentMonth]
   );
 
   const handleConfirm = useCallback(() => {
-    triggerHaptic();
     onSelect(selectedDate);
     onPress();
-  }, [triggerHaptic, onSelect, selectedDate, onPress]);
+  }, [onSelect, selectedDate, onPress]);
 
   const isSelectedDate = useCallback(
     (date: number) =>

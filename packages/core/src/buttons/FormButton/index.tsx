@@ -1,11 +1,9 @@
 import styled from 'styled-components/native';
 import { Animated } from 'react-native';
 import { useFormAnimation } from './hooks/useFormAnimation';
-import { useTriggerHaptic } from '../../hooks/useTriggerHaptic';
 import type { ButtonColor, ButtonDisplay, ButtonSize } from './types';
 
 interface FormButtonProps {
-  haptic?: boolean;
   disabled?: boolean;
   display?: ButtonDisplay;
   color?: ButtonColor;
@@ -15,7 +13,6 @@ interface FormButtonProps {
 }
 
 export const FormButton = ({
-  haptic,
   disabled = false,
   display = 'inline',
   color = 'primary',
@@ -23,14 +20,8 @@ export const FormButton = ({
   onPress,
   children,
 }: FormButtonProps) => {
-  const { triggerHaptic } = useTriggerHaptic();
   const { animatedStyle, handlePressIn, handlePressOut } =
     useFormAnimation(disabled);
-
-  const handlePress = () => {
-    if (haptic) triggerHaptic();
-    onPress?.();
-  };
 
   return (
     <AnimatedContainer
@@ -40,7 +31,7 @@ export const FormButton = ({
       disabled={disabled}
       style={animatedStyle}
       onPressIn={handlePressIn}
-      onPress={handlePress}
+      onPress={onPress}
       onPressOut={handlePressOut}
     >
       <TextContainer $color={color} $size={size}>{children}</TextContainer>

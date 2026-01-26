@@ -1,7 +1,6 @@
 import { Animated, Pressable } from 'react-native';
 import styled, { useTheme } from 'styled-components/native';
 import { useSwitchAnimation } from './hooks/useSwitchAnimation';
-import { useTriggerHaptic } from '../../hooks/useTriggerHaptic';
 
 export interface SwitchProps {
   checked?: boolean;
@@ -18,16 +17,9 @@ export const Switch = ({
   const { trackWidth, thumb } = theme.size.switch;
   const translateDistance = parseInt(trackWidth, 10) - parseInt(thumb, 10) - 8; // padding * 2
   const { translateX } = useSwitchAnimation(checked, translateDistance);
-  const { triggerHaptic } = useTriggerHaptic();
-
-  const handlePress = () => {
-    if (disabled) return;
-    triggerHaptic();
-    onChange?.();
-  };
 
   return (
-    <Pressable disabled={disabled} onPress={handlePress}>
+    <Pressable disabled={disabled} onPress={onChange}>
       <Track $checked={checked} $disabled={disabled}>
         <Thumb style={{ transform: [{ translateX }] }} />
       </Track>

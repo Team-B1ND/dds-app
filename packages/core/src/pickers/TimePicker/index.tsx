@@ -1,7 +1,6 @@
 import { View, TouchableWithoutFeedback } from 'react-native';
 import { Modal } from '../../common';
 import { useDialogAnimation } from '../../dialogs/hooks/useDialogAnimation';
-import { useTriggerHaptic } from '../../hooks/useTriggerHaptic';
 import { TimePickerContent } from './TimePickerContent';
 import {
   AnimatedDimmer,
@@ -24,7 +23,6 @@ export const TimePicker = ({
     open,
     onExited
   );
-  const { triggerHaptic } = useTriggerHaptic();
 
   const handleConfirm = () => {
     onPress();
@@ -36,7 +34,6 @@ export const TimePicker = ({
       onClose();
     } else {
       wiggle();
-      triggerHaptic();
     }
   };
 

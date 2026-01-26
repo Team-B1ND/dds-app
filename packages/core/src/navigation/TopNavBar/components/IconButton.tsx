@@ -9,7 +9,6 @@ export const IconButton = ({ icon, onPress }: IconButtonProps) => {
     <BaseIconButton
       icon={icon}
       color={theme.color.text.tertiary}
-      haptic
       onPress={onPress}
     />
   );

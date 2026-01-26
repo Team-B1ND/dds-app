@@ -3,7 +3,6 @@ import { Animated, Pressable } from 'react-native';
 import styled, { useTheme } from 'styled-components/native';
 import { Checkmark } from '@dds-app/icons';
 import { usePressAnimation } from '../../hooks/animations';
-import { useTriggerHaptic } from '../../hooks/useTriggerHaptic';
 
 type CheckboxSize = 'large' | 'medium' | 'small';
 
@@ -29,7 +28,6 @@ export const Checkbox = ({
   onChange,
 }: CheckboxProps) => {
   const theme = useTheme();
-  const { triggerHaptic } = useTriggerHaptic();
   const { animatedStyle, onPressIn, onPressOut } = usePressAnimation({ scale: 0.9 });
 
   const checkAnim = useRef(new Animated.Value(checked ? 1 : 0)).current;
@@ -43,12 +41,6 @@ export const Checkbox = ({
       bounciness: checked ? 8 : 0,
     }).start();
   }, [checked, checkAnim]);
-
-  const handlePress = () => {
-    if (disabled) return;
-    triggerHaptic();
-    onChange?.();
-  };
 
   const getCheckmarkColor = () => {
     if (variant === 'filled') {
@@ -68,7 +60,7 @@ export const Checkbox = ({
       disabled={disabled}
       onPressIn={disabled ? undefined : onPressIn}
       onPressOut={disabled ? undefined : onPressOut}
-      onPress={handlePress}
+      onPress={disabled ? undefined : onChange}
     >
       <AnimatedBox
         $checked={checked}

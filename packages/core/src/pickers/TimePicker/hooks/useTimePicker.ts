@@ -1,5 +1,4 @@
 import { useState, useCallback, useMemo } from 'react';
-import { useTriggerHaptic } from '../../../hooks/useTriggerHaptic';
 import {
   type Period,
   to12Hour,
@@ -22,8 +21,6 @@ export const useTimePicker = ({
   onSelect,
   onPress,
 }: UseTimePickerProps) => {
-  const { triggerHaptic } = useTriggerHaptic();
-
   const defaultTime = useMemo(() => {
     if (initialTime) return initialTime;
     const now = new Date();
@@ -46,39 +43,35 @@ export const useTimePicker = ({
   const handlePeriodChange = useCallback(
     (period: Period) => {
       if (period !== selectedPeriod) {
-        triggerHaptic();
         setSelectedPeriod(period);
       }
     },
-    [selectedPeriod, triggerHaptic]
+    [selectedPeriod]
   );
 
   const handleHourChange = useCallback(
     (hour: number) => {
       if (hour !== selectedHour) {
-        triggerHaptic();
         setSelectedHour(hour);
       }
     },
-    [selectedHour, triggerHaptic]
+    [selectedHour]
   );
 
   const handleMinuteChange = useCallback(
     (minute: number) => {
       if (minute !== selectedMinute) {
-        triggerHaptic();
         setSelectedMinute(minute);
       }
     },
-    [selectedMinute, triggerHaptic]
+    [selectedMinute]
   );
 
   const handleConfirm = useCallback(() => {
-    triggerHaptic();
     const hour24 = to24Hour(selectedHour, selectedPeriod);
     onSelect({ hour: hour24, minute: selectedMinute });
     onPress();
-  }, [selectedHour, selectedPeriod, selectedMinute, onSelect, onPress, triggerHaptic]);
+  }, [selectedHour, selectedPeriod, selectedMinute, onSelect, onPress]);
 
   const getInitialPeriodIndex = useCallback(
     () => periods.indexOf(defaultPeriod),

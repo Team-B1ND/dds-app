@@ -16,9 +16,7 @@
   "peerDependencies": {
     "react": "*",
     "react-native": "*",
-    "react-native-haptic-feedback": "*",
     "styled-components": "*",
-    "react-native-gesture-handler": "*",
     "react-native-svg": "*"
   }
 }

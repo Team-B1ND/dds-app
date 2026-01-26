@@ -2,7 +2,6 @@ import styled from 'styled-components/native';
 import { Animated, Pressable } from 'react-native';
 import { Modal } from '../../common';
 import { useDialogAnimation } from '../hooks/useDialogAnimation';
-import { useTriggerHaptic } from '../../hooks/useTriggerHaptic';
 import { TextButton } from '../../buttons';
 import type { AlertDialogProps } from '../types';
 
@@ -19,14 +18,12 @@ export const AlertDialog = ({
     open,
     onExited
   );
-  const { triggerHaptic } = useTriggerHaptic();
 
   const handleDimmerPress = () => {
     if (closeOnDimmerClick) {
       onClose?.();
     } else {
       wiggle();
-      triggerHaptic();
     }
   };
 

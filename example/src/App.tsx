@@ -353,13 +353,6 @@ function AppContent({ onNavigateToIcons }: AppContentProps) {
         </Section>
 
         <Section>
-          <SectionTitle>FormButton - Haptic</SectionTitle>
-          <FormButton haptic onPress={() => console.log('Haptic!')}>
-            With Haptic Feedback
-          </FormButton>
-        </Section>
-
-        <Section>
           <SectionTitle>DatePicker</SectionTitle>
 
           <FormButton onPress={handleDatePicker}>

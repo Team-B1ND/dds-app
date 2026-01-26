@@ -2,7 +2,6 @@ import { useCallback } from 'react';
 import { Animated, Pressable, type LayoutChangeEvent } from 'react-native';
 import styled from 'styled-components/native';
 import { useTabContext } from './TabContext';
-import { useTriggerHaptic } from '../../hooks/useTriggerHaptic';
 import { usePressAnimation } from '../../hooks/animations';
 
 interface TabItemProps {
@@ -17,7 +16,6 @@ export const TabItem = ({ value, children }: TabItemProps) => {
     onChange,
     registerLayout,
   } = useTabContext();
-  const { triggerHaptic } = useTriggerHaptic();
   const { animatedStyle, onPressIn, onPressOut } = usePressAnimation({
     scale: 0.95,
   });
@@ -26,7 +24,6 @@ export const TabItem = ({ value, children }: TabItemProps) => {
 
   const handlePress = () => {
     if (!isSelected) {
-      triggerHaptic();
       onChange(value);
     }
   };

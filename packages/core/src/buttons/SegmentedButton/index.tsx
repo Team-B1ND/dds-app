@@ -1,7 +1,6 @@
 import { useMemo, useState } from 'react';
 import styled, { useTheme } from 'styled-components/native';
 import { Animated, Pressable } from 'react-native';
-import { useTriggerHaptic } from '../../hooks/useTriggerHaptic';
 import { useSegmentedAnimation } from './hooks/useSegmentedAnimation';
 import type { SegmentedButtonProps, SegmentedButtonOption } from './types';
 
@@ -9,11 +8,9 @@ export const SegmentedButton = ({
   options,
   label,
   disabled = false,
-  haptic,
   onChange,
 }: SegmentedButtonProps) => {
   const theme = useTheme();
-  const { triggerHaptic } = useTriggerHaptic();
   const [internalValue, setInternalValue] = useState<string | undefined>(
     label ?? options?.[0]?.label,
   );
@@ -25,7 +22,6 @@ export const SegmentedButton = ({
 
   const handlePress = (option: SegmentedButtonOption) => {
     if (disabled) return;
-    if (haptic) triggerHaptic();
     if (label === undefined) setInternalValue(option.label);
     onChange?.(option.label);
   };
