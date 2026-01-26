@@ -31,7 +31,7 @@ import {
   Tag,
   ToastContainer,
   toast,
-} from '@dds-app/components';
+} from '@dds-app/core';
 import { Plus, Bell, Gear, Trash } from '@dds-app/icons';
 import { IconScreen } from './IconScreen';
 

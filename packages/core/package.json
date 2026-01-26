@@ -1,17 +1,24 @@
 {
   "name": "@dds-app/core",
   "version": "0.1.0",
-  "main": "src/colors/index.ts",
+  "main": "./src/index.ts",
   "types": "./src/index.ts",
-  "files": ["src"],
+  "files": [
+    "src"
+  ],
   "scripts": {
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@dds-app/foundation": "workspace:*"
+    "@dds-app/foundation": "workspace:*",
+    "@dds-app/icons": "workspace:*"
   },
   "peerDependencies": {
     "react": "*",
-    "react-native": "*"
+    "react-native": "*",
+    "react-native-haptic-feedback": "*",
+    "styled-components": "*",
+    "react-native-gesture-handler": "*",
+    "react-native-svg": "*"
   }
 }

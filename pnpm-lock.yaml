@@ -55,9 +55,6 @@ importers:
 
   example:
     dependencies:
-      '@dds-app/components':
-        specifier: workspace:*
-        version: link:../packages/components
       '@dds-app/core':
         specifier: workspace:*
         version: link:../packages/core

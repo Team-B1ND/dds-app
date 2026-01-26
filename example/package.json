@@ -10,7 +10,6 @@
     "test": "jest"
   },
   "dependencies": {
-    "@dds-app/components": "workspace:*",
     "@dds-app/core": "workspace:*",
     "@dds-app/foundation": "workspace:*",
     "@dds-app/icons": "workspace:*",
