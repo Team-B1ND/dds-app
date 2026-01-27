@@ -1,0 +1,1 @@
+export { handleHapticTrigger } from './handler';

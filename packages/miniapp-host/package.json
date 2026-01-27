@@ -1,0 +1,19 @@
+{
+  "name": "@dds-app/miniapp-host",
+  "version": "0.1.0",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "files": ["src"],
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@dds-app/bridge": "workspace:*"
+  },
+  "peerDependencies": {
+    "react": "*",
+    "react-native": "*",
+    "react-native-webview": "*",
+    "react-native-haptic-feedback": "*"
+  }
+}
