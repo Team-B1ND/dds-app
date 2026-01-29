@@ -86,7 +86,9 @@ function MainScreen({ navigation }: MainScreenProps) {
     <StyledSafeAreaView>
       <AppContent
         onNavigateToIcons={() => navigation.navigate('Icons')}
-        onNavigateToWebView={(url: string) => navigation.navigate('WebView', { url })}
+        onNavigateToWebView={(url: string) =>
+          navigation.navigate('WebView', { url })
+        }
       />
     </StyledSafeAreaView>
   );
@@ -102,6 +104,7 @@ function WebViewScreen({ route }: WebViewScreenProps) {
       javaScriptEnabled
       domStorageEnabled
       startInLoadingState
+      allowsLinkPreview={false}
     />
   );
 }
@@ -111,7 +114,10 @@ interface AppContentProps {
   onNavigateToWebView: (url: string) => void;
 }
 
-function AppContent({ onNavigateToIcons, onNavigateToWebView }: AppContentProps) {
+function AppContent({
+  onNavigateToIcons,
+  onNavigateToWebView,
+}: AppContentProps) {
   const [webViewUrl, setWebViewUrl] = useState('http://localhost:8090');
   const [switchChecked, setSwitchChecked] = useState(false);
   const [checkboxChecked, setCheckboxChecked] = useState(false);
