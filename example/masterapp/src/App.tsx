@@ -1,12 +1,9 @@
 import { useState } from 'react';
-import { StatusBar, TextInput } from 'react-native';
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import styled from 'styled-components/native';
-import { DodamThemeProvider } from '@dds-app/foundation';
+import { StatusBar } from 'react-native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { WebView } from 'react-native-webview';
+import styled, { useTheme } from 'styled-components/native';
+import { DodamThemeProvider } from '@dds-app/foundation';
 import {
   Switch,
   FormButton,
@@ -24,7 +21,6 @@ import {
   useOverlay,
   Dropdown,
   TopNavBar,
-  createTopNavBarOptions,
   IconButton,
   Avatar,
   Checkbox,
@@ -32,114 +28,168 @@ import {
   Tag,
   ToastContainer,
   toast,
+  Stack,
+  type ScreenComponentProps,
 } from '@dds-app/core';
 import { Plus, Bell, Gear, Trash } from '@dds-app/icons';
-import { IconScreen } from './IconScreen';
-
-type RootStackParamList = {
-  Main: undefined;
-  Icons: undefined;
-  WebView: { url: string };
-};
-
-type MainScreenProps = NativeStackScreenProps<RootStackParamList, 'Main'>;
-type WebViewScreenProps = NativeStackScreenProps<RootStackParamList, 'WebView'>;
-
-const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function App() {
   return (
     <SafeAreaProvider>
       <DodamThemeProvider>
         <OverlayProvider>
-          <NavigationContainer>
-            <StatusBar barStyle="dark-content" />
-            <Stack.Navigator screenOptions={{ headerShown: false }}>
-              <Stack.Screen name="Main" component={MainScreen} />
-              <Stack.Screen
-                name="Icons"
-                component={IconScreen}
-                options={{
-                  ...createTopNavBarOptions(),
-                  headerLeft: () => <TopNavBar.BackButton />,
-                  headerTitle: () => (
-                    <TopNavBar.Title hasBackButton>Icons</TopNavBar.Title>
-                  ),
-                }}
-              />
-              <Stack.Screen
-                name="WebView"
-                component={WebViewScreen}
-                options={{ headerShown: false }}
-              />
-            </Stack.Navigator>
-            <ToastContainer />
-          </NavigationContainer>
+          <StatusBar barStyle="dark-content" />
+          <Stack.Navigator initialRouteName="Main">
+            <Stack.Screen
+              name="Main"
+              header={
+                <TopNavBar
+                  right={<TopNavBar.IconButton icon={<Bell size={20} />} />}
+                >
+                  <TopNavBar.Logo />
+                </TopNavBar>
+              }
+              component={MainScreen}
+            />
+            <Stack.Screen
+              name="Detail"
+              component={DetailScreen}
+              header={
+                <TopNavBar left={<TopNavBar.BackButton />}>
+                  <TopNavBar.Title hasBackButton>Detail 페이지</TopNavBar.Title>
+                </TopNavBar>
+              }
+            />
+            <Stack.Screen
+              name="Third"
+              component={ThirdScreen}
+              header={
+                <TopNavBar left={<TopNavBar.BackButton />}>
+                  <TopNavBar.Title hasBackButton>Third 페이지</TopNavBar.Title>
+                </TopNavBar>
+              }
+            />
+            <Stack.Screen
+              name="BlockedSwipe"
+              component={BlockedSwipeScreen}
+              blockSwipe
+              header={
+                <TopNavBar left={<TopNavBar.BackButton />}>
+                  <TopNavBar.Title hasBackButton>
+                    스와이프 비활성화
+                  </TopNavBar.Title>
+                </TopNavBar>
+              }
+            />
+            <Stack.Screen name="WebView" component={WebViewScreen} />
+          </Stack.Navigator>
+          <ToastContainer />
         </OverlayProvider>
       </DodamThemeProvider>
     </SafeAreaProvider>
   );
 }
 
-function MainScreen({ navigation }: MainScreenProps) {
+function MainScreen({ navigation }: ScreenComponentProps) {
   return (
-    <StyledSafeAreaView>
-      <AppContent
-        onNavigateToIcons={() => navigation.navigate('Icons')}
-        onNavigateToWebView={(url: string) =>
-          navigation.navigate('WebView', { url })
-        }
-      />
-    </StyledSafeAreaView>
+    <Container>
+      <AppContent navigation={navigation} />
+    </Container>
   );
 }
 
-function WebViewScreen({ route }: WebViewScreenProps) {
-  const { url } = route.params;
-
+function DetailScreen({ navigation }: ScreenComponentProps) {
   return (
-    <SafeAreaView style={{ flex: 1 }} edges={['top', 'left', 'right']}>
-      <WebView
-        source={{ uri: url }}
-        style={{ flex: 1 }}
-        javaScriptEnabled
-        domStorageEnabled
-        startInLoadingState
-        allowsLinkPreview={false}
-      />
-    </SafeAreaView>
+    <Container>
+      <ContentContainer>
+        <Section>
+          <SectionTitle>Detail Screen</SectionTitle>
+          <FormButton onPress={() => navigation.goBack()}>뒤로 가기</FormButton>
+          <Spacer />
+          <FormButton
+            color="secondary"
+            onPress={() => navigation.navigate('Third')}
+          >
+            Third 페이지로 이동
+          </FormButton>
+        </Section>
+      </ContentContainer>
+    </Container>
   );
 }
+
+function ThirdScreen({ navigation }: ScreenComponentProps) {
+  return (
+    <Container>
+      <ContentContainer>
+        <Section>
+          <SectionTitle>Third Screen</SectionTitle>
+          <FormButton onPress={() => navigation.goBack()}>뒤로 가기</FormButton>
+        </Section>
+      </ContentContainer>
+    </Container>
+  );
+}
+
+function BlockedSwipeScreen({ navigation }: ScreenComponentProps) {
+  return (
+    <Container>
+      <ContentContainer>
+        <Section>
+          <SectionTitle>Swipe Blocked Screen</SectionTitle>
+          <FormButton onPress={() => navigation.goBack()}>뒤로 가기</FormButton>
+          <Spacer />
+          <DescriptionText>
+            이 화면에서는 스와이프로 뒤로 갈 수 없습니다.
+          </DescriptionText>
+        </Section>
+      </ContentContainer>
+    </Container>
+  );
+}
+
+function WebViewScreen({ route }: ScreenComponentProps) {
+  const url = route.params?.url ?? 'http://localhost:8081';
+  const theme = useTheme();
+
+  return (
+    <WebView
+      source={{ uri: url }}
+      style={{ flex: 1, backgroundColor: theme.color.background.surface }}
+      javaScriptEnabled
+      domStorageEnabled
+      startInLoadingState
+      allowsLinkPreview={false}
+    />
+  );
+}
+
+const DescriptionText = styled.Text`
+  font-size: 14px;
+  color: ${({ theme }) => theme.color.text.secondary};
+`;
 
 interface AppContentProps {
-  onNavigateToIcons: () => void;
-  onNavigateToWebView: (url: string) => void;
+  navigation: ScreenComponentProps['navigation'];
 }
 
-function AppContent({
-  onNavigateToIcons,
-  onNavigateToWebView,
-}: AppContentProps) {
-  const [webViewUrl, setWebViewUrl] = useState('http://localhost:8090');
+function AppContent({ navigation }: AppContentProps) {
   const [switchChecked, setSwitchChecked] = useState(false);
   const [checkboxChecked, setCheckboxChecked] = useState(false);
   const [checkboxFilledChecked, setCheckboxFilledChecked] = useState(true);
   const [tabValue, setTabValue] = useState('tab1');
 
-  // Date / Time Picker
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
   const [selectedTime, setSelectedTime] = useState<
     { hour: number; minute: number } | undefined
   >(undefined);
 
-  // Segmented / Progress / Slider
   const [segmentLabel, setSegmentLabel] = useState('Label');
   const [segmentLabelMany, setSegmentLabelMany] = useState('Mon');
   const [progress, setProgress] = useState(0);
   const [continuousValue, setContinuousValue] = useState(0.5);
   const [stepValue, setStepValue] = useState(2);
 
-  // Dialogs
   const [alertOpen, setAlertOpen] = useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
 
@@ -221,25 +271,26 @@ function AppContent({
         <Title>DDS App Components</Title>
 
         <Section>
-          <FormButton onPress={onNavigateToIcons}>Icon 보기</FormButton>
-        </Section>
-
-        <Section>
-          <SectionTitle>WebView</SectionTitle>
-          <UrlInputWrapper>
-            <UrlInput
-              value={webViewUrl}
-              onChangeText={setWebViewUrl}
-              placeholder="URL을 입력하세요"
-              autoCapitalize="none"
-              autoCorrect={false}
-              keyboardType="url"
-            />
-          </UrlInputWrapper>
-          <Spacer />
-          <FormButton onPress={() => onNavigateToWebView(webViewUrl)}>
-            WebView 열기
-          </FormButton>
+          <SectionTitle>Navigation (Custom Stack)</SectionTitle>
+          <ButtonGroup>
+            <FormButton onPress={() => navigation.navigate('Detail')}>
+              Detail 페이지
+            </FormButton>
+            <FormButton
+              color="secondary"
+              onPress={() => navigation.navigate('BlockedSwipe')}
+            >
+              스와이프 비활성화
+            </FormButton>
+            <FormButton
+              color="secondary"
+              onPress={() =>
+                navigation.navigate('WebView', { url: 'http://192.168.0.18:8082' })
+              }
+            >
+              WebView
+            </FormButton>
+          </ButtonGroup>
         </Section>
 
         <Section>
@@ -571,75 +622,6 @@ function AppContent({
         </Section>
 
         <Section>
-          <SectionTitle>Dialogs - Description 없음</SectionTitle>
-          <ButtonGroup>
-            <FormButton
-              onPress={() => {
-                overlay.open(({ isOpen, close, exit }) => (
-                  <AlertDialog
-                    open={isOpen}
-                    title="알림"
-                    onClose={close}
-                    onExited={exit}
-                  />
-                ));
-              }}
-            >
-              Alert (No Desc)
-            </FormButton>
-            <FormButton
-              onPress={() => {
-                overlay.open(({ isOpen, close, exit }) => (
-                  <ConfirmDialog
-                    open={isOpen}
-                    title="확인하시겠어요?"
-                    onClose={close}
-                    onExited={exit}
-                  >
-                    <ConfirmDialog.Button
-                      color="secondary"
-                      display="full"
-                      onPress={close}
-                    >
-                      취소
-                    </ConfirmDialog.Button>
-                    <ConfirmDialog.Button
-                      color="primary"
-                      display="full"
-                      onPress={close}
-                    >
-                      확인
-                    </ConfirmDialog.Button>
-                  </ConfirmDialog>
-                ));
-              }}
-            >
-              Confirm (No Desc)
-            </FormButton>
-          </ButtonGroup>
-        </Section>
-
-        <Section>
-          <SectionTitle>Dialogs - closeOnDimmerClick</SectionTitle>
-          <FormButton
-            onPress={() => {
-              overlay.open(({ isOpen, close, exit }) => (
-                <AlertDialog
-                  open={isOpen}
-                  title="딤 클릭으로 닫기"
-                  description="딤 영역을 클릭하면 닫혀요"
-                  closeOnDimmerClick={true}
-                  onClose={close}
-                  onExited={exit}
-                />
-              ));
-            }}
-          >
-            Dim 클릭으로 닫기
-          </FormButton>
-        </Section>
-
-        <Section>
           <SectionTitle>Toast</SectionTitle>
           <ButtonGroup>
             <FormButton
@@ -782,14 +764,14 @@ function AppContent({
   );
 }
 
-const StyledSafeAreaView = styled(SafeAreaView)`
+const Container = styled.View`
   flex: 1;
   background-color: ${({ theme }) => theme.color.background.surface};
 `;
 
-const Container = styled.View`
+const ContentContainer = styled.View`
   flex: 1;
-  background-color: ${({ theme }) => theme.color.background.surface};
+  padding: 16px;
 `;
 
 const ScrollContainer = styled.ScrollView`
@@ -844,21 +826,6 @@ const NavBarWrapper = styled.View`
   border-color: ${({ theme }) => theme.color.border.normal};
   border-radius: ${({ theme }) => theme.radius.md};
   overflow: hidden;
-`;
-
-const UrlInputWrapper = styled.View`
-  width: 100%;
-`;
-
-const UrlInput = styled.TextInput`
-  width: 100%;
-  padding: 12px 16px;
-  border-width: 1px;
-  border-color: ${({ theme }) => theme.color.border.normal};
-  border-radius: ${({ theme }) => theme.radius.md};
-  font-size: 14px;
-  color: ${({ theme }) => theme.color.text.primary};
-  background-color: ${({ theme }) => theme.color.background.normal};
 `;
 
 export default App;

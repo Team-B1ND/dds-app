@@ -1,5 +1,5 @@
 import { useMemo, useCallback } from 'react';
-import { Animated } from 'react-native';
+import { Animated, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import styled from 'styled-components/native';
 import { TopNavBarContext } from '../TopNavBar/context';
@@ -82,12 +82,18 @@ export const ScreenRenderer = ({
   const renderHeader = useCallback(() => {
     if (!config.header) return null;
 
+    const HeaderWrapper =
+      Platform.OS === 'web' ? WebSafeAreaContainer : SafeAreaContainer;
+
     return (
       <TopNavBarContext.Provider value={{ goBack: navigation.goBack }}>
-        <SafeAreaContainer edges={['top']}>{config.header}</SafeAreaContainer>
+        <HeaderWrapper>{config.header}</HeaderWrapper>
       </TopNavBarContext.Provider>
     );
   }, [config.header, navigation.goBack]);
+
+  const ContentWrapper =
+    Platform.OS === 'web' ? WebScreenContent : NativeScreenContent;
 
   return (
     <AnimatedScreenContainer
@@ -95,9 +101,9 @@ export const ScreenRenderer = ({
       {...(panResponder?.panHandlers || {})}
     >
       {renderHeader()}
-      <ScreenContent>
+      <ContentWrapper>
         <Component {...componentProps} />
-      </ScreenContent>
+      </ContentWrapper>
       {hasPrevScreen && (
         <AnimatedDimOverlay style={dimStyle} pointerEvents="none" />
       )}
@@ -117,8 +123,15 @@ const ScreenContainerBase = styled.View`
 const AnimatedScreenContainer =
   Animated.createAnimatedComponent(ScreenContainerBase);
 
-const ScreenContent = styled.View`
+const NativeScreenContent = styled(SafeAreaView).attrs({
+  edges: ['bottom'] as const,
+})`
   flex: 1;
+`;
+
+const WebScreenContent = styled.View`
+  flex: 1;
+  padding-bottom: env(safe-area-inset-bottom);
 `;
 
 const DimOverlay = styled.View`
@@ -132,6 +145,13 @@ const DimOverlay = styled.View`
 
 const AnimatedDimOverlay = Animated.createAnimatedComponent(DimOverlay);
 
-const SafeAreaContainer = styled(SafeAreaView)`
+const SafeAreaContainer = styled(SafeAreaView).attrs({
+  edges: ['top'] as const,
+})`
+  background-color: ${({ theme }) => theme.color.background.surface};
+`;
+
+const WebSafeAreaContainer = styled.View`
+  padding-top: env(safe-area-inset-top);
   background-color: ${({ theme }) => theme.color.background.surface};
 `;
