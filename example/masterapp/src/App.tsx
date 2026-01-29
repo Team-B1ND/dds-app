@@ -98,14 +98,16 @@ function WebViewScreen({ route }: WebViewScreenProps) {
   const { url } = route.params;
 
   return (
-    <WebView
-      source={{ uri: url }}
-      style={{ flex: 1 }}
-      javaScriptEnabled
-      domStorageEnabled
-      startInLoadingState
-      allowsLinkPreview={false}
-    />
+    <SafeAreaView style={{ flex: 1 }} edges={['top', 'left', 'right']}>
+      <WebView
+        source={{ uri: url }}
+        style={{ flex: 1 }}
+        javaScriptEnabled
+        domStorageEnabled
+        startInLoadingState
+        allowsLinkPreview={false}
+      />
+    </SafeAreaView>
   );
 }
 

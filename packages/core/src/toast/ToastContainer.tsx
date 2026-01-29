@@ -1,10 +1,11 @@
 import { useEffect, useState, useMemo } from 'react';
 import { StyleSheet, View, Animated } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import styled from 'styled-components/native';
 import { toastManager, type ToastItem } from './toastManager';
 import { useToastAnimation } from './useToastAnimation';
 
-const TOAST_OFFSET = 60;
+const TOAST_PADDING = 16;
 
 export const ToastContainer = () => {
   const [toasts, setToasts] = useState<ToastItem[]>([]);
@@ -28,6 +29,7 @@ interface ToastItemComponentProps {
 
 const ToastItemComponent = ({ toast }: ToastItemComponentProps) => {
   const { id, message, position, duration, icon } = toast;
+  const insets = useSafeAreaInsets();
 
   const { animatedStyle, panHandlers } = useToastAnimation({
     id,
@@ -38,9 +40,11 @@ const ToastItemComponent = ({ toast }: ToastItemComponentProps) => {
   const containerStyle = useMemo(
     () => [
       styles.container,
-      position === 'top' ? { top: TOAST_OFFSET } : { bottom: TOAST_OFFSET },
+      position === 'top'
+        ? { top: insets.top + TOAST_PADDING }
+        : { bottom: insets.bottom + TOAST_PADDING },
     ],
-    [position]
+    [position, insets.top, insets.bottom]
   );
 
   return (
