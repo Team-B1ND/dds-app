@@ -21,7 +21,18 @@ export {
   useOverlay,
 } from './dialogs';
 export { Dropdown, type DropdownProps, type DropdownOption } from './dropdown';
-export { TopNavBar, createTopNavBarOptions } from './navigation';
+export {
+  TopNavBar,
+  createTopNavBarOptions,
+  Stack,
+  useNavigation,
+  useRoute,
+} from './navigation';
+export type {
+  NavigationProp,
+  RouteProp,
+  ScreenComponentProps,
+} from './navigation';
 export { Avatar } from './avatar';
 export { Checkbox, type CheckboxProps } from './checkbox';
 export { Tab, type TabProps } from './tab';
