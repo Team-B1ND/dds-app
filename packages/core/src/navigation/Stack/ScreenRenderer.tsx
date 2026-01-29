@@ -45,18 +45,23 @@ export const ScreenRenderer = ({
   const Component = config.component;
   const canSwipe = isTop && stackLength > 1 && !config.blockSwipe;
 
-  const { panResponder, animatedStyle, prevScreenStyle, dimStyle, hasPrevScreen } =
-    useScreenAnimation({
-      animValue,
-      panValue,
-      nextAnimValue,
-      nextPanValue,
-      screenWidth,
-      swipeThreshold,
-      canSwipe,
-      onSwipeComplete,
-      onSwipeCancel,
-    });
+  const {
+    panResponder,
+    animatedStyle,
+    prevScreenStyle,
+    dimStyle,
+    hasPrevScreen,
+  } = useScreenAnimation({
+    animValue,
+    panValue,
+    nextAnimValue,
+    nextPanValue,
+    screenWidth,
+    swipeThreshold,
+    canSwipe,
+    onSwipeComplete,
+    onSwipeCancel,
+  });
 
   const route = useMemo(
     () => ({ name: entry.name, params: entry.params }),

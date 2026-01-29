@@ -9,6 +9,8 @@ export interface NavigationProp {
   goBack: () => void;
   canGoBack: () => boolean;
   getParam: <T = any>(key: string, defaultValue?: T) => T | undefined;
+  reset: (name: string, params?: RouteParams) => void;
+  replace: (name: string, params?: RouteParams) => void;
 }
 
 export interface RouteProp {

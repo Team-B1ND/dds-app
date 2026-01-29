@@ -114,9 +114,46 @@ export const useStackNavigation = ({
     [stack]
   );
 
+  const reset = useCallback(
+    (name: string, params?: RouteParams) => {
+      if (!screens.has(name)) {
+        console.warn(`Screen "${name}" not found`);
+        return;
+      }
+
+      animValuesRef.current.clear();
+      panValuesRef.current.clear();
+      isAnimatingRef.current = false;
+
+      setStack([{ key: generateKey(), name, params }]);
+    },
+    [screens]
+  );
+
+  const replace = useCallback(
+    (name: string, params?: RouteParams) => {
+      if (!screens.has(name)) {
+        console.warn(`Screen "${name}" not found`);
+        return;
+      }
+
+      setStack((prev) => {
+        const currentEntry = prev[prev.length - 1];
+        if (currentEntry) {
+          animValuesRef.current.delete(currentEntry.key);
+          panValuesRef.current.delete(currentEntry.key);
+        }
+
+        const newStack = prev.slice(0, -1);
+        return [...newStack, { key: generateKey(), name, params }];
+      });
+    },
+    [screens]
+  );
+
   const navigation: NavigationProp = useMemo(
-    () => ({ navigate, goBack, canGoBack, getParam }),
-    [navigate, goBack, canGoBack, getParam]
+    () => ({ navigate, goBack, canGoBack, getParam, reset, replace }),
+    [navigate, goBack, canGoBack, getParam, reset, replace]
   );
 
   const swipeComplete = useCallback(
