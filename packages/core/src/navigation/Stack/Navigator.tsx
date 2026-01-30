@@ -3,7 +3,11 @@ import { useWindowDimensions } from 'react-native';
 import styled from 'styled-components/native';
 import { StackContext } from './StackContext';
 import { ScreenRenderer } from './ScreenRenderer';
-import { useStackNavigation, useScreenConfig } from './hooks';
+import {
+  useStackNavigation,
+  useScreenConfig,
+  useAndroidBackHandler,
+} from './hooks';
 import type { StackNavigatorProps } from './types';
 
 export const Navigator = ({
@@ -16,6 +20,8 @@ export const Navigator = ({
 
   const { stack, navigation, getScreenAnimValues, swipeComplete, swipeCancel } =
     useStackNavigation({ screens, initialRoute, screenWidth });
+
+  useAndroidBackHandler({ navigation, stack, screens });
 
   const contextValue = useMemo(
     () => ({
