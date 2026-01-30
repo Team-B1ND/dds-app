@@ -31,21 +31,13 @@ export const useBridge = ({
     requestHandlers: {},
   });
 
-  // Handlers
-  const handleResponse = useMemo(
-    () => createHandleResponse(stateRef),
-    []
-  );
-  const handleEvent = useMemo(
-    () => createHandleEvent(stateRef),
-    []
-  );
+  const handleResponse = useMemo(() => createHandleResponse(stateRef), []);
+  const handleEvent = useMemo(() => createHandleEvent(stateRef), []);
   const handleRequest = useMemo(
     () => createHandleRequest(stateRef, sendMessage),
     [sendMessage]
   );
 
-  // Main message handler
   const handleMessage = useCallback(
     (event: WebViewMessageEvent) => {
       const message = decode(event.nativeEvent.data);
@@ -62,7 +54,6 @@ export const useBridge = ({
     [handleResponse, handleEvent, handleRequest]
   );
 
-  // Actions
   const emit = useMemo(() => createEmit(sendMessage), [sendMessage]);
   const request = useMemo(
     () => createRequestAction(stateRef, sendMessage, requestTimeout),

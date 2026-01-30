@@ -13,14 +13,6 @@ import {
   createOnRequest,
 } from './actions';
 
-declare global {
-  interface Window {
-    ReactNativeWebView?: {
-      postMessage: (data: string) => void;
-    };
-  }
-}
-
 const DEFAULT_TIMEOUT = 30000;
 
 interface UseBridgeOptions {
@@ -42,7 +34,6 @@ export const useBridge = ({
     };
   }, []);
 
-  // Handlers
   const handleResponse = useMemo(() => createHandleResponse(stateRef), []);
   const handleEvent = useMemo(() => createHandleEvent(stateRef), []);
   const handleRequest = useMemo(
@@ -50,7 +41,6 @@ export const useBridge = ({
     [sendToNative]
   );
 
-  // Listen for messages from RN
   useEffect(() => {
     const handleMessage = (event: MessageEvent) => {
       const message = decode(event.data);
@@ -61,7 +51,7 @@ export const useBridge = ({
       } else if (isEvent(message)) {
         handleEvent(message);
       } else if (isRequest(message)) {
-        void handleRequest(message);
+        handleRequest(message).catch(() => {});
       }
     };
 
