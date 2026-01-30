@@ -1,2 +1,3 @@
 export { MiniAppHost } from './MiniAppHost';
-export type { MiniAppHostProps } from './types';
+export { useHapticHandler } from './haptic';
+export type { MiniAppHostProps, MiniAppHostRef } from './types';

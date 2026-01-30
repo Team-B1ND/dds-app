@@ -1,2 +1,2 @@
-export { PlugProvider, usePlug } from './PlugContext';
+export { PlugProvider, usePlug } from './PlugProvider';
 export { useHaptic } from './haptic';
