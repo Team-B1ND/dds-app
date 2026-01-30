@@ -8,11 +8,12 @@ import {
 } from './types';
 
 const generateId = (): string => {
-  return Math.random().toString(36).substring(2, 15) +
-    Math.random().toString(36).substring(2, 15);
+  return (
+    Math.random().toString(36).substring(2, 15) +
+    Math.random().toString(36).substring(2, 15)
+  );
 };
 
-// Create a request message
 export const createRequest = <TPayload = unknown>(
   type: string,
   payload?: TPayload
@@ -24,7 +25,6 @@ export const createRequest = <TPayload = unknown>(
   payload,
 });
 
-// Create a response message
 export const createResponse = <TData = unknown>(
   requestId: string,
   success: boolean,
@@ -40,19 +40,16 @@ export const createResponse = <TData = unknown>(
   error,
 });
 
-// Create a success response
 export const createSuccessResponse = <TData = unknown>(
   requestId: string,
   data?: TData
 ): ResponseMessage => createResponse(requestId, true, data);
 
-// Create an error response
 export const createErrorResponse = (
   requestId: string,
   error: string
 ): ResponseMessage => createResponse(requestId, false, undefined, error);
 
-// Create an event message
 export const createEvent = <TPayload = unknown>(
   type: string,
   payload?: TPayload
@@ -64,12 +61,10 @@ export const createEvent = <TPayload = unknown>(
   payload,
 });
 
-// Encode message to string
 export const encode = (message: BridgeMessage): string => {
   return JSON.stringify(message);
 };
 
-// Decode string to message
 export const decode = (data: string): BridgeMessage | null => {
   try {
     const json = JSON.parse(data);
@@ -80,12 +75,12 @@ export const decode = (data: string): BridgeMessage | null => {
   }
 };
 
-// Type guards
 export const isRequest = (message: BridgeMessage): message is RequestMessage =>
   message.category === MessageCategory.REQUEST;
 
-export const isResponse = (message: BridgeMessage): message is ResponseMessage =>
-  message.category === MessageCategory.RESPONSE;
+export const isResponse = (
+  message: BridgeMessage
+): message is ResponseMessage => message.category === MessageCategory.RESPONSE;
 
 export const isEvent = (message: BridgeMessage): message is EventMessage =>
   message.category === MessageCategory.EVENT;

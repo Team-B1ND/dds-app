@@ -59,7 +59,6 @@ export const useBridge = ({
     return () => window.removeEventListener('message', handleMessage);
   }, [handleResponse, handleEvent, handleRequest]);
 
-  // Actions
   const emit = useMemo(() => createEmit(sendToNative), [sendToNative]);
   const request = useMemo(
     () => createRequestAction(stateRef, sendToNative, requestTimeout),
