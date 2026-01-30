@@ -1,15 +1,19 @@
 import { useCallback } from 'react';
-import { MessageType, type HapticFeedbackType } from '@dds-app/bridge';
-import { usePlug } from '../PlugContext';
+import {
+  HAPTIC_EVENT_TYPE,
+  type HapticType,
+  type HapticPayload,
+} from '@dds-app/bridge';
+import { usePlug } from '../PlugProvider';
 
 export const useHaptic = () => {
-  const { send } = usePlug();
+  const { emit } = usePlug();
 
   const trigger = useCallback(
-    (type: HapticFeedbackType = 'impactLight') => {
-      send(MessageType.HAPTIC_TRIGGER, { type });
+    (type: HapticType = 'impactLight') => {
+      emit<HapticPayload>(HAPTIC_EVENT_TYPE, { type });
     },
-    [send]
+    [emit]
   );
 
   return { trigger };

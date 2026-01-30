@@ -1,8 +1,12 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { StatusBar } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { WebView } from 'react-native-webview';
 import styled, { useTheme } from 'styled-components/native';
+import {
+  MiniAppHost,
+  useHapticHandler,
+  type MiniAppHostRef,
+} from '@dds-app/miniapp-host';
 import { DodamThemeProvider } from '@dds-app/foundation';
 import {
   Switch,
@@ -44,7 +48,7 @@ function App() {
               name="Main"
               header={
                 <TopNavBar
-                  right={<TopNavBar.IconButton icon={<Bell size={20} />} />}
+                  right={<TopNavBar.IconButton icon={<Bell size={24} />} />}
                 >
                   <TopNavBar.Logo />
                 </TopNavBar>
@@ -81,7 +85,7 @@ function App() {
                 </TopNavBar>
               }
             />
-            <Stack.Screen name="WebView" component={WebViewScreen} />
+            <Stack.Screen name="WebView" component={WebViewScreen} blockSwipe />
           </Stack.Navigator>
           <ToastContainer />
         </OverlayProvider>
@@ -151,9 +155,13 @@ function BlockedSwipeScreen({ navigation }: ScreenComponentProps) {
 function WebViewScreen({ route }: ScreenComponentProps) {
   const url = route.params?.url ?? 'http://localhost:8081';
   const theme = useTheme();
+  const hostRef = useRef<MiniAppHostRef>(null);
+
+  useHapticHandler(hostRef);
 
   return (
-    <WebView
+    <MiniAppHost
+      ref={hostRef}
       source={{ uri: url }}
       style={{ flex: 1, backgroundColor: theme.color.background.surface }}
       javaScriptEnabled
@@ -285,7 +293,9 @@ function AppContent({ navigation }: AppContentProps) {
             <FormButton
               color="secondary"
               onPress={() =>
-                navigation.navigate('WebView', { url: 'http://192.168.0.18:8082' })
+                navigation.navigate('WebView', {
+                  url: 'http://192.168.0.18:8082',
+                })
               }
             >
               WebView

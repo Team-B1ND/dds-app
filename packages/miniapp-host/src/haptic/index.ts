@@ -1,1 +1,1 @@
-export { handleHapticTrigger } from './handler';
+export { useHapticHandler } from './useHapticHandler';

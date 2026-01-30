@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { ScrollView, View, Platform } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { DodamThemeProvider } from '@dds-app/foundation';
+import { PlugProvider, useHaptic } from '@dds-app/plug';
 import {
   FormButton,
   TextButton,
@@ -55,6 +56,11 @@ const useWebStyles = () => {
         -ms-touch-action: pan-x pan-y;
         overscroll-behavior: none;
       }
+      #root {
+        padding-bottom: env(safe-area-inset-bottom);
+        min-height: 100vh;
+        box-sizing: border-box;
+      }
     `;
     doc.head.appendChild(style);
 
@@ -102,6 +108,7 @@ const Spacer = styled.View`
 
 const HomeScreen = ({ navigation }: ScreenComponentProps) => {
   const overlay = useOverlay();
+  const { trigger: triggerHaptic } = useHaptic();
 
   const [switchChecked, setSwitchChecked] = useState(false);
   const [checkboxChecked, setCheckboxChecked] = useState(false);
@@ -201,6 +208,44 @@ const HomeScreen = ({ navigation }: ScreenComponentProps) => {
           >
             스와이프 비활성화 페이지
           </FormButton>
+        </Section>
+
+        <Section>
+          <SectionTitle>Haptic (Bridge Test)</SectionTitle>
+          <Row>
+            <FormButton size="small" onPress={() => triggerHaptic('impactLight')}>
+              Light
+            </FormButton>
+            <FormButton size="small" onPress={() => triggerHaptic('impactMedium')}>
+              Medium
+            </FormButton>
+            <FormButton size="small" onPress={() => triggerHaptic('impactHeavy')}>
+              Heavy
+            </FormButton>
+          </Row>
+          <Row>
+            <FormButton
+              size="small"
+              color="secondary"
+              onPress={() => triggerHaptic('notificationSuccess')}
+            >
+              Success
+            </FormButton>
+            <FormButton
+              size="small"
+              color="secondary"
+              onPress={() => triggerHaptic('notificationWarning')}
+            >
+              Warning
+            </FormButton>
+            <FormButton
+              size="small"
+              color="danger"
+              onPress={() => triggerHaptic('notificationError')}
+            >
+              Error
+            </FormButton>
+          </Row>
         </Section>
 
         <Section>
@@ -602,8 +647,9 @@ export default function App() {
   return (
     <SafeAreaProvider>
       <DodamThemeProvider>
-        <OverlayProvider>
-          <Stack.Navigator initialRouteName="Home">
+        <PlugProvider>
+          <OverlayProvider>
+            <Stack.Navigator initialRouteName="Home">
             <Stack.Screen
               name="Home"
               component={HomeScreen}
@@ -647,7 +693,8 @@ export default function App() {
             />
           </Stack.Navigator>
           <ToastContainer />
-        </OverlayProvider>
+          </OverlayProvider>
+        </PlugProvider>
       </DodamThemeProvider>
     </SafeAreaProvider>
   );
