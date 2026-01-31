@@ -1,0 +1,1 @@
+export { useHapticHandler } from './useHapticHandler';
